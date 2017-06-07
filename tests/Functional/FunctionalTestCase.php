@@ -6,6 +6,7 @@ use Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\TestKernel;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ResettableContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FunctionalTestCase extends TestCase
 {
@@ -32,5 +33,8 @@ class FunctionalTestCase extends TestCase
         if ($container instanceof ResettableContainerInterface) {
             $container->reset();
         }
+
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->kernel->getRootDir() . '/cache');
     }
 }
