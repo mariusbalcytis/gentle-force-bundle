@@ -24,8 +24,13 @@ class Configuration implements ConfigurationInterface
     private function configureRedis(ArrayNodeDefinition $node)
     {
         $builder = $node->children();
-        $builder->scalarNode('host')->defaultValue('localhost');
+        $builder->scalarNode('host');
+        $builder->scalarNode('service_id');
         $builder->scalarNode('prefix')->defaultNull();
+
+        $node->validate()->ifTrue(function ($nodeConfig) {
+            return isset($nodeConfig['host']) && isset($nodeConfig['service_id']);
+        })->thenInvalid('Only one of host and service_id must be provided');
     }
 
     private function configureLimits(ArrayNodeDefinition $node)
@@ -37,7 +42,7 @@ class Configuration implements ConfigurationInterface
         $limitPrototype = $limitsPrototype->prototype('array');
         $limitPrototype->validate()->ifTrue(function ($nodeConfig) {
             return isset($nodeConfig['bucketed_usages']) && isset($nodeConfig['bucketed_period']);
-        })->thenInvalid('Only one of bucketed_usages or bucketed_period must be provided');
+        })->thenInvalid('Only one of bucketed_usages and bucketed_period must be provided');
 
         $limitChildren = $limitPrototype->children();
         $limitChildren->scalarNode('max_usages')->isRequired();

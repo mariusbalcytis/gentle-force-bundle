@@ -4,23 +4,45 @@ namespace Maba\Bundle\GentleForce\Tests\Unit\DependencyInjection;
 
 use Maba\Bundle\GentleForceBundle\DependencyInjection\Configuration;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationTest extends TestCase
 {
     /**
-     * @param array $expected   expected parsed configuration
-     * @param array $yamlConfig contents of maba_gentle_force inside yaml
+     * @param array $expected expected parsed configuration
+     * @param string $configFilename filename in Fixtures directory for yaml file to load
      *
      * @dataProvider configurationTestCaseProvider
      */
-    public function testGetConfigTreeBuilder($expected, $yamlConfig)
+    public function testGetConfigTreeBuilder($expected, $configFilename)
     {
+        $this->assertSame($expected, $this->processForFile($configFilename));
+    }
+
+    /**
+     * @dataProvider invalidConfigurationTestCaseProvider
+     * @param mixed $configFilename
+     */
+    public function testInvalidConfiguration($configFilename)
+    {
+        try {
+            $this->processForFile($configFilename);
+        } catch (InvalidConfigurationException $exception) {
+            $this->addToAssertionCount(1);
+            return;
+        }
+
+        $this->fail('Configuration processing should have failed');
+    }
+
+    private function processForFile($configFilename)
+    {
+        $fullConfiguration = Yaml::parse(file_get_contents(__DIR__ . '/Fixtures/' . $configFilename));
         $configuration = new Configuration();
         $processor = new Processor();
-        $config = $processor->processConfiguration($configuration, [$yamlConfig['maba_gentle_force']]);
-        $this->assertSame($expected, $config);
+        return $processor->processConfiguration($configuration, [$fullConfiguration['maba_gentle_force']]);
     }
 
     public function configurationTestCaseProvider()
@@ -65,8 +87,25 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                 ],
-                Yaml::parse(file_get_contents(__DIR__ . '/Fixtures/config_limits.yml')),
+                'limits.yml',
             ],
+            [
+                [
+                    'redis' => [
+                        'service_id' => 'redis_service_id',
+                        'prefix' => 'my_prefix',
+                    ],
+                    'limits' => [],
+                ],
+                'redis_service_id.yml',
+            ],
+        ];
+    }
+
+    public function invalidConfigurationTestCaseProvider()
+    {
+        return [
+            ['invalid_redis.yml'],
         ];
     }
 }

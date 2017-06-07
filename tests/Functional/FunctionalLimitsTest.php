@@ -1,38 +1,17 @@
 <?php
 
-namespace Maba\Bundle\GentleForce\Tests\Functional;
+namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
-use Maba\Bundle\GentleForceBundle\Tests\Functional\FunctionalThrottlerTestCase;
-use Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\TestKernel;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ResettableContainerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class FunctionalThrottlerTest extends FunctionalThrottlerTestCase
+class FunctionalLimitsTest extends FunctionalThrottlerTestCase
 {
-    /**
-     * @var TestKernel
-     */
-    protected $kernel;
-
     protected function setUpThrottler($useCaseKey)
     {
-        $this->kernel = new TestKernel('limits');
-        $this->kernel->boot();
-        /** @var ContainerInterface $container */
-        $container = $this->kernel->getContainer();
+        $container = $this->setUpContainer('limits');
         $this->throttler = $container->get('maba_gentle_force.throttler');
         $this->useCaseKey = $useCaseKey;
         $this->event = (new Stopwatch())->start('');
-    }
-
-    protected function tearDown()
-    {
-        $container = $this->kernel->getContainer();
-        $this->kernel->shutdown();
-        if ($container instanceof ResettableContainerInterface) {
-            $container->reset();
-        }
     }
 
     public function testNoBucketed()

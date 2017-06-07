@@ -118,7 +118,7 @@ Functional tests require Redis. So, generally, it's easier to run them in docker
 composer install
 cd docker
 docker-compose up -d
-docker exec -it gentle_force_bundle_test_php vendor/bin/phpunit
+docker exec -it -u `id -u`:`id -g` gentle_force_bundle_test_php vendor/bin/phpunit
 docker-compose down
 ```
 

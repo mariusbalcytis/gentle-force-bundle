@@ -1,0 +1,5 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+        service_id: abc
+        prefix: my_prefix

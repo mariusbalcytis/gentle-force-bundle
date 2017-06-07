@@ -1,0 +1,14 @@
+maba_gentle_force:
+    redis:
+        service_id: redis_service_id
+    limits:
+        use_case:
+            - max_usages: 1
+              period: 1
+
+services:
+    redis_service_id:
+        class: Predis\Client
+        arguments:
+            - 'tcp://%redis_host%:6379'
+            - {'prefix': 'functional_test_%microtime%'}

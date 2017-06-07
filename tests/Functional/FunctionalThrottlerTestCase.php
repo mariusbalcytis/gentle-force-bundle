@@ -4,10 +4,9 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 use Maba\GentleForce\Exception\RateLimitReachedException;
 use Maba\GentleForce\Throttler;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Stopwatch\StopwatchEvent;
 
-abstract class FunctionalThrottlerTestCase extends TestCase
+abstract class FunctionalThrottlerTestCase extends FunctionalTestCase
 {
     const ID = 'user1';
     const ANOTHER_ID = 'user2';

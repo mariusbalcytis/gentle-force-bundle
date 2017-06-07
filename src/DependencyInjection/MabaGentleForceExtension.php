@@ -23,8 +23,7 @@ class MabaGentleForceExtension extends Extension
 
         $container->setParameter('maba_gentle_force.redis_prefix', $config['redis']['prefix']);
 
-        $redisClientDefinition = new Definition(Client::class, [['host' => $config['redis']['host']]]);
-        $container->setDefinition('maba_gentle_force.redis_client', $redisClientDefinition);
+        $this->registerRedisClient($container, $config['redis']);
 
         $container->setDefinition(
             'maba_gentle_force.rate_limit_provider',
@@ -67,5 +66,20 @@ class MabaGentleForceExtension extends Extension
         }
 
         return $limitDefinition;
+    }
+
+    private function registerRedisClient(ContainerBuilder $container, array $redisConfig)
+    {
+        if (isset($redisConfig['service_id'])) {
+            $container->setAlias('maba_gentle_force.redis_client', $redisConfig['service_id']);
+            return;
+        }
+
+        $parameters = null;
+        if (isset($redisConfig['host'])) {
+            $parameters = ['host' => $redisConfig['host']];
+        }
+        $redisClientDefinition = new Definition(Client::class, [$parameters]);
+        $container->setDefinition('maba_gentle_force.redis_client', $redisClientDefinition);
     }
 }

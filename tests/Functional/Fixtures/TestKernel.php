@@ -14,8 +14,8 @@ class TestKernel extends Kernel
 
     public function __construct($testCase)
     {
-        parent::__construct('test', true);
-        $this->configFile = 'config_' . $testCase . '.yml';
+        parent::__construct($testCase, true);
+        $this->configFile = $testCase . '.yml';
     }
 
     public function registerBundles()
