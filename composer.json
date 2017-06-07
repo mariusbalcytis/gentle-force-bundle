@@ -1,0 +1,33 @@
+{
+    "name": "maba/gentle-force-bundle",
+    "description": "Symfony bundle that integrates gentle-force library for limiting both brute-force attempts and ordinary requests, using leaky/token bucket algorithm, based on Redis",
+    "keywords": ["symfony bundle", "rate limiter", "rate limiting", "rate limit", "brute force protection", "leaky bucket", "token bucket", "threshold", "throttle", "security", "dos protection", "brute-force", "bruteforce"],
+    "type": "symfony-bundle",
+    "require": {
+        "php": "^5.5 | ^7.0",
+        "maba/gentle-force": "^0.1.1",
+        "symfony/framework-bundle": "^2.3|^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.2",
+        "phpunit/phpunit": "^4.8"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marius Balčytis",
+            "email": "marius.balcytis@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Maba\\Bundle\\GentleForceBundle\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Maba\\Bundle\\GentleForceBundle\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,17 @@
+version: '2'
+services:
+  php:
+    container_name: gentle_force_bundle_test_php
+    build:
+        context: .
+    links:
+    - redis
+    volumes:
+    - ..:/app
+    environment:
+        REDIS_HOST: redis
+    command: [tail, '-f', /dev/null]
+    working_dir: /app
+  redis:
+    container_name: gentle_force_test_redis
+    image: redis
