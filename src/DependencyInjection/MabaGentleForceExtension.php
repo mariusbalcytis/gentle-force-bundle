@@ -100,11 +100,11 @@ class MabaGentleForceExtension extends Extension
         $requestListenerDefinition = $container->getDefinition('maba_gentle_force.request_listener');
 
         foreach ($listenerConfigList as $listenerConfig) {
-            $pathPattern = '#' . str_replace( '#', '\\#',$listenerConfig['path']) . '#';
+            $pathPattern = '#' . str_replace('#', '\\#', $listenerConfig['path']) . '#';
             $requestListenerDefinition->addMethodCall('addConfiguration', [
                 (new Definition(ListenerConfiguration::class))
                     ->addMethodCall('setPathPattern', [$pathPattern])
-                    ->addMethodCall('setLimitsKey', [$listenerConfig['limits_key']])
+                    ->addMethodCall('setLimitsKey', [$listenerConfig['limits_key']]),
             ]);
         }
     }

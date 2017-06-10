@@ -17,6 +17,6 @@ class FunctionalListenersTest extends FunctionalRequestTestCase
 
         $this->sleepUpTo(150);
 
-        $this->assertUsagesValid(self::PATH_API1,  1);
+        $this->assertUsagesValid(self::PATH_API1, 1);
     }
 }

@@ -10,7 +10,7 @@ class FunctionalRequestTestCase extends FunctionalTestCase
 {
     const DEFAULT_IP = '10.0.0.1';
     const ANOTHER_IP = '10.0.0.2';
-    
+
     protected function assertUsagesValid($uri, $countOfUsages)
     {
         for ($i = 0; $i < $countOfUsages; $i++) {
