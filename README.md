@@ -59,9 +59,19 @@ maba_gentle_force:
             - max_usages: 10
               period: 60
               bucketed_period: 3600
+    listeners:
+        - path: ^/api/      # automatically limit matching requests
+          limits_key: api_request
 ```
 
 ## Usage
+
+It works automatically by provided listeners configuration - if request matches
+given conditions, limit is checked before calling the controller. If limit is reached,
+error response with status code `429` (`Too Many Requests`) is returned. It contains
+header `Wait-For` with time interval in seconds for waiting to repeat the request.
+
+## Advanced usage
 
 Rate limiting:
 
