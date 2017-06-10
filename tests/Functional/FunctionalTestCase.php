@@ -10,6 +10,12 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class FunctionalTestCase extends TestCase
 {
+    use TimeAwareTrait;
+
+    const PATH_DOCS = '/docs/api/main';
+    const PATH_API1 = '/api/resource';
+    const PATH_API2 = '/api/resource/create';
+
     /**
      * @var TestKernel
      */
@@ -23,7 +29,9 @@ class FunctionalTestCase extends TestCase
     {
         $this->kernel = new TestKernel($testCase);
         $this->kernel->boot();
-        return $this->kernel->getContainer();
+        $container = $this->kernel->getContainer();
+        $this->startTimer();
+        return $container;
     }
 
     protected function tearDown()

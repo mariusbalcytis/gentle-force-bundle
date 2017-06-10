@@ -86,6 +86,7 @@ class ConfigurationTest extends TestCase
                             ],
                         ],
                     ],
+                    'listeners' => [],
                 ],
                 'limits.yml',
             ],
@@ -96,8 +97,32 @@ class ConfigurationTest extends TestCase
                         'prefix' => 'my_prefix',
                     ],
                     'limits' => [],
+                    'listeners' => [],
                 ],
                 'redis_service_id.yml',
+            ],
+            [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => 'my_prefix',
+                    ],
+                    'limits' => [
+                        'api_request' => [
+                            [
+                                'max_usages' => 100,
+                                'period' => 3600,
+                            ],
+                        ],
+                    ],
+                    'listeners' => [
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                        ],
+                    ],
+                ],
+                'listeners.yml',
             ],
         ];
     }

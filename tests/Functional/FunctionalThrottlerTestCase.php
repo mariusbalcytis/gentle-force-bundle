@@ -4,13 +4,11 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 use Maba\GentleForce\Exception\RateLimitReachedException;
 use Maba\GentleForce\Throttler;
-use Symfony\Component\Stopwatch\StopwatchEvent;
 
 abstract class FunctionalThrottlerTestCase extends FunctionalTestCase
 {
     const ID = 'user1';
     const ANOTHER_ID = 'user2';
-    const ERROR_CORRECTION_PERIOD_MS = 60;
 
     /**
      * @var string
@@ -21,11 +19,6 @@ abstract class FunctionalThrottlerTestCase extends FunctionalTestCase
      * @var Throttler
      */
     protected $throttler;
-
-    /**
-     * @var StopwatchEvent
-     */
-    protected $event;
 
     protected function assertUsagesValid($countOfUsages)
     {
@@ -53,21 +46,5 @@ abstract class FunctionalThrottlerTestCase extends FunctionalTestCase
     protected function checkAndIncrease($id = self::ID)
     {
         return $this->throttler->checkAndIncrease($this->useCaseKey, $id);
-    }
-
-    protected function reset($id = self::ID)
-    {
-        $this->throttler->reset($this->useCaseKey, $id);
-    }
-
-    protected function sleepUpTo($milliseconds)
-    {
-        $duration = $this->event->lap()->getDuration();
-        $this->sleepMs($milliseconds - $duration + self::ERROR_CORRECTION_PERIOD_MS);
-    }
-
-    protected function sleepMs($milliseconds)
-    {
-        usleep($milliseconds * 1000);
     }
 }

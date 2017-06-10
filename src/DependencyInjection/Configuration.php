@@ -17,6 +17,7 @@ class Configuration implements ConfigurationInterface
 
         $this->configureRedis($children->arrayNode('redis'));
         $this->configureLimits($children->arrayNode('limits'));
+        $this->configureListeners($children->arrayNode('listeners'));
 
         return $treeBuilder;
     }
@@ -49,5 +50,14 @@ class Configuration implements ConfigurationInterface
         $limitChildren->scalarNode('period')->isRequired();
         $limitChildren->scalarNode('bucketed_usages');
         $limitChildren->scalarNode('bucketed_period');
+    }
+
+    private function configureListeners(ArrayNodeDefinition $node)
+    {
+        /** @var ArrayNodeDefinition $listenerPrototype */
+        $listenerPrototype = $node->prototype('array');
+        $listenerChildren = $listenerPrototype->children();
+        $listenerChildren->scalarNode('path')->isRequired();
+        $listenerChildren->scalarNode('limits_key')->isRequired();
     }
 }

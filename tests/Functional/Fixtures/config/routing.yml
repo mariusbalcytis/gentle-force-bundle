@@ -1,0 +1,10 @@
+docs:
+    path:      /docs/api/main
+    defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }
+api_1:
+    path:      /api/resource
+    defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }
+api_2:
+    path:      /api/resource/create
+    methods:   [POST]
+    defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }

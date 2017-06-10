@@ -2,8 +2,6 @@
 
 namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
-use Symfony\Component\Stopwatch\Stopwatch;
-
 class FunctionalLimitsTest extends FunctionalThrottlerTestCase
 {
     protected function setUpThrottler($useCaseKey)
@@ -11,7 +9,6 @@ class FunctionalLimitsTest extends FunctionalThrottlerTestCase
         $container = $this->setUpContainer('limits');
         $this->throttler = $container->get('maba_gentle_force.throttler');
         $this->useCaseKey = $useCaseKey;
-        $this->event = (new Stopwatch())->start('');
     }
 
     public function testNoBucketed()

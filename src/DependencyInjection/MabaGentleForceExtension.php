@@ -2,6 +2,7 @@
 
 namespace Maba\Bundle\GentleForceBundle\DependencyInjection;
 
+use Maba\Bundle\GentleForceBundle\Listener\ListenerConfiguration;
 use Maba\GentleForce\RateLimit\UsageRateLimit;
 use Maba\GentleForce\RateLimitProvider;
 use Predis\Client;
@@ -9,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 class MabaGentleForceExtension extends Extension
 {
@@ -18,7 +19,7 @@ class MabaGentleForceExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
         $container->setParameter('maba_gentle_force.redis_prefix', $config['redis']['prefix']);
@@ -29,6 +30,8 @@ class MabaGentleForceExtension extends Extension
             'maba_gentle_force.rate_limit_provider',
             $this->buildRateLimitProviderDefinition($config['limits'])
         );
+
+        $this->registerListeners($container, $loader, $config['listeners']);
     }
 
     private function buildRateLimitProviderDefinition(array $limitsConfiguration)
@@ -81,5 +84,28 @@ class MabaGentleForceExtension extends Extension
         }
         $redisClientDefinition = new Definition(Client::class, [$parameters]);
         $container->setDefinition('maba_gentle_force.redis_client', $redisClientDefinition);
+    }
+
+    private function registerListeners(
+        ContainerBuilder $container,
+        XmlFileLoader $loader,
+        array $listenerConfigList
+    ) {
+        if (count($listenerConfigList) === 0) {
+            return;
+        }
+
+        $loader->load('listener.xml');
+
+        $requestListenerDefinition = $container->getDefinition('maba_gentle_force.request_listener');
+
+        foreach ($listenerConfigList as $listenerConfig) {
+            $pathPattern = '#' . str_replace( '#', '\\#',$listenerConfig['path']) . '#';
+            $requestListenerDefinition->addMethodCall('addConfiguration', [
+                (new Definition(ListenerConfiguration::class))
+                    ->addMethodCall('setPathPattern', [$pathPattern])
+                    ->addMethodCall('setLimitsKey', [$listenerConfig['limits_key']])
+            ]);
+        }
     }
 }
