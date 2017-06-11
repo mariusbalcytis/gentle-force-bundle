@@ -1,0 +1,26 @@
+maba_gentle_force:
+    redis:
+        host: %redis_host%
+        prefix: functional_test_%microtime%
+    limits:
+        api_request:
+            -
+                max_usages: 2
+                period: 0.3
+        api_request_same_user:
+            -
+                max_usages: 1
+                period: 0.5
+    listeners:
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+        -
+            path: ^/api2/
+            limits_key: api_request
+            identifiers: [username]
+        -
+            path: ^/api3/
+            limits_key: api_request
+            identifiers: [username, ip]

@@ -15,6 +15,11 @@ class ListenerConfiguration
     private $limitsKey;
 
     /**
+     * @var array
+     */
+    private $identifierTypes;
+
+    /**
      * @return string
      */
     public function getPathPattern()
@@ -48,6 +53,25 @@ class ListenerConfiguration
     public function setLimitsKey($limitsKey)
     {
         $this->limitsKey = $limitsKey;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentifierTypes()
+    {
+        return $this->identifierTypes;
+    }
+
+    /**
+     * @param array $identifierTypes
+     * @return $this
+     */
+    public function setIdentifierTypes(array $identifierTypes)
+    {
+        $this->identifierTypes = $identifierTypes;
 
         return $this;
     }

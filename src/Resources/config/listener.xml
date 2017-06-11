@@ -7,12 +7,25 @@
     <services>
         <service id="maba_gentle_force.request_identifier_provider"
                  class="Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider"
+                 public="false">
+            <!-- registerIdentifierProvider is called for each service tagged with
+                    maba_gentle_force.identifier_provider with tag attribute's identifierType value -->
+        </service>
+
+        <service class="Maba\Bundle\GentleForceBundle\Service\IdentifierProvider\IpProvider"
+                 public="false">
+            <tag name="maba_gentle_force.identifier_provider" identifierType="ip"/>
+        </service>
+
+        <service id="maba_gentle_force.request_matcher"
+                 class="Maba\Bundle\GentleForceBundle\Listener\RequestMatcher"
                  public="false"/>
 
         <service id="maba_gentle_force.request_listener"
                  class="Maba\Bundle\GentleForceBundle\Listener\RequestListener">
             <argument type="service" id="maba_gentle_force.throttler"/>
             <argument type="service" id="maba_gentle_force.request_identifier_provider"/>
+            <argument type="service" id="maba_gentle_force.request_matcher"/>
             <!-- calls to addConfiguration method are added in the extension -->
 
             <tag name="kernel.event_subscriber"/>

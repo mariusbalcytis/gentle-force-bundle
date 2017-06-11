@@ -4,13 +4,15 @@
     "keywords": ["symfony bundle", "rate limiter", "rate limiting", "rate limit", "brute force protection", "leaky bucket", "token bucket", "threshold", "throttle", "security", "dos protection", "brute-force", "bruteforce"],
     "type": "symfony-bundle",
     "require": {
-        "php": "^5.5 | ^7.0",
+        "php": "^5.5|^7.0",
         "maba/gentle-force": "^0.1.1",
-        "symfony/framework-bundle": "^2.7|^3.0"
+        "symfony/framework-bundle": "^2.7|^3.0|^4.0",
+        "maba/dependency-injection-extra": "^0.1.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.2",
-        "phpunit/phpunit": "^4.8.35"
+        "phpunit/phpunit": "^4.8.35",
+        "symfony/security-bundle": "^2.7|^3.0|^4.0"
     },
     "license": "MIT",
     "authors": [

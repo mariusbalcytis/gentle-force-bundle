@@ -8,13 +8,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ResettableContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class FunctionalTestCase extends TestCase
+abstract class FunctionalTestCase extends TestCase
 {
     use TimeAwareTrait;
 
     const PATH_DOCS = '/docs/api/main';
     const PATH_API1 = '/api/resource';
-    const PATH_API2 = '/api/resource/create';
+    const PATH_API2 = '/api2/resource';
+    const PATH_API3 = '/api3/resource';
 
     /**
      * @var TestKernel

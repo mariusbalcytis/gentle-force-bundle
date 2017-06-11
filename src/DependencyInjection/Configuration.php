@@ -59,5 +59,10 @@ class Configuration implements ConfigurationInterface
         $listenerChildren = $listenerPrototype->children();
         $listenerChildren->scalarNode('path')->isRequired();
         $listenerChildren->scalarNode('limits_key')->isRequired();
+        $listenerChildren->arrayNode('identifiers')
+            ->isRequired()
+            ->cannotBeEmpty()
+            ->prototype('scalar')
+        ;
     }
 }

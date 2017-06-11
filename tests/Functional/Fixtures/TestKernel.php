@@ -4,6 +4,7 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures;
 
 use Maba\Bundle\GentleForceBundle\MabaGentleForceBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -21,6 +22,7 @@ class TestKernel extends Kernel
     {
         return [
             new FrameworkBundle(),
+            new SecurityBundle(),
             new MabaGentleForceBundle(),
         ];
     }

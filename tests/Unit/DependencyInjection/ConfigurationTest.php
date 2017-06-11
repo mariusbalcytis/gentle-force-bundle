@@ -119,10 +119,16 @@ class ConfigurationTest extends TestCase
                         [
                             'path' => '^/api/',
                             'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                        ],
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['username', 'ip'],
                         ],
                     ],
                 ],
-                'listeners.yml',
+                'identifiers.yml',
             ],
         ];
     }
@@ -131,6 +137,7 @@ class ConfigurationTest extends TestCase
     {
         return [
             ['invalid_redis.yml'],
+            ['listeners_no_identifiers.yml'],
         ];
     }
 }

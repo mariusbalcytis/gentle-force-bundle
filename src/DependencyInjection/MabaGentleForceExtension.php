@@ -97,15 +97,21 @@ class MabaGentleForceExtension extends Extension
 
         $loader->load('listener.xml');
 
+        $bundlesAvailable = $container->getParameter('kernel.bundles');
+        if (isset($bundlesAvailable['SecurityBundle'])) {
+            $loader->load('username_provider.xml');
+        }
+
         $requestListenerDefinition = $container->getDefinition('maba_gentle_force.request_listener');
 
         foreach ($listenerConfigList as $listenerConfig) {
             $pathPattern = '#' . str_replace('#', '\\#', $listenerConfig['path']) . '#';
-            $requestListenerDefinition->addMethodCall('addConfiguration', [
-                (new Definition(ListenerConfiguration::class))
-                    ->addMethodCall('setPathPattern', [$pathPattern])
-                    ->addMethodCall('setLimitsKey', [$listenerConfig['limits_key']]),
-            ]);
+            $configurationDefinition = (new Definition(ListenerConfiguration::class))
+                ->addMethodCall('setPathPattern', [$pathPattern])
+                ->addMethodCall('setLimitsKey', [$listenerConfig['limits_key']])
+                ->addMethodCall('setIdentifierTypes', [$listenerConfig['identifiers']])
+            ;
+            $requestListenerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }
     }
 }

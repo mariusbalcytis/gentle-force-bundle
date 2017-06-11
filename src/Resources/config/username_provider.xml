@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service class="Maba\Bundle\GentleForceBundle\Service\IdentifierProvider\UsernameProvider"
+                 public="false">
+            <argument type="service" id="security.token_storage"/>
+
+            <tag name="maba_gentle_force.identifier_provider" identifierType="username"/>
+        </service>
+    </services>
+</container>

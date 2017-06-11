@@ -3,11 +3,20 @@ maba_gentle_force:
         host: %redis_host%
         prefix: functional_test_%microtime%
     limits:
-        api_request:
+        2_in_06:
             -
                 max_usages: 2
-                period: 0.3
+                period: 0.6
+        3_in_3:
+            -
+                max_usages: 3
+                period: 3
     listeners:
         -
             path: ^/api/
-            limits_key: api_request
+            limits_key: 2_in_06
+            identifiers: [ip]
+        -
+            path: ^/api/
+            limits_key: 3_in_3
+            identifiers: [ip]

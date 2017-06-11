@@ -19,11 +19,16 @@ class RequestListener implements EventSubscriberInterface
 
     private $throttler;
     private $requestIdentifierProvider;
+    private $requestMatcher;
 
-    public function __construct(Throttler $throttler, RequestIdentifierProvider $requestIdentifierProvider)
-    {
+    public function __construct(
+        Throttler $throttler,
+        RequestIdentifierProvider $requestIdentifierProvider,
+        RequestMatcher $requestMatcher
+    ) {
         $this->throttler = $throttler;
         $this->requestIdentifierProvider = $requestIdentifierProvider;
+        $this->requestMatcher = $requestMatcher;
     }
 
     public function addConfiguration(ListenerConfiguration $configuration)
@@ -34,27 +39,41 @@ class RequestListener implements EventSubscriberInterface
     public function onRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        $path = $request->getRequestUri();
-        $identifier = $this->requestIdentifierProvider->getIdentifier($request);
 
-        $waitForInSeconds = null;
+        $identifierHelper = new IdentifierHelper($this->requestIdentifierProvider, $request);
+        $compositeResult = new CompositeIncreaseResult();
 
         foreach ($this->configurationList as $configuration) {
-            if (preg_match($configuration->getPathPattern(), $path) === 1) {
-                try {
-                    $this->throttler->checkAndIncrease($configuration->getLimitsKey(), $identifier);
-                } catch (RateLimitReachedException $exception) {
-                    if ($waitForInSeconds === null || $waitForInSeconds < $exception->getWaitForInSeconds()) {
-                        $waitForInSeconds = $exception->getWaitForInSeconds();
-                    }
-                }
+            if ($this->requestMatcher->matches($configuration, $request)) {
+                $this->handleConfiguration($identifierHelper, $configuration, $compositeResult);
             }
         }
 
-        if ($waitForInSeconds !== null) {
+        if ($compositeResult->isRateLimitReached()) {
+            $compositeResult->decreaseSuccessfulLimits();
+
             $event->setResponse(new Response('', Response::HTTP_TOO_MANY_REQUESTS, [
-                'Wait-For' => $waitForInSeconds,
+                'Wait-For' => $compositeResult->getWaitForInSeconds(),
             ]));
+        }
+    }
+
+    private function handleConfiguration(
+        IdentifierHelper $identifierHelper,
+        ListenerConfiguration $configuration,
+        CompositeIncreaseResult $compositeResult
+    ) {
+        $identifier = $identifierHelper->getIdentifier($configuration);
+        if ($identifier === null) {
+            return;
+        }
+
+        try {
+            $compositeResult->addResult(
+                $this->throttler->checkAndIncrease($configuration->getLimitsKey(), $identifier)
+            );
+        } catch (RateLimitReachedException $exception) {
+            $compositeResult->handleRateLimitReachedException($exception);
         }
     }
 

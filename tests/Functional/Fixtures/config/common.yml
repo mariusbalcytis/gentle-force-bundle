@@ -2,3 +2,12 @@ framework:
     secret: 'secret'
     router:
         resource: '%kernel.root_dir%/config/routing.yml'
+
+security:
+    providers:
+        in_memory:
+            memory: ~
+    firewalls:
+        main:
+            anonymous: ~
+            stateless: true
