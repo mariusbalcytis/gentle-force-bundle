@@ -130,7 +130,7 @@ information about what can be changed and what not in the API.
 Functional tests require Redis. So, generally, it's easier to run them in docker.
 
 ```bash
-composer install
+composer update
 cd docker
 docker-compose up -d
 docker exec -it -u `id -u`:`id -g` gentle_force_bundle_test_php vendor/bin/phpunit
