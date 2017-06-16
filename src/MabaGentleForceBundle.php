@@ -2,6 +2,7 @@
 
 namespace Maba\Bundle\GentleForceBundle;
 
+use Maba\Bundle\GentleForceBundle\DependencyInjection\StrategyValidationCompilerPass;
 use Maba\Component\DependencyInjection\AddTaggedCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -16,5 +17,6 @@ class MabaGentleForceBundle extends Bundle
             'registerIdentifierProvider',
             ['identifierType']
         ));
+        $container->addCompilerPass(new StrategyValidationCompilerPass());
     }
 }

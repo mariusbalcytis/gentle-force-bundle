@@ -36,7 +36,7 @@
                  class="Maba\Bundle\GentleForceBundle\Service\StrategyManager"
                  public="false">
             <argument type="service" id="service_container"/>
-            <argument type="collection"/><!-- replaced in extension class -->
+            <argument>%maba_gentle_force.strategy_manager.strategies%</argument>
         </service>
 
         <service id="maba_gentle_force.strategy.headers"

@@ -1,0 +1,14 @@
+maba_gentle_force:
+    redis:
+        host: %redis_host%
+        prefix: functional_test_%microtime%
+    limits:
+        2_in_03:
+            -
+                max_usages: 2
+                period: 0.3
+    listeners:
+        -
+            path: ^/api/
+            limits_key: non_existant
+            identifiers: [ip]

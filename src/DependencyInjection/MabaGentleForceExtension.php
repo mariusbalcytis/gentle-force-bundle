@@ -6,6 +6,7 @@ use Maba\Bundle\GentleForceBundle\Listener\ListenerConfiguration;
 use Maba\GentleForce\RateLimit\UsageRateLimit;
 use Maba\GentleForce\RateLimitProvider;
 use Predis\Client;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -31,7 +32,13 @@ class MabaGentleForceExtension extends Extension
             $this->buildRateLimitProviderDefinition($config['limits'])
         );
 
-        $this->registerListeners($container, $loader, $config['listeners'], $config['strategies']);
+        $this->registerListeners(
+            $container,
+            $loader,
+            $config['listeners'],
+            $config['strategies'],
+            array_keys($config['limits'])
+        );
     }
 
     private function buildRateLimitProviderDefinition(array $limitsConfiguration)
@@ -90,7 +97,8 @@ class MabaGentleForceExtension extends Extension
         ContainerBuilder $container,
         XmlFileLoader $loader,
         array $listenerConfigList,
-        array $strategiesConfiguration
+        array $strategiesConfiguration,
+        array $availableLimitsKeys
     ) {
         if (count($listenerConfigList) === 0) {
             return;
@@ -111,17 +119,27 @@ class MabaGentleForceExtension extends Extension
             $strategyId = isset($listenerConfig['strategy']) ? $listenerConfig['strategy'] : $defaultStrategyId;
             $usedStrategies[] = $strategyId;
 
+            $limitsKey = $listenerConfig['limits_key'];
+            if (!in_array($limitsKey, $availableLimitsKeys, true)) {
+                throw new InvalidConfigurationException(sprintf(
+                    'Specified limits_key (%s) is not registered',
+                    $limitsKey
+                ));
+            }
+
             $pathPattern = '#' . str_replace('#', '\\#', $listenerConfig['path']) . '#';
             $configurationDefinition = (new Definition(ListenerConfiguration::class))
                 ->addMethodCall('setPathPattern', [$pathPattern])
-                ->addMethodCall('setLimitsKey', [$listenerConfig['limits_key']])
+                ->addMethodCall('setLimitsKey', [$limitsKey])
                 ->addMethodCall('setIdentifierTypes', [$listenerConfig['identifiers']])
                 ->addMethodCall('setStrategyId', [$strategyId])
             ;
             $requestListenerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }
 
-        $strategyManagerDefinition = $container->getDefinition('maba_gentle_force.strategy_manager');
-        $strategyManagerDefinition->replaceArgument(1, array_unique($usedStrategies));
+        $container->setParameter(
+            'maba_gentle_force.strategy_manager.strategies',
+            array_unique($usedStrategies)
+        );
     }
 }

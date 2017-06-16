@@ -27,7 +27,7 @@ class StrategyManager
             throw new InvalidArgumentException(sprintf(
                 'Given strategy (%s) was not registered with strategy manager',
                 $strategyId
-            ));
+            ) . print_r($this->strategies, true));
         }
 
         /** @var StrategyInterface $strategy */
