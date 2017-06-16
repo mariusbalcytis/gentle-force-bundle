@@ -2,8 +2,6 @@ framework:
     secret: 'secret'
     router:
         resource: '%kernel.root_dir%/config/routing.yml'
-    annotations:
-        enabled: false
 
 security:
     providers:
