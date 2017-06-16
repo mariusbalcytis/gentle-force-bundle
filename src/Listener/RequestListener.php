@@ -3,10 +3,10 @@
 namespace Maba\Bundle\GentleForceBundle\Listener;
 
 use Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider;
+use Maba\Bundle\GentleForceBundle\Service\StrategyManager;
 use Maba\GentleForce\Exception\RateLimitReachedException;
 use Maba\GentleForce\Throttler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -20,15 +20,18 @@ class RequestListener implements EventSubscriberInterface
     private $throttler;
     private $requestIdentifierProvider;
     private $requestMatcher;
+    private $strategyManager;
 
     public function __construct(
         Throttler $throttler,
         RequestIdentifierProvider $requestIdentifierProvider,
-        RequestMatcher $requestMatcher
+        RequestMatcher $requestMatcher,
+        StrategyManager $strategyManager
     ) {
         $this->throttler = $throttler;
         $this->requestIdentifierProvider = $requestIdentifierProvider;
         $this->requestMatcher = $requestMatcher;
+        $this->strategyManager = $strategyManager;
     }
 
     public function addConfiguration(ListenerConfiguration $configuration)
@@ -52,9 +55,8 @@ class RequestListener implements EventSubscriberInterface
         if ($compositeResult->isRateLimitReached()) {
             $compositeResult->decreaseSuccessfulLimits();
 
-            $event->setResponse(new Response('', Response::HTTP_TOO_MANY_REQUESTS, [
-                'Wait-For' => $compositeResult->getWaitForInSeconds(),
-            ]));
+            $response = $this->strategyManager->getRateLimitExceededResponse($compositeResult);
+            $event->setResponse($response);
         }
     }
 
@@ -73,7 +75,7 @@ class RequestListener implements EventSubscriberInterface
                 $this->throttler->checkAndIncrease($configuration->getLimitsKey(), $identifier)
             );
         } catch (RateLimitReachedException $exception) {
-            $compositeResult->handleRateLimitReachedException($exception);
+            $compositeResult->handleRateLimitReachedException($exception, $configuration);
         }
     }
 

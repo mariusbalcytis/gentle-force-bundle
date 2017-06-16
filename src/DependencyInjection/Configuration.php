@@ -17,6 +17,7 @@ class Configuration implements ConfigurationInterface
 
         $this->configureRedis($children->arrayNode('redis'));
         $this->configureLimits($children->arrayNode('limits'));
+        $this->configureStrategies($children->arrayNode('strategies'));
         $this->configureListeners($children->arrayNode('listeners'));
 
         return $treeBuilder;
@@ -52,6 +53,13 @@ class Configuration implements ConfigurationInterface
         $limitChildren->scalarNode('bucketed_period');
     }
 
+    private function configureStrategies(ArrayNodeDefinition $node)
+    {
+        $node->addDefaultsIfNotSet();
+        $builder = $node->children();
+        $builder->scalarNode('default')->defaultValue('maba_gentle_force.strategy.headers');
+    }
+
     private function configureListeners(ArrayNodeDefinition $node)
     {
         /** @var ArrayNodeDefinition $listenerPrototype */
@@ -64,5 +72,6 @@ class Configuration implements ConfigurationInterface
             ->cannotBeEmpty()
             ->prototype('scalar')
         ;
+        $listenerChildren->scalarNode('strategy');
     }
 }

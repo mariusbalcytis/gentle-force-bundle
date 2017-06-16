@@ -18,7 +18,7 @@ class ConfigurationTest extends TestCase
      */
     public function testGetConfigTreeBuilder($expected, $configFilename)
     {
-        $this->assertSame($expected, $this->processForFile($configFilename));
+        $this->assertEquals($expected, $this->processForFile($configFilename));
     }
 
     /**
@@ -86,6 +86,9 @@ class ConfigurationTest extends TestCase
                             ],
                         ],
                     ],
+                    'strategies' => [
+                        'default' => 'maba_gentle_force.strategy.headers',
+                    ],
                     'listeners' => [],
                 ],
                 'limits.yml',
@@ -97,6 +100,9 @@ class ConfigurationTest extends TestCase
                         'prefix' => 'my_prefix',
                     ],
                     'limits' => [],
+                    'strategies' => [
+                        'default' => 'maba_gentle_force.strategy.headers',
+                    ],
                     'listeners' => [],
                 ],
                 'redis_service_id.yml',
@@ -115,6 +121,9 @@ class ConfigurationTest extends TestCase
                             ],
                         ],
                     ],
+                    'strategies' => [
+                        'default' => 'maba_gentle_force.strategy.headers',
+                    ],
                     'listeners' => [
                         [
                             'path' => '^/api/',
@@ -129,6 +138,34 @@ class ConfigurationTest extends TestCase
                     ],
                 ],
                 'identifiers.yml',
+            ],
+            [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => 'my_prefix',
+                    ],
+                    'limits' => [
+                        'api_request' => [
+                            [
+                                'max_usages' => 100,
+                                'period' => 3600,
+                            ],
+                        ],
+                    ],
+                    'strategies' => [
+                        'default' => 'strategy.default',
+                    ],
+                    'listeners' => [
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'strategy' => 'strategy.for_listener',
+                        ],
+                    ],
+                ],
+                'strategies.yml',
             ],
         ];
     }

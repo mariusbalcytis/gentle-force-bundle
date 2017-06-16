@@ -5,6 +5,17 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="maba_gentle_force.request_listener"
+                 class="Maba\Bundle\GentleForceBundle\Listener\RequestListener">
+            <argument type="service" id="maba_gentle_force.throttler"/>
+            <argument type="service" id="maba_gentle_force.request_identifier_provider"/>
+            <argument type="service" id="maba_gentle_force.request_matcher"/>
+            <argument type="service" id="maba_gentle_force.strategy_manager"/>
+            <!-- calls to addConfiguration method are added in the extension -->
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
         <service id="maba_gentle_force.request_identifier_provider"
                  class="Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider"
                  public="false">
@@ -21,14 +32,14 @@
                  class="Maba\Bundle\GentleForceBundle\Listener\RequestMatcher"
                  public="false"/>
 
-        <service id="maba_gentle_force.request_listener"
-                 class="Maba\Bundle\GentleForceBundle\Listener\RequestListener">
-            <argument type="service" id="maba_gentle_force.throttler"/>
-            <argument type="service" id="maba_gentle_force.request_identifier_provider"/>
-            <argument type="service" id="maba_gentle_force.request_matcher"/>
-            <!-- calls to addConfiguration method are added in the extension -->
-
-            <tag name="kernel.event_subscriber"/>
+        <service id="maba_gentle_force.strategy_manager"
+                 class="Maba\Bundle\GentleForceBundle\Service\StrategyManager"
+                 public="false">
+            <argument type="service" id="service_container"/>
+            <argument type="collection"/><!-- replaced in extension class -->
         </service>
+
+        <service id="maba_gentle_force.strategy.headers"
+                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\HeadersStrategy"/>
     </services>
 </container>

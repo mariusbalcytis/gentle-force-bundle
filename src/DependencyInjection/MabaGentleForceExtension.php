@@ -31,7 +31,7 @@ class MabaGentleForceExtension extends Extension
             $this->buildRateLimitProviderDefinition($config['limits'])
         );
 
-        $this->registerListeners($container, $loader, $config['listeners']);
+        $this->registerListeners($container, $loader, $config['listeners'], $config['strategies']);
     }
 
     private function buildRateLimitProviderDefinition(array $limitsConfiguration)
@@ -89,7 +89,8 @@ class MabaGentleForceExtension extends Extension
     private function registerListeners(
         ContainerBuilder $container,
         XmlFileLoader $loader,
-        array $listenerConfigList
+        array $listenerConfigList,
+        array $strategiesConfiguration
     ) {
         if (count($listenerConfigList) === 0) {
             return;
@@ -102,16 +103,25 @@ class MabaGentleForceExtension extends Extension
             $loader->load('username_provider.xml');
         }
 
+        $usedStrategies = [];
+        $defaultStrategyId = $strategiesConfiguration['default'];
         $requestListenerDefinition = $container->getDefinition('maba_gentle_force.request_listener');
 
         foreach ($listenerConfigList as $listenerConfig) {
+            $strategyId = isset($listenerConfig['strategy']) ? $listenerConfig['strategy'] : $defaultStrategyId;
+            $usedStrategies[] = $strategyId;
+
             $pathPattern = '#' . str_replace('#', '\\#', $listenerConfig['path']) . '#';
             $configurationDefinition = (new Definition(ListenerConfiguration::class))
                 ->addMethodCall('setPathPattern', [$pathPattern])
                 ->addMethodCall('setLimitsKey', [$listenerConfig['limits_key']])
                 ->addMethodCall('setIdentifierTypes', [$listenerConfig['identifiers']])
+                ->addMethodCall('setStrategyId', [$strategyId])
             ;
             $requestListenerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }
+
+        $strategyManagerDefinition = $container->getDefinition('maba_gentle_force.strategy_manager');
+        $strategyManagerDefinition->replaceArgument(1, array_unique($usedStrategies));
     }
 }

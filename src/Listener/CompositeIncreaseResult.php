@@ -17,11 +17,16 @@ class CompositeIncreaseResult
      */
     private $waitForInSeconds;
 
-    public function handleRateLimitReachedException(RateLimitReachedException $exception)
-    {
+    private $violatedConfigurations = [];
+
+    public function handleRateLimitReachedException(
+        RateLimitReachedException $exception,
+        ListenerConfiguration $configuration
+    ) {
         if ($this->waitForInSeconds === null || $this->waitForInSeconds < $exception->getWaitForInSeconds()) {
             $this->waitForInSeconds = $exception->getWaitForInSeconds();
         }
+        $this->violatedConfigurations[] = $configuration;
     }
 
     public function addResult(IncreaseResult $result)
@@ -44,5 +49,13 @@ class CompositeIncreaseResult
     public function getWaitForInSeconds()
     {
         return $this->waitForInSeconds;
+    }
+
+    /**
+     * @return array|ListenerConfiguration[]
+     */
+    public function getViolatedConfigurations()
+    {
+        return $this->violatedConfigurations;
     }
 }

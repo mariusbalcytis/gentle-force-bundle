@@ -20,6 +20,11 @@ class ListenerConfiguration
     private $identifierTypes;
 
     /**
+     * @var string
+     */
+    private $strategyId;
+
+    /**
      * @return string
      */
     public function getPathPattern()
@@ -72,6 +77,25 @@ class ListenerConfiguration
     public function setIdentifierTypes(array $identifierTypes)
     {
         $this->identifierTypes = $identifierTypes;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrategyId()
+    {
+        return $this->strategyId;
+    }
+
+    /**
+     * @param string $strategyId
+     * @return $this
+     */
+    public function setStrategyId($strategyId)
+    {
+        $this->strategyId = $strategyId;
 
         return $this;
     }
