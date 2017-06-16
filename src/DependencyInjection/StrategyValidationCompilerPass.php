@@ -32,6 +32,5 @@ class StrategyValidationCompilerPass implements CompilerPassInterface
                 ));
             }
         }
-
     }
 }

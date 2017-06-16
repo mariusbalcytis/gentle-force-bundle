@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HeadersStrategy implements StrategyInterface
 {
-
     public function getRateLimitExceededResponse(CompositeIncreaseResult $result)
     {
         return new Response('', Response::HTTP_TOO_MANY_REQUESTS, [

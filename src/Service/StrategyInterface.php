@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface StrategyInterface
 {
-
     /**
      * @param CompositeIncreaseResult $result
      * @return Response
