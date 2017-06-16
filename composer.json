@@ -13,7 +13,7 @@
         "friendsofphp/php-cs-fixer": "^2.2",
         "phpunit/phpunit": "^4.8.35",
         "symfony/security-bundle": "^2.7|^3.0|^4.0",
-        "doctrine/cache": "^1.7@dev"
+        "doctrine/cache": "^1.6@dev"
     },
     "license": "MIT",
     "authors": [
