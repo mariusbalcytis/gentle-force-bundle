@@ -7,14 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResponseCodeSuccessMatcher implements SuccessMatcherInterface
 {
-    private $expectedStatusCode;
+    private $statusCodes;
+    private $inverse;
 
     /**
-     * @param int $expectedStatusCode
+     * @param array $statusCodes
+     * @param bool $inverse
      */
-    public function __construct($expectedStatusCode)
+    public function __construct(array $statusCodes, $inverse = false)
     {
-        $this->expectedStatusCode = $expectedStatusCode;
+        $this->statusCodes = $statusCodes;
+        $this->inverse = $inverse;
     }
 
     /**
@@ -23,6 +26,6 @@ class ResponseCodeSuccessMatcher implements SuccessMatcherInterface
      */
     public function isResponseSuccessful(Response $response)
     {
-        return $response->getStatusCode() === $this->expectedStatusCode;
+        return $this->inverse xor in_array($response->getStatusCode(), $this->statusCodes, true);
     }
 }

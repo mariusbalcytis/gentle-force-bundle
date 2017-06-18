@@ -1,0 +1,10 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+    listeners:
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            failure_statuses: [401, 403]
+            success_statuses: [200]

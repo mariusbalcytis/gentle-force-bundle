@@ -29,7 +29,7 @@ abstract class FunctionalRequestTestCase extends FunctionalTestCase
     {
         $response = $this->makeRequest($uri, $ip, $username);
         $this->assertTrue(
-            in_array($response->getStatusCode(), [Response::HTTP_OK, Response::HTTP_FOUND], true),
+            $response->getStatusCode() < 400,
             'Expected valid request'
         );
     }

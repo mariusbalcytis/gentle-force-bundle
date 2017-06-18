@@ -3,8 +3,10 @@
 namespace Maba\Bundle\GentleForceBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class Configuration implements ConfigurationInterface
 {
@@ -74,5 +76,47 @@ class Configuration implements ConfigurationInterface
         ;
         $listenerChildren->scalarNode('strategy');
         $listenerChildren->scalarNode('success_matcher');
+
+        $this->buildStatusesNode($listenerChildren, 'success_statuses');
+        $this->buildStatusesNode($listenerChildren, 'failure_statuses');
+
+        $this->addSuccessMatcherValidation($listenerPrototype);
+    }
+
+    private function buildStatusesNode(NodeBuilder $node, $name)
+    {
+        $statusesNode = $node->arrayNode($name);
+        $statusesNode->prototype('scalar');
+        $statusesNode->validate()->always(function(array $list) {
+            return array_map(function($statusCode) {
+                $validatedStatusCode = filter_var($statusCode, FILTER_VALIDATE_INT, ['options' => [
+                    'min_range' => 100,
+                    'max_range' => 599,
+                ]]);
+                if ($validatedStatusCode === false) {
+                    throw new InvalidConfigurationException(
+                        sprintf('Status code %s is invalid', $statusCode)
+                    );
+                }
+                return $validatedStatusCode;
+            }, $list);
+        });
+    }
+
+    private function addSuccessMatcherValidation(ArrayNodeDefinition $node)
+    {
+        $node->validate()->ifTrue(function(array $configuration) {
+            $count = 0;
+            if (isset($configuration['success_matcher'])) {
+                $count++;
+            }
+            if (count($configuration['success_statuses']) > 0) {
+                $count++;
+            }
+            if (count($configuration['failure_statuses']) > 0) {
+                $count++;
+            }
+            return $count > 1;
+        })->thenInvalid('Only one of success_matcher, success_statuses and failure_statuses can be specified');
     }
 }

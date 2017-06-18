@@ -3,6 +3,7 @@
 namespace Maba\Bundle\GentleForceBundle\DependencyInjection;
 
 use Maba\Bundle\GentleForceBundle\Listener\ListenerConfiguration;
+use Maba\Bundle\GentleForceBundle\Service\SuccessMatcher\ResponseCodeSuccessMatcher;
 use Maba\GentleForce\RateLimit\UsageRateLimit;
 use Maba\GentleForce\RateLimitProvider;
 use Predis\Client;
@@ -128,17 +129,13 @@ class MabaGentleForceExtension extends Extension
                 ));
             }
 
-            $successMatcherReference = isset($listenerConfig['success_matcher'])
-                ? new Reference($listenerConfig['success_matcher'])
-                : null;
-
             $pathPattern = '#' . str_replace('#', '\\#', $listenerConfig['path']) . '#';
             $configurationDefinition = (new Definition(ListenerConfiguration::class))
                 ->addMethodCall('setPathPattern', [$pathPattern])
                 ->addMethodCall('setLimitsKey', [$limitsKey])
                 ->addMethodCall('setIdentifierTypes', [$listenerConfig['identifiers']])
                 ->addMethodCall('setStrategyId', [$strategyId])
-                ->addMethodCall('setSuccessMatcher', [$successMatcherReference])
+                ->addMethodCall('setSuccessMatcher', [$this->buildSuccessMatcher($listenerConfig)])
             ;
             $requestListenerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }
@@ -147,5 +144,28 @@ class MabaGentleForceExtension extends Extension
             'maba_gentle_force.strategy_manager.strategies',
             array_unique($usedStrategies)
         );
+    }
+
+    private function buildSuccessMatcher(array $listenerConfig)
+    {
+        if (isset($listenerConfig['success_matcher'])) {
+            return new Reference($listenerConfig['success_matcher']);
+        }
+
+        if (count($listenerConfig['success_statuses']) > 0) {
+            return new Definition(
+                ResponseCodeSuccessMatcher::class,
+                [$listenerConfig['success_statuses']]
+            );
+        }
+
+        if (count($listenerConfig['failure_statuses']) > 0) {
+            return new Definition(
+                ResponseCodeSuccessMatcher::class,
+                [$listenerConfig['failure_statuses'], true]
+            );
+        }
+
+        return null;
     }
 }

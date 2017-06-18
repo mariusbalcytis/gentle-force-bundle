@@ -7,6 +7,9 @@ api_1:
 api_1_ok:
     path:      /api/ok
     defaults:  { _controller: simple_controller:returnResponse, content: 'OK' }
+api_1_ok2:
+    path:      /api/ok2
+    defaults:  { _controller: simple_controller:returnResponse, content: 'OK', statusCode: 201 }
 api_2:
     path:      /api2/resource
     defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }

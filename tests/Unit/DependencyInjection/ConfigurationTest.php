@@ -129,11 +129,15 @@ class ConfigurationTest extends TestCase
                             'path' => '^/api/',
                             'limits_key' => 'api_request',
                             'identifiers' => ['ip'],
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
                         ],
                         [
                             'path' => '^/api/',
                             'limits_key' => 'api_request',
                             'identifiers' => ['username', 'ip'],
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
                         ],
                     ],
                 ],
@@ -162,6 +166,8 @@ class ConfigurationTest extends TestCase
                             'limits_key' => 'api_request',
                             'identifiers' => ['ip'],
                             'strategy' => 'strategy.for_listener',
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
                         ],
                     ],
                 ],
@@ -190,10 +196,41 @@ class ConfigurationTest extends TestCase
                             'limits_key' => 'api_request',
                             'identifiers' => ['ip'],
                             'success_matcher' => 'success_matcher_id',
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
                         ],
                     ],
                 ],
                 'success_matcher.yml',
+            ],
+            [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => null,
+                    ],
+                    'limits' => [],
+                    'strategies' => [
+                        'default' => 'maba_gentle_force.strategy.headers',
+                    ],
+                    'listeners' => [
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'success_statuses' => [200],
+                            'failure_statuses' => [],
+                        ],
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'success_statuses' => [],
+                            'failure_statuses' => [401, 403],
+                        ],
+                    ],
+                ],
+                'success_and_failure_statuses.yml',
             ],
         ];
     }
@@ -201,8 +238,12 @@ class ConfigurationTest extends TestCase
     public function invalidConfigurationTestCaseProvider()
     {
         return [
-            ['invalid_redis.yml'],
-            ['listeners_no_identifiers.yml'],
+            ['invalid/redis.yml'],
+            ['invalid/listeners_no_identifiers.yml'],
+            ['invalid/both_success_and_failure_statuses.yml'],
+            ['invalid/success_statuses_and_matcher.yml'],
+            ['invalid/failure_statuses_and_matcher.yml'],
+            ['invalid/invalid_success_status.yml'],
         ];
     }
 }
