@@ -12,6 +12,7 @@ abstract class FunctionalTestCase extends TestCase
 {
     const PATH_DOCS = '/docs/api/main';
     const PATH_API1 = '/api/resource';
+    const PATH_API1_OK = '/api/ok';
     const PATH_API2 = '/api2/resource';
     const PATH_API3 = '/api3/resource';
 

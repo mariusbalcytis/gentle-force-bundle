@@ -1,0 +1,20 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+    limits:
+        2_in_1:
+            -
+                max_usages: 2
+                period: 1
+    listeners:
+        -
+            path: ^/api/
+            limits_key: 2_in_1
+            identifiers: [ip]
+            success_matcher: success_matcher_service
+
+services:
+    success_matcher_service:
+        class: Maba\Bundle\GentleForceBundle\Service\SuccessMatcher\ResponseCodeSuccessMatcher
+        arguments:
+            - 200

@@ -2,6 +2,8 @@
 
 namespace Maba\Bundle\GentleForceBundle\Listener;
 
+use Maba\Bundle\GentleForceBundle\Service\SuccessMatcherInterface;
+
 class ListenerConfiguration
 {
     /**
@@ -23,6 +25,11 @@ class ListenerConfiguration
      * @var string
      */
     private $strategyId;
+
+    /**
+     * @var SuccessMatcherInterface|null
+     */
+    private $successMatcher;
 
     /**
      * @return string
@@ -96,6 +103,25 @@ class ListenerConfiguration
     public function setStrategyId($strategyId)
     {
         $this->strategyId = $strategyId;
+
+        return $this;
+    }
+
+    /**
+     * @return SuccessMatcherInterface|null
+     */
+    public function getSuccessMatcher()
+    {
+        return $this->successMatcher;
+    }
+
+    /**
+     * @param SuccessMatcherInterface|null $successMatcher
+     * @return $this
+     */
+    public function setSuccessMatcher(SuccessMatcherInterface $successMatcher = null)
+    {
+        $this->successMatcher = $successMatcher;
 
         return $this;
     }

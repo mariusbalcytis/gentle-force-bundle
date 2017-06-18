@@ -14,7 +14,7 @@ class TestKernel extends Kernel
 
     public function __construct($testCase)
     {
-        parent::__construct($testCase, true);
+        parent::__construct(crc32($testCase), true);
         $this->configFile = $testCase . '.yml';
     }
 

@@ -2,8 +2,10 @@
 
 namespace Maba\Bundle\GentleForceBundle\Listener;
 
+use InvalidArgumentException;
 use Maba\GentleForce\Exception\RateLimitReachedException;
 use Maba\GentleForce\IncreaseResult;
+use SplObjectStorage;
 
 class CompositeIncreaseResult
 {
@@ -13,11 +15,29 @@ class CompositeIncreaseResult
     private $results = [];
 
     /**
+     * @var array|ListenerConfiguration[]
+     */
+    private $configurations = [];
+
+    /**
+     * @var SplObjectStorage|IncreaseResult[]
+     */
+    private $resultsByConfiguration;
+
+    /**
      * @var float|null
      */
     private $waitForInSeconds;
 
+    /**
+     * @var array|ListenerConfiguration[]
+     */
     private $violatedConfigurations = [];
+
+    public function __construct()
+    {
+        $this->resultsByConfiguration = new SplObjectStorage();
+    }
 
     public function handleRateLimitReachedException(
         RateLimitReachedException $exception,
@@ -29,9 +49,11 @@ class CompositeIncreaseResult
         $this->violatedConfigurations[] = $configuration;
     }
 
-    public function addResult(IncreaseResult $result)
+    public function addResult(IncreaseResult $result, ListenerConfiguration $configuration)
     {
         $this->results[] = $result;
+        $this->configurations[] = $configuration;
+        $this->resultsByConfiguration[$configuration] = $result;
     }
 
     public function isRateLimitReached()
@@ -46,6 +68,11 @@ class CompositeIncreaseResult
         }
     }
 
+    public function decreaseByConfiguration(ListenerConfiguration $configuration)
+    {
+        $this->getResultByConfiguration($configuration)->decrease();
+    }
+
     public function getWaitForInSeconds()
     {
         return $this->waitForInSeconds;
@@ -57,5 +84,26 @@ class CompositeIncreaseResult
     public function getViolatedConfigurations()
     {
         return $this->violatedConfigurations;
+    }
+
+    /**
+     * @return array|ListenerConfiguration[]
+     */
+    public function getConfigurations()
+    {
+        return $this->configurations;
+    }
+
+    /**
+     * @param ListenerConfiguration $configuration
+     * @return IncreaseResult
+     */
+    public function getResultByConfiguration(ListenerConfiguration $configuration)
+    {
+        if (!isset($this->resultsByConfiguration[$configuration])) {
+            throw new InvalidArgumentException('No result registered by provided configuration');
+        }
+
+        return $this->resultsByConfiguration[$configuration];
     }
 }

@@ -1,7 +1,6 @@
 maba_gentle_force:
     redis:
         host: localhost
-        prefix: my_prefix
     limits:
         api_request:
             -

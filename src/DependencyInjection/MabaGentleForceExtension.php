@@ -10,6 +10,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
@@ -127,12 +128,17 @@ class MabaGentleForceExtension extends Extension
                 ));
             }
 
+            $successMatcherReference = isset($listenerConfig['success_matcher'])
+                ? new Reference($listenerConfig['success_matcher'])
+                : null;
+
             $pathPattern = '#' . str_replace('#', '\\#', $listenerConfig['path']) . '#';
             $configurationDefinition = (new Definition(ListenerConfiguration::class))
                 ->addMethodCall('setPathPattern', [$pathPattern])
                 ->addMethodCall('setLimitsKey', [$limitsKey])
                 ->addMethodCall('setIdentifierTypes', [$listenerConfig['identifiers']])
                 ->addMethodCall('setStrategyId', [$strategyId])
+                ->addMethodCall('setSuccessMatcher', [$successMatcherReference])
             ;
             $requestListenerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }

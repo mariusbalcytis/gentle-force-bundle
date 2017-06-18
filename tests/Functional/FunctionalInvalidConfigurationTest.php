@@ -14,24 +14,24 @@ class FunctionalInvalidConfigurationTest extends FunctionalRequestTestCase
     public function testInvalidLimitsKey()
     {
         $this->setExpectedException(InvalidConfigurationException::class);
-        $this->setUpContainer('invalid_limits_key');
+        $this->setUpContainer('invalid/limits_key');
     }
 
-    public function testInvalidDefaultStrategyService()
+    public function testInvalidDefaultStrategyDueToNoSuchService()
     {
         $this->setExpectedException(InvalidConfigurationException::class);
-        $this->setUpContainer('invalid_default_strategy_service');
+        $this->setUpContainer('invalid/default_strategy.no_service');
     }
 
-    public function testInvalidStrategyService()
+    public function testInvalidStrategyDueToNoSuchService()
     {
         $this->setExpectedException(InvalidConfigurationException::class);
-        $this->setUpContainer('invalid_strategy_service');
+        $this->setUpContainer('invalid/strategy.no_service');
     }
 
-    public function testInvalidStrategyServicePrivate()
+    public function testInvalidStrategyDueToPrivateService()
     {
         $this->setExpectedException(InvalidConfigurationException::class);
-        $this->setUpContainer('invalid_strategy_service_private');
+        $this->setUpContainer('invalid/strategy.private_service');
     }
 }

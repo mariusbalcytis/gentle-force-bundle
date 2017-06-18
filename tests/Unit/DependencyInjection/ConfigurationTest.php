@@ -167,6 +167,34 @@ class ConfigurationTest extends TestCase
                 ],
                 'strategies.yml',
             ],
+            [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => 'my_prefix',
+                    ],
+                    'limits' => [
+                        'api_request' => [
+                            [
+                                'max_usages' => 100,
+                                'period' => 3600,
+                            ],
+                        ],
+                    ],
+                    'strategies' => [
+                        'default' => 'maba_gentle_force.strategy.headers',
+                    ],
+                    'listeners' => [
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'success_matcher' => 'success_matcher_id',
+                        ],
+                    ],
+                ],
+                'success_matcher.yml',
+            ],
         ];
     }
 

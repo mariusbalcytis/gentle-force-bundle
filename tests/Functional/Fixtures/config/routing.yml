@@ -4,6 +4,9 @@ docs:
 api_1:
     path:      /api/resource
     defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }
+api_1_ok:
+    path:      /api/ok
+    defaults:  { _controller: simple_controller:returnResponse, content: 'OK' }
 api_2:
     path:      /api2/resource
     defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }

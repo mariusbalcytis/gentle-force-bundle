@@ -4,7 +4,10 @@ namespace Maba\Bundle\GentleForceBundle\Service;
 
 use InvalidArgumentException;
 use Maba\Bundle\GentleForceBundle\Listener\CompositeIncreaseResult;
+use Maba\Bundle\GentleForceBundle\Listener\ListenerConfiguration;
+use Maba\GentleForce\IncreaseResult;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class StrategyManager
 {
@@ -21,18 +24,43 @@ class StrategyManager
     {
         $configurations = $result->getViolatedConfigurations();
         $lastViolatedConfiguration = end($configurations);
-        $strategyId = $lastViolatedConfiguration->getStrategyId();
+
+        $strategy = $this->getStrategyForConfiguration($lastViolatedConfiguration);
+
+        return $strategy->getRateLimitExceededResponse($result);
+    }
+
+    public function modifyResponse(
+        ListenerConfiguration $configuration,
+        IncreaseResult $increaseResult,
+        Response $response
+    ) {
+        $strategy = $this->getStrategyForConfiguration($configuration);
+        if (!$strategy instanceof ResponseModifyingStrategyInterface) {
+            return null;
+        }
+
+        $strategy->modifyResponse($increaseResult, $response);
+    }
+
+    /**
+     * @param ListenerConfiguration $configuration
+     * @return StrategyInterface
+     */
+    private function getStrategyForConfiguration(ListenerConfiguration $configuration)
+    {
+        $strategyId = $configuration->getStrategyId();
 
         if (!in_array($strategyId, $this->strategies, true)) {
             throw new InvalidArgumentException(sprintf(
                 'Given strategy (%s) was not registered with strategy manager',
                 $strategyId
-            ) . print_r($this->strategies, true));
+            ));
         }
 
         /** @var StrategyInterface $strategy */
         $strategy = $this->container->get($strategyId);
 
-        return $strategy->getRateLimitExceededResponse($result);
+        return $strategy;
     }
 }

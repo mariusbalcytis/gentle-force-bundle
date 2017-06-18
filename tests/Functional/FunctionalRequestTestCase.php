@@ -28,9 +28,8 @@ abstract class FunctionalRequestTestCase extends FunctionalTestCase
     protected function assertRequestValid($uri, $ip = self::DEFAULT_IP, $username = null)
     {
         $response = $this->makeRequest($uri, $ip, $username);
-        $this->assertSame(
-            Response::HTTP_FOUND,
-            $response->getStatusCode(),
+        $this->assertTrue(
+            in_array($response->getStatusCode(), [Response::HTTP_OK, Response::HTTP_FOUND], true),
             'Expected valid request'
         );
     }

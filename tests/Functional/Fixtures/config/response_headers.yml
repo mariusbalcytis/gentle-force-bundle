@@ -2,20 +2,23 @@ maba_gentle_force:
     redis:
         host: localhost
     limits:
-        2_in_06:
+        limit1:
             -
-                max_usages: 2
-                period: 0.6
-        3_in_3:
+                max_usages: 4
+                period: 10
+            -
+                max_usages: 5
+                period: 15
+        limit2:
             -
                 max_usages: 3
-                period: 3
+                period: 0.6
     listeners:
         -
             path: ^/api/
-            limits_key: 2_in_06
+            limits_key: limit1
             identifiers: [ip]
         -
             path: ^/api/
-            limits_key: 3_in_3
+            limits_key: limit2
             identifiers: [ip]

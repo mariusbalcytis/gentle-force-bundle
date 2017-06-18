@@ -73,5 +73,6 @@ class Configuration implements ConfigurationInterface
             ->prototype('scalar')
         ;
         $listenerChildren->scalarNode('strategy');
+        $listenerChildren->scalarNode('success_matcher');
     }
 }

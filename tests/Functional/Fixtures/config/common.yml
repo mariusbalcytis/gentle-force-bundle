@@ -20,3 +20,5 @@ services:
             - '@microtime_provider_mock'
     microtime_provider_mock:
         class: Maba\GentleForce\InMemory\MicrotimeProvider
+    simple_controller:
+        class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\SimpleController
