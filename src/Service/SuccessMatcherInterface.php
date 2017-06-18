@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface SuccessMatcherInterface
 {
-
     /**
      * @param Response $response
      * @return bool

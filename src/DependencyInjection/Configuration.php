@@ -87,8 +87,8 @@ class Configuration implements ConfigurationInterface
     {
         $statusesNode = $node->arrayNode($name);
         $statusesNode->prototype('scalar');
-        $statusesNode->validate()->always(function(array $list) {
-            return array_map(function($statusCode) {
+        $statusesNode->validate()->always(function (array $list) {
+            return array_map(function ($statusCode) {
                 $validatedStatusCode = filter_var($statusCode, FILTER_VALIDATE_INT, ['options' => [
                     'min_range' => 100,
                     'max_range' => 599,
@@ -105,7 +105,7 @@ class Configuration implements ConfigurationInterface
 
     private function addSuccessMatcherValidation(ArrayNodeDefinition $node)
     {
-        $node->validate()->ifTrue(function(array $configuration) {
+        $node->validate()->ifTrue(function (array $configuration) {
             $count = 0;
             if (isset($configuration['success_matcher'])) {
                 $count++;
