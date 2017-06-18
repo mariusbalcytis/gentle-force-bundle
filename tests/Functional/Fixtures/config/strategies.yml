@@ -1,7 +1,7 @@
 maba_gentle_force:
     redis:
-        host: %redis_host%
-        prefix: functional_test_%microtime%
+        host: localhost
+        prefix: my_prefix
     strategies:
         default: custom.strategy.response_200_try_later
     limits:

@@ -127,14 +127,9 @@ information about what can be changed and what not in the API.
 
 [![Travis status](https://travis-ci.org/mariusbalcytis/gentle-force-bundle.svg?branch=master)](https://travis-ci.org/mariusbalcytis/gentle-force-bundle)
 
-Functional tests require Redis. So, generally, it's easier to run them in docker.
-
 ```bash
 composer update
-cd docker
-docker-compose up -d
-docker exec -it -u `id -u`:`id -g` gentle_force_bundle_test_php vendor/bin/phpunit
-docker-compose down
+vendor/bin/phpunit
 ```
 
 ## Contributing

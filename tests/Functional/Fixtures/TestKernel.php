@@ -32,17 +32,4 @@ class TestKernel extends Kernel
         $loader->load(__DIR__ . '/config/common.yml');
         $loader->load(__DIR__ . '/config/' . $this->configFile);
     }
-
-    protected function buildContainer()
-    {
-        $container = parent::buildContainer();
-
-        $container->setParameter('microtime', microtime());
-        $container->setParameter(
-            'redis_host',
-            isset($_ENV['REDIS_HOST']) ? $_ENV['REDIS_HOST'] : 'localhost'
-        );
-
-        return $container;
-    }
 }

@@ -10,5 +10,5 @@ services:
     redis_service_id:
         class: Predis\Client
         arguments:
-            - 'tcp://%redis_host%:6379'
-            - {'prefix': 'functional_test_%microtime%'}
+            - 'tcp://localhost:6379'
+            - {'prefix': 'custom_service'}

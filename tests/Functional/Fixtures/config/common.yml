@@ -11,3 +11,12 @@ security:
         main:
             anonymous: ~
             stateless: true
+
+services:
+    maba_gentle_force.throttler:
+        class: Maba\GentleForce\InMemory\InMemoryThrottler
+        arguments:
+            - '@maba_gentle_force.rate_limit_provider'
+            - '@microtime_provider_mock'
+    microtime_provider_mock:
+        class: Maba\GentleForce\InMemory\MicrotimeProvider

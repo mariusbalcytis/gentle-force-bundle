@@ -1,7 +1,7 @@
 maba_gentle_force:
     redis:
-        host: %redis_host%
-        prefix: functional_test_%microtime%
+        host: localhost
+        prefix: my_prefix
     limits:
         2_in_03_no_bucketed:
             -

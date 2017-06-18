@@ -4,17 +4,10 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 class FunctionalRedisServiceTest extends FunctionalThrottlerTestCase
 {
-    protected function setUpThrottler($useCaseKey)
-    {
-        $container = $this->setUpContainer('redis_service');
-        $this->throttler = $container->get('maba_gentle_force.throttler');
-        $this->useCaseKey = $useCaseKey;
-    }
-
     public function testConnection()
     {
-        $this->setUpThrottler('use_case');
-
-        $this->assertUsagesValid(1);
+        $container = $this->setUpContainer('redis_service');
+        $options = $container->get('maba_gentle_force.redis_client')->getOptions();
+        $this->assertSame('custom_service', $options->prefix->getPrefix());
     }
 }

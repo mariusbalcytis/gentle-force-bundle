@@ -10,8 +10,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 abstract class FunctionalTestCase extends TestCase
 {
-    use TimeAwareTrait;
-
     const PATH_DOCS = '/docs/api/main';
     const PATH_API1 = '/api/resource';
     const PATH_API2 = '/api2/resource';
@@ -31,7 +29,7 @@ abstract class FunctionalTestCase extends TestCase
         $this->kernel = new TestKernel($testCase);
         $this->kernel->boot();
         $container = $this->kernel->getContainer();
-        $this->startTimer();
+        $container->get('microtime_provider_mock')->setMockedMicrotime(0);
         return $container;
     }
 
@@ -45,5 +43,12 @@ abstract class FunctionalTestCase extends TestCase
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->kernel->getRootDir() . '/cache');
+    }
+
+    protected function sleepUpTo($milliseconds)
+    {
+        $this->kernel->getContainer()->get('microtime_provider_mock')
+            ->setMockedMicrotime($milliseconds / 1000)
+        ;
     }
 }

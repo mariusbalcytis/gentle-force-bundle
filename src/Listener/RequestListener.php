@@ -5,7 +5,7 @@ namespace Maba\Bundle\GentleForceBundle\Listener;
 use Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider;
 use Maba\Bundle\GentleForceBundle\Service\StrategyManager;
 use Maba\GentleForce\Exception\RateLimitReachedException;
-use Maba\GentleForce\Throttler;
+use Maba\GentleForce\ThrottlerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -23,7 +23,7 @@ class RequestListener implements EventSubscriberInterface
     private $strategyManager;
 
     public function __construct(
-        Throttler $throttler,
+        ThrottlerInterface $throttler,
         RequestIdentifierProvider $requestIdentifierProvider,
         RequestMatcher $requestMatcher,
         StrategyManager $strategyManager
