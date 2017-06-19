@@ -12,6 +12,16 @@ class ListenerConfiguration
     private $pathPattern;
 
     /**
+     * @var array
+     */
+    private $hosts = [];
+
+    /**
+     * @var array
+     */
+    private $methods = [];
+
+    /**
      * @var string
      */
     private $limitsKey;
@@ -46,6 +56,44 @@ class ListenerConfiguration
     public function setPathPattern($pathPattern)
     {
         $this->pathPattern = $pathPattern;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHosts()
+    {
+        return $this->hosts;
+    }
+
+    /**
+     * @param array $hosts
+     * @return $this
+     */
+    public function setHosts(array $hosts)
+    {
+        $this->hosts = $hosts;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMethods()
+    {
+        return $this->methods;
+    }
+
+    /**
+     * @param array $methods
+     * @return $this
+     */
+    public function setMethods(array $methods)
+    {
+        $this->methods = $methods;
 
         return $this;
     }

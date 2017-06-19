@@ -28,6 +28,11 @@ abstract class FunctionalRequestTestCase extends FunctionalTestCase
     protected function assertRequestValid($uri, $ip = self::DEFAULT_IP, $username = null)
     {
         $response = $this->makeRequest($uri, $ip, $username);
+        $this->assertResponseValid($response);
+    }
+
+    protected function assertResponseValid(Response $response)
+    {
         $this->assertTrue(
             $response->getStatusCode() < 400,
             'Expected valid request'
@@ -37,6 +42,11 @@ abstract class FunctionalRequestTestCase extends FunctionalTestCase
     protected function assertRequestInvalid($uri, $ip = self::DEFAULT_IP, $username = null)
     {
         $response = $this->makeRequest($uri, $ip, $username);
+        $this->assertResponseInvalid($response);
+    }
+
+    protected function assertResponseInvalid(Response $response)
+    {
         $this->assertSame(
             Response::HTTP_TOO_MANY_REQUESTS,
             $response->getStatusCode(),
@@ -46,23 +56,34 @@ abstract class FunctionalRequestTestCase extends FunctionalTestCase
 
     protected function makeRequest($uri, $ip, $username = null)
     {
+        return $this->handleRequest($this->createRequest($uri, $ip, $username));
+    }
+
+    protected function createRequest($uri, $ip, $username = null)
+    {
         $tokenStorage = $this->kernel->getContainer()->get('security.token_storage');
         if ($username !== null) {
-            $tokenStorage->setToken(new UsernamePasswordToken(
-                $username,
-                null,
-                'test',
-                ['ROLE_USER']
-            ));
+            $tokenStorage->setToken(
+                new UsernamePasswordToken(
+                    $username,
+                    null,
+                    'test',
+                    ['ROLE_USER']
+                )
+            );
         } else {
             $tokenStorage->setToken(null);
         }
 
-        $request = new Request([], [], [], [], [], [
+        return new Request(
+            [], [], [], [], [], [
             'REQUEST_URI' => $uri,
             'REMOTE_ADDR' => $ip,
         ]);
+    }
 
+    protected function handleRequest(Request $request)
+    {
         try {
             return $this->kernel->handle($request);
         } catch (HttpException $exception) {

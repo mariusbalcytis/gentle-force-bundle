@@ -74,7 +74,7 @@ class Configuration implements ConfigurationInterface
         /** @var ArrayNodeDefinition $listenerPrototype */
         $listenerPrototype = $node->prototype('array');
         $listenerChildren = $listenerPrototype->children();
-        $listenerChildren->scalarNode('path')->isRequired();
+        $listenerChildren->scalarNode('path')->defaultValue('^/');
         $listenerChildren->scalarNode('limits_key')->isRequired();
         $listenerChildren->arrayNode('identifiers')
             ->isRequired()
@@ -86,6 +86,18 @@ class Configuration implements ConfigurationInterface
 
         $this->buildStatusesNode($listenerChildren, 'success_statuses');
         $this->buildStatusesNode($listenerChildren, 'failure_statuses');
+
+        $methodsNode = $listenerChildren->arrayNode('methods');
+        $methodsNode->prototype('scalar');
+        $methodsNode->validate()->always(function($list) {
+            return array_map('strtoupper', $list);
+        });
+
+        $hostsNode = $listenerChildren->arrayNode('hosts');
+        $hostsNode->prototype('scalar');
+        $hostsNode->validate()->always(function($list) {
+            return array_map('strtolower', $list);
+        });
 
         $this->addSuccessMatcherValidation($listenerPrototype);
     }

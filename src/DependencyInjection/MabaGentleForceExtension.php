@@ -136,6 +136,8 @@ class MabaGentleForceExtension extends Extension
                 ->addMethodCall('setPathPattern', [$pathPattern])
                 ->addMethodCall('setLimitsKey', [$limitsKey])
                 ->addMethodCall('setIdentifierTypes', [$listenerConfig['identifiers']])
+                ->addMethodCall('setHosts', [$listenerConfig['hosts']])
+                ->addMethodCall('setMethods', [$listenerConfig['methods']])
                 ->addMethodCall('setStrategyId', [$strategyId])
                 ->addMethodCall('setSuccessMatcher', [$this->buildSuccessMatcher($listenerConfig)])
             ;

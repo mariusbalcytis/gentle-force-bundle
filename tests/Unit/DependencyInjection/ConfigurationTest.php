@@ -131,6 +131,8 @@ class ConfigurationTest extends TestCase
                             'identifiers' => ['ip'],
                             'success_statuses' => [],
                             'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -138,6 +140,8 @@ class ConfigurationTest extends TestCase
                             'identifiers' => ['username', 'ip'],
                             'success_statuses' => [],
                             'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
                         ],
                     ],
                 ],
@@ -175,6 +179,8 @@ class ConfigurationTest extends TestCase
                             'strategy' => 'strategy.for_listener',
                             'success_statuses' => [],
                             'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -183,6 +189,8 @@ class ConfigurationTest extends TestCase
                             'strategy' => 'headers',
                             'success_statuses' => [],
                             'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -191,6 +199,8 @@ class ConfigurationTest extends TestCase
                             'strategy' => 'log',
                             'success_statuses' => [],
                             'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
                         ],
                     ],
                 ],
@@ -221,6 +231,8 @@ class ConfigurationTest extends TestCase
                             'success_matcher' => 'success_matcher_id',
                             'success_statuses' => [],
                             'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
                         ],
                     ],
                 ],
@@ -243,6 +255,8 @@ class ConfigurationTest extends TestCase
                             'identifiers' => ['ip'],
                             'success_statuses' => [200],
                             'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -250,10 +264,61 @@ class ConfigurationTest extends TestCase
                             'identifiers' => ['ip'],
                             'success_statuses' => [],
                             'failure_statuses' => [401, 403],
+                            'methods' => [],
+                            'hosts' => [],
                         ],
                     ],
                 ],
                 'success_and_failure_statuses.yml',
+            ],
+            [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => 'my_prefix',
+                    ],
+                    'limits' => [
+                        'api_request' => [
+                            [
+                                'max_usages' => 100,
+                                'period' => 3600,
+                            ],
+                        ],
+                    ],
+                    'strategies' => [
+                        'default' => 'headers',
+                    ],
+                    'listeners' => [
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                            'methods' => ['PUT', 'POST'],
+                            'hosts' => [],
+                        ],
+                        [
+                            'path' => '^/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => ['api.example.com'],
+                        ],
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                            'methods' => ['GET'],
+                            'hosts' => ['docs.example.com'],
+                        ],
+                    ],
+                ],
+                'advanced_filtering.yml',
             ],
         ];
     }

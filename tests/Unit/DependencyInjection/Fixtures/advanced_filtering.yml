@@ -1,0 +1,25 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+        prefix: my_prefix
+    limits:
+        api_request:
+            -
+                max_usages: 100
+                period: 3600
+    listeners:
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            methods: [PUT, POST]
+        -
+            limits_key: api_request
+            identifiers: [ip]
+            hosts: [api.example.com]
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            methods: [get]
+            hosts: [DOCS.example.com]
