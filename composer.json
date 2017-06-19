@@ -15,6 +15,10 @@
         "symfony/security-bundle": "^2.7|^3.0|^4.0",
         "doctrine/cache": "^1.6@dev"
     },
+    "suggest": {
+        "symfony/security-bundle": "Needed to use 'username' identifier",
+        "symfony/monolog-bundle": "Needed to use 'log' strategy"
+    },
     "license": "MIT",
     "authors": [
         {

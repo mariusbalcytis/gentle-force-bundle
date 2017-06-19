@@ -9,18 +9,36 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HeadersStrategy implements ResponseModifyingStrategyInterface
 {
-    private $waitForHeader = 'Wait-For';
-    private $requestsAvailableHeader = 'Requests-Available';
+    private $waitForHeader;
+    private $requestsAvailableHeader;
+
+    /**
+     * @param string|null $waitForHeader
+     * @param string|null $requestsAvailableHeader
+     */
+    public function __construct($waitForHeader = null, $requestsAvailableHeader = null)
+    {
+        $this->waitForHeader = $waitForHeader;
+        $this->requestsAvailableHeader = $requestsAvailableHeader;
+    }
 
     public function getRateLimitExceededResponse(CompositeIncreaseResult $result)
     {
-        return new Response('', Response::HTTP_TOO_MANY_REQUESTS, [
-            $this->waitForHeader => $result->getWaitForInSeconds(),
-        ]);
+        $headers = [];
+        if ($this->waitForHeader !== null) {
+            $headers = [
+                $this->waitForHeader => $result->getWaitForInSeconds(),
+            ];
+        }
+        return new Response('', Response::HTTP_TOO_MANY_REQUESTS, $headers);
     }
 
     public function modifyResponse(IncreaseResult $increaseResult, Response $response)
     {
+        if ($this->requestsAvailableHeader === null) {
+            return;
+        }
+
         $currentValue = $response->headers->get($this->requestsAvailableHeader);
         if (
             $currentValue === null

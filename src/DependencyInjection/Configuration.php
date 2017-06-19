@@ -59,7 +59,14 @@ class Configuration implements ConfigurationInterface
     {
         $node->addDefaultsIfNotSet();
         $builder = $node->children();
-        $builder->scalarNode('default')->defaultValue('maba_gentle_force.strategy.headers');
+        $builder->scalarNode('default')->defaultValue('headers');
+
+        $headersNode = $builder->arrayNode('headers')->children();
+        $headersNode->scalarNode('wait_for_header')->defaultNull();
+        $headersNode->scalarNode('requests_available_header')->defaultNull();
+
+        $logOnlyNode = $builder->arrayNode('log')->children();
+        $logOnlyNode->scalarNode('level')->defaultValue('error');
     }
 
     private function configureListeners(ArrayNodeDefinition $node)

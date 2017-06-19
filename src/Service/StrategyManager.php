@@ -20,6 +20,10 @@ class StrategyManager
         $this->strategies = $strategies;
     }
 
+    /**
+     * @param CompositeIncreaseResult $result
+     * @return Response|null
+     */
     public function getRateLimitExceededResponse(CompositeIncreaseResult $result)
     {
         $configurations = $result->getViolatedConfigurations();

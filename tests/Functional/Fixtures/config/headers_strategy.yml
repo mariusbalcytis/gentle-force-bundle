@@ -1,0 +1,29 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+    strategies:
+        headers:
+            requests_available_header: Request-Limit
+            wait_for_header: Retry-After
+    limits:
+        api_request:
+            -
+                max_usages: 2
+                period: 1
+            -
+                max_usages: 10
+                period: 10
+        limit2:
+            -
+                max_usages: 3
+                period: 1
+    listeners:
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            strategy: headers
+        -
+            path: ^/api/
+            limits_key: limit2
+            identifiers: [ip]

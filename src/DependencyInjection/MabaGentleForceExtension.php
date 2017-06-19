@@ -114,11 +114,13 @@ class MabaGentleForceExtension extends Extension
         }
 
         $usedStrategies = [];
-        $defaultStrategyId = $strategiesConfiguration['default'];
+        $defaultStrategyId = $this->getServiceIdForStrategy($strategiesConfiguration['default']);
         $requestListenerDefinition = $container->getDefinition('maba_gentle_force.request_listener');
 
         foreach ($listenerConfigList as $listenerConfig) {
-            $strategyId = isset($listenerConfig['strategy']) ? $listenerConfig['strategy'] : $defaultStrategyId;
+            $strategyId = isset($listenerConfig['strategy'])
+                ? $this->getServiceIdForStrategy($listenerConfig['strategy'])
+                : $defaultStrategyId;
             $usedStrategies[] = $strategyId;
 
             $limitsKey = $listenerConfig['limits_key'];
@@ -140,10 +142,11 @@ class MabaGentleForceExtension extends Extension
             $requestListenerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }
 
-        $container->setParameter(
-            'maba_gentle_force.strategy_manager.strategies',
-            array_unique($usedStrategies)
-        );
+        $usedStrategies = array_unique($usedStrategies);
+        $container->setParameter('maba_gentle_force.strategy_manager.strategies', $usedStrategies);
+
+        $this->includeStrategyDefinitions($loader, $usedStrategies);
+        $this->configureStrategies($container, $strategiesConfiguration);
     }
 
     private function buildSuccessMatcher(array $listenerConfig)
@@ -167,5 +170,41 @@ class MabaGentleForceExtension extends Extension
         }
 
         return null;
+    }
+
+    private function getServiceIdForStrategy($strategy)
+    {
+        $predefinedStrategies = [
+            'headers' => 'maba_gentle_force.strategy.headers',
+            'log' => 'maba_gentle_force.strategy.log',
+        ];
+        return isset($predefinedStrategies[$strategy]) ? $predefinedStrategies[$strategy] : $strategy;
+    }
+
+    private function includeStrategyDefinitions(XmlFileLoader $loader, array $usedStrategies)
+    {
+        if (in_array('maba_gentle_force.strategy.log', $usedStrategies, true)) {
+            $loader->load('log_strategy.xml');
+        }
+    }
+
+    private function configureStrategies(ContainerBuilder $container, array $strategiesConfiguration)
+    {
+        if (isset($strategiesConfiguration['log'])) {
+            $container->setParameter(
+                'maba_gentle_force.strategy.log.level',
+                $strategiesConfiguration['log']['level']
+            );
+        }
+        if (isset($strategiesConfiguration['headers'])) {
+            $container->setParameter(
+                'maba_gentle_force.strategy.headers.wait_for_header',
+                $strategiesConfiguration['headers']['wait_for_header']
+            );
+            $container->setParameter(
+                'maba_gentle_force.strategy.headers.requests_available_header',
+                $strategiesConfiguration['headers']['requests_available_header']
+            );
+        }
     }
 }

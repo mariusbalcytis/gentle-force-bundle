@@ -67,7 +67,9 @@ class RequestListener implements EventSubscriberInterface
             $compositeResult->decreaseSuccessfulLimits();
 
             $response = $this->strategyManager->getRateLimitExceededResponse($compositeResult);
-            $event->setResponse($response);
+            if ($response !== null) {
+                $event->setResponse($response);
+            }
             return;
         }
 

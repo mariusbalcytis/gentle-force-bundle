@@ -4,6 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="maba_gentle_force.strategy.headers.wait_for_header"/>
+        <parameter key="maba_gentle_force.strategy.headers.requests_available_header"/>
+    </parameters>
+
     <services>
         <service id="maba_gentle_force.request_listener"
                  class="Maba\Bundle\GentleForceBundle\Listener\RequestListener">
@@ -40,6 +45,9 @@
         </service>
 
         <service id="maba_gentle_force.strategy.headers"
-                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\HeadersStrategy"/>
+                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\HeadersStrategy">
+            <argument>%maba_gentle_force.strategy.headers.wait_for_header%</argument>
+            <argument>%maba_gentle_force.strategy.headers.requests_available_header%</argument>
+        </service>
     </services>
 </container>

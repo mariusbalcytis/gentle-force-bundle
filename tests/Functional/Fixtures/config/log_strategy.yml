@@ -1,0 +1,21 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+    strategies:
+        default: log
+        log:
+            level: warning
+    limits:
+        2_in_1:
+            -
+                max_usages: 2
+                period: 1
+    listeners:
+        -
+            path: ^/api/
+            limits_key: 2_in_1
+            identifiers: [ip]
+
+services:
+    logger:
+        class: Symfony\Component\HttpKernel\Tests\Logger

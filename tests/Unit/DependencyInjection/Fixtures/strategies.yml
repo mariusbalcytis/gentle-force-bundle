@@ -9,9 +9,24 @@ maba_gentle_force:
                 period: 3600
     strategies:
         default: strategy.default
+        headers:
+            requests_available_header: Requests-Available
+            wait_for_header: Wait-For
+        log:
+            level: error
     listeners:
         -
             path: ^/api/
             limits_key: api_request
             identifiers: [ip]
             strategy: strategy.for_listener
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            strategy: headers
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            strategy: log

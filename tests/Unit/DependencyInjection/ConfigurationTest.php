@@ -87,7 +87,7 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                     'strategies' => [
-                        'default' => 'maba_gentle_force.strategy.headers',
+                        'default' => 'headers',
                     ],
                     'listeners' => [],
                 ],
@@ -101,7 +101,7 @@ class ConfigurationTest extends TestCase
                     ],
                     'limits' => [],
                     'strategies' => [
-                        'default' => 'maba_gentle_force.strategy.headers',
+                        'default' => 'headers',
                     ],
                     'listeners' => [],
                 ],
@@ -122,7 +122,7 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                     'strategies' => [
-                        'default' => 'maba_gentle_force.strategy.headers',
+                        'default' => 'headers',
                     ],
                     'listeners' => [
                         [
@@ -159,6 +159,13 @@ class ConfigurationTest extends TestCase
                     ],
                     'strategies' => [
                         'default' => 'strategy.default',
+                        'headers' => [
+                            'requests_available_header' => 'Requests-Available',
+                            'wait_for_header' => 'Wait-For',
+                        ],
+                        'log' => [
+                            'level' => 'error',
+                        ],
                     ],
                     'listeners' => [
                         [
@@ -166,6 +173,22 @@ class ConfigurationTest extends TestCase
                             'limits_key' => 'api_request',
                             'identifiers' => ['ip'],
                             'strategy' => 'strategy.for_listener',
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                        ],
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'strategy' => 'headers',
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                        ],
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'strategy' => 'log',
                             'success_statuses' => [],
                             'failure_statuses' => [],
                         ],
@@ -188,7 +211,7 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                     'strategies' => [
-                        'default' => 'maba_gentle_force.strategy.headers',
+                        'default' => 'headers',
                     ],
                     'listeners' => [
                         [
@@ -211,7 +234,7 @@ class ConfigurationTest extends TestCase
                     ],
                     'limits' => [],
                     'strategies' => [
-                        'default' => 'maba_gentle_force.strategy.headers',
+                        'default' => 'headers',
                     ],
                     'listeners' => [
                         [

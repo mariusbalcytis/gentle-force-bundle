@@ -9,7 +9,7 @@ interface StrategyInterface
 {
     /**
      * @param CompositeIncreaseResult $result
-     * @return Response
+     * @return Response|null returns null if request should be proceeded
      */
     public function getRateLimitExceededResponse(CompositeIncreaseResult $result);
 }
