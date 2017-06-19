@@ -89,13 +89,13 @@ class Configuration implements ConfigurationInterface
 
         $methodsNode = $listenerChildren->arrayNode('methods');
         $methodsNode->prototype('scalar');
-        $methodsNode->validate()->always(function($list) {
+        $methodsNode->validate()->always(function ($list) {
             return array_map('strtoupper', $list);
         });
 
         $hostsNode = $listenerChildren->arrayNode('hosts');
         $hostsNode->prototype('scalar');
-        $hostsNode->validate()->always(function($list) {
+        $hostsNode->validate()->always(function ($list) {
             return array_map('strtolower', $list);
         });
 
