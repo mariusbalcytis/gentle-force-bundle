@@ -62,9 +62,11 @@ class Configuration implements ConfigurationInterface
         $builder = $node->children();
         $builder->scalarNode('default')->defaultValue('headers');
 
-        $headersNode = $builder->arrayNode('headers')->children();
+        $headersNode = $builder->arrayNode('headers')->addDefaultsIfNotSet()->children();
         $headersNode->scalarNode('wait_for_header')->defaultNull();
         $headersNode->scalarNode('requests_available_header')->defaultNull();
+        $headersNode->scalarNode('content')->defaultValue('Too many requests');
+        $headersNode->scalarNode('content_type')->defaultValue('text/plain; charset=UTF-8');
 
         $logOnlyNode = $builder->arrayNode('log')->children();
         $logOnlyNode->scalarNode('level')->defaultValue('error');

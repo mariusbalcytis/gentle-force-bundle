@@ -26,7 +26,10 @@ class HeadersStrategyTest extends TestCase
         $strategy = new HeadersStrategy();
         $response = $strategy->getRateLimitExceededResponse($this->buildResult());
         $this->assertSame(429, $response->getStatusCode());
-        $this->assertEmpty(array_diff(array_keys($response->headers->all()), ['cache-control', 'date']));
+        $this->assertEmpty(array_diff(
+            array_keys($response->headers->all()),
+            ['cache-control', 'date', 'content-type']
+        ));
     }
 
     public function testModifyResponse()

@@ -8,6 +8,8 @@
         <!-- Overwritten in Excention class -->
         <parameter key="maba_gentle_force.strategy.headers.wait_for_header"/>
         <parameter key="maba_gentle_force.strategy.headers.requests_available_header"/>
+        <parameter key="maba_gentle_force.strategy.headers.content"/>
+        <parameter key="maba_gentle_force.strategy.headers.content_type"/>
 
         <parameter key="maba_gentle_force.whitelist.controllers" type="collection">
             <parameter>maba_gentle_force.recaptcha.controller:unlock</parameter>
@@ -60,6 +62,8 @@
                  class="Maba\Bundle\GentleForceBundle\Service\Strategy\HeadersStrategy">
             <argument>%maba_gentle_force.strategy.headers.wait_for_header%</argument>
             <argument>%maba_gentle_force.strategy.headers.requests_available_header%</argument>
+            <argument>%maba_gentle_force.strategy.headers.content%</argument>
+            <argument>%maba_gentle_force.strategy.headers.content_type%</argument>
         </service>
     </services>
 </container>

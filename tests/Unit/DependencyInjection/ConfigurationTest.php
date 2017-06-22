@@ -88,6 +88,12 @@ class ConfigurationTest extends TestCase
                     ],
                     'strategies' => [
                         'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
                     ],
                     'listeners' => [],
                 ],
@@ -102,6 +108,12 @@ class ConfigurationTest extends TestCase
                     'limits' => [],
                     'strategies' => [
                         'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
                     ],
                     'listeners' => [],
                 ],
@@ -123,6 +135,12 @@ class ConfigurationTest extends TestCase
                     ],
                     'strategies' => [
                         'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
                     ],
                     'listeners' => [
                         [
@@ -166,6 +184,8 @@ class ConfigurationTest extends TestCase
                         'headers' => [
                             'requests_available_header' => 'Requests-Available',
                             'wait_for_header' => 'Wait-For',
+                            'content' => '{"error":"rate_limit_exceeded"}',
+                            'content_type' => 'application/json',
                         ],
                         'log' => [
                             'level' => 'error',
@@ -222,6 +242,12 @@ class ConfigurationTest extends TestCase
                     ],
                     'strategies' => [
                         'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
                     ],
                     'listeners' => [
                         [
@@ -247,6 +273,12 @@ class ConfigurationTest extends TestCase
                     'limits' => [],
                     'strategies' => [
                         'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
                     ],
                     'listeners' => [
                         [
@@ -287,6 +319,12 @@ class ConfigurationTest extends TestCase
                     ],
                     'strategies' => [
                         'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
                     ],
                     'listeners' => [
                         [
@@ -336,6 +374,12 @@ class ConfigurationTest extends TestCase
                     ],
                     'strategies' => [
                         'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
                         'recaptcha_headers' => [
                             'site_key_header' => 'Recaptcha-Site-Key',
                         ],

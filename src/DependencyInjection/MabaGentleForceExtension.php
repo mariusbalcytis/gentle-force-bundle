@@ -247,6 +247,14 @@ class MabaGentleForceExtension extends Extension
                 'maba_gentle_force.strategy.headers.requests_available_header',
                 $strategiesConfiguration['headers']['requests_available_header']
             );
+            $container->setParameter(
+                'maba_gentle_force.strategy.headers.content',
+                $strategiesConfiguration['headers']['content']
+            );
+            $container->setParameter(
+                'maba_gentle_force.strategy.headers.content_type',
+                $strategiesConfiguration['headers']['content_type']
+            );
         }
 
         if (isset($strategiesConfiguration['recaptcha_headers'])) {

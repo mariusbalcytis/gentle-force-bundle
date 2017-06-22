@@ -5,6 +5,8 @@ maba_gentle_force:
         headers:
             requests_available_header: Request-Limit
             wait_for_header: Retry-After
+            content: '{"error":"rate_limit_exceeded"}'
+            content_type: 'application/json'
     limits:
         api_request:
             -

@@ -11,26 +11,34 @@ class HeadersStrategy implements ResponseModifyingStrategyInterface
 {
     private $waitForHeader;
     private $requestsAvailableHeader;
+    private $content;
+    private $contentType;
 
     /**
      * @param string|null $waitForHeader
      * @param string|null $requestsAvailableHeader
+     * @param string $content
+     * @param string $contentType
      */
-    public function __construct($waitForHeader = null, $requestsAvailableHeader = null)
-    {
+    public function __construct(
+        $waitForHeader = null,
+        $requestsAvailableHeader = null,
+        $content = '',
+        $contentType = 'text/plain'
+    ) {
         $this->waitForHeader = $waitForHeader;
         $this->requestsAvailableHeader = $requestsAvailableHeader;
+        $this->content = $content;
+        $this->contentType = $contentType;
     }
 
     public function getRateLimitExceededResponse(CompositeIncreaseResult $result)
     {
-        $headers = [];
+        $headers = ['Content-Type' => $this->contentType];
         if ($this->waitForHeader !== null) {
-            $headers = [
-                $this->waitForHeader => $result->getWaitForInSeconds(),
-            ];
+            $headers[$this->waitForHeader] = $result->getWaitForInSeconds();
         }
-        return new Response('', Response::HTTP_TOO_MANY_REQUESTS, $headers);
+        return new Response($this->content, Response::HTTP_TOO_MANY_REQUESTS, $headers);
     }
 
     public function modifyResponse(IncreaseResult $increaseResult, Response $response)

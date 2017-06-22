@@ -12,6 +12,8 @@ maba_gentle_force:
         headers:
             requests_available_header: Requests-Available
             wait_for_header: Wait-For
+            content: '{"error":"rate_limit_exceeded"}'
+            content_type: 'application/json'
         log:
             level: error
     listeners:

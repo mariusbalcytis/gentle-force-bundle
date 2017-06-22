@@ -12,9 +12,16 @@ class FunctionalRecaptchaHeadersStrategyTest extends FunctionalHeadersStrategyTe
         $this->setUpContainer('recaptcha_headers_strategy');
     }
 
-    protected function assertRetryAfterHeader($retryAfter, Response $response)
+    protected function assertResponseBlocked($retryAfter, Response $response)
     {
-        parent::assertRetryAfterHeader($retryAfter, $response);
+        $this->assertSame(
+            Response::HTTP_TOO_MANY_REQUESTS,
+            $response->getStatusCode(),
+            'Expected request to be blocked'
+        );
+        $this->assertSame([$retryAfter], $response->headers->get('Retry-After', [], false));
+        $this->assertSame('text/plain; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertSame('Too many requests', $response->getContent());
         $this->assertSame(
             ['my_recaptcha_site_key'],
             $response->headers->get('My-Recaptcha-Site-Key', [], false)
