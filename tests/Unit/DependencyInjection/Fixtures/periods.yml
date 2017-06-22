@@ -1,0 +1,26 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+        prefix: my_prefix
+    limits:
+        10_s:
+            -
+                max_usages: 1
+                period: 10s
+        10_3_s:
+            -
+                max_usages: 1
+                period: 10.3s
+        30_m:
+            -
+                max_usages: 1
+                period: 30m
+        0_6_h_with_20_d:
+            -
+                max_usages: 1
+                period: 0.6h
+                bucketed_period: 20d
+        3_w:
+            -
+                max_usages: 1
+                period: 3w

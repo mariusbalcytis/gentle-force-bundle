@@ -99,6 +99,58 @@ class ConfigurationTest extends TestCase
                 ],
                 'limits.yml',
             ],
+            'Parses limit suffixes' => [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => 'my_prefix',
+                    ],
+                    'limits' => [
+                        '10_s' => [
+                            [
+                                'max_usages' => 1,
+                                'period' => 10,
+                            ],
+                        ],
+                        '10_3_s' => [
+                            [
+                                'max_usages' => 1,
+                                'period' => 10.3,
+                            ],
+                        ],
+                        '30_m' => [
+                            [
+                                'max_usages' => 1,
+                                'period' => 1800,
+                            ],
+                        ],
+                        '0_6_h_with_20_d' => [
+                            [
+                                'max_usages' => 1,
+                                'period' => 2160,
+                                'bucketed_period' => 1728000,
+                            ],
+                        ],
+                        '3_w' => [
+                            [
+                                'max_usages' => 1,
+                                'period' => 1814400,
+                            ],
+                        ],
+                    ],
+                    'strategies' => [
+                        'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
+                    ],
+                    'listeners' => [],
+                ],
+                'periods.yml',
+            ],
             [
                 [
                     'redis' => [
@@ -428,6 +480,8 @@ class ConfigurationTest extends TestCase
             ['invalid/success_statuses_and_matcher.yml'],
             ['invalid/failure_statuses_and_matcher.yml'],
             ['invalid/invalid_success_status.yml'],
+            ['invalid/period_invalid.yml'],
+            ['invalid/period_zero.yml'],
         ];
     }
 }

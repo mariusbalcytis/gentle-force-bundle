@@ -1,0 +1,8 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+    limits:
+        api_request:
+            -
+                max_usages: 100
+                period: 0.0

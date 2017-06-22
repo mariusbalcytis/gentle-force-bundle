@@ -51,9 +51,13 @@ class Configuration implements ConfigurationInterface
 
         $limitChildren = $limitPrototype->children();
         $limitChildren->scalarNode('max_usages')->isRequired();
-        $limitChildren->scalarNode('period')->isRequired();
+        $limitChildren->scalarNode('period')->isRequired()->validate()->always(function($value) {
+            return $this->parsePeriod($value);
+        });
         $limitChildren->scalarNode('bucketed_usages');
-        $limitChildren->scalarNode('bucketed_period');
+        $limitChildren->scalarNode('bucketed_period')->validate()->always(function($value) {
+            return $this->parsePeriod($value);
+        });
     }
 
     private function configureStrategies(ArrayNodeDefinition $node)
@@ -154,5 +158,33 @@ class Configuration implements ConfigurationInterface
 
         $builder->scalarNode('site_key')->isRequired();
         $builder->scalarNode('secret')->isRequired();
+    }
+
+    private function parsePeriod($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        if (preg_match('/^(\d+(\.\d+)?)([smhdw]?)$/', $value, $matches) !== 1) {
+            throw new InvalidConfigurationException(sprintf('Invalid period provided: %s', $value));
+        }
+
+        static $periodMap = [
+            '' => 1,
+            's' => 1,
+            'm' => 60,
+            'h' => 3600,
+            'd' => 86400,
+            'w' => 604800,
+        ];
+
+        $period = $matches[1] * $periodMap[$matches[3]];
+
+        if ($period <= 0) {
+            throw new InvalidConfigurationException(sprintf('Period must be positive: %s', $value));
+        }
+
+        return $period;
     }
 }
