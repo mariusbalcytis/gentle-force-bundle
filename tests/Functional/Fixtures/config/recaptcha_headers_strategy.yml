@@ -1,0 +1,36 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+        prefix: my_prefix
+    recaptcha:
+        site_key: my_recaptcha_site_key
+        secret: my_recaptcha_secret
+    strategies:
+        default: recaptcha_headers
+        headers:
+            requests_available_header: Request-Limit
+            wait_for_header: Retry-After
+        recaptcha_headers:
+            site_key_header: My-Recaptcha-Site-Key
+    limits:
+        api_request:
+            -
+                max_usages: 2
+                period: 1
+            -
+                max_usages: 10
+                period: 10
+        limit2:
+            -
+                max_usages: 3
+                period: 1
+    listeners:
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            strategy: recaptcha_headers
+        -
+            path: ^/api/
+            limits_key: limit2
+            identifiers: [ip]

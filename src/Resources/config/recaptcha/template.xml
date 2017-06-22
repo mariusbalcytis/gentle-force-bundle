@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <!-- Can be overwritten in Excention class -->
+    <parameters>
+        <parameter key="maba_gentle_force.strategy.recaptcha_template.template">MabaGentleForceBundle:Recaptcha:unlock.html.twig</parameter>
+    </parameters>
+
+    <services>
+        <service id="maba_gentle_force.strategy.recaptcha_template"
+                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\RecaptchaTemplateStrategy">
+            <argument type="service" id="templating"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="router"/>
+            <argument>%maba_gentle_force.recaptcha.site_key%</argument>
+            <argument>%maba_gentle_force.strategy.recaptcha_template.template%</argument>
+        </service>
+    </services>
+</container>

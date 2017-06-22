@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
         $this->configureLimits($children->arrayNode('limits'));
         $this->configureStrategies($children->arrayNode('strategies'));
         $this->configureListeners($children->arrayNode('listeners'));
+        $this->configureRecaptcha($children->arrayNode('recaptcha'));
 
         return $treeBuilder;
     }
@@ -67,6 +68,12 @@ class Configuration implements ConfigurationInterface
 
         $logOnlyNode = $builder->arrayNode('log')->children();
         $logOnlyNode->scalarNode('level')->defaultValue('error');
+
+        $recaptchaHeadersNode = $builder->arrayNode('recaptcha_headers')->children();
+        $recaptchaHeadersNode->scalarNode('site_key_header')->defaultNull();
+
+        $recaptchaTemplateNode = $builder->arrayNode('recaptcha_template')->children();
+        $recaptchaTemplateNode->scalarNode('template')->defaultNull();
     }
 
     private function configureListeners(ArrayNodeDefinition $node)
@@ -137,5 +144,13 @@ class Configuration implements ConfigurationInterface
             }
             return $count > 1;
         })->thenInvalid('Only one of success_matcher, success_statuses and failure_statuses can be specified');
+    }
+
+    private function configureRecaptcha(ArrayNodeDefinition $node)
+    {
+        $builder = $node->children();
+
+        $builder->scalarNode('site_key')->isRequired();
+        $builder->scalarNode('secret')->isRequired();
     }
 }

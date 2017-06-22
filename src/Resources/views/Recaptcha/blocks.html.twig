@@ -1,0 +1,97 @@
+{% block title %}Please prove you're not a robot{% endblock %}
+{% block body %}
+    {{ block('recaptcha') }}
+    {{ block('errorText') }}
+    {{ block('refreshButton') }}
+{% endblock %}
+
+{% block recaptcha %}
+    <div data-g-recaptcha-site-key="{{ siteKey }}"
+         data-unlock-url="{{ unlockUrl }}"
+         data-safe-to-refresh="{{ safeToRefresh }}"
+         id="g-recaptcha-container"
+         class="recaptcha">
+    </div>
+{% endblock %}
+{% block errorText %}
+    <div id="error-text" class="hidden alert alert-danger">Some error occured, please try again</div>
+{% endblock %}
+{% block refreshButton %}
+    <button id="refresh-button" class="hidden btn btn-primary btn-lg center-block">Refresh page</button>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        @media (min-width: 768px) {
+            .container {
+                max-width: 730px;
+            }
+        }
+        .recaptcha > div {
+            margin: 0 auto;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        var onloadCallback = function() {
+            var element = document.getElementById('g-recaptcha-container');
+            var errorElement = document.getElementById('error-text');
+            var refreshButton = document.getElementById('refresh-button');
+            var siteKey = element.attributes['data-g-recaptcha-site-key'].value;
+            var unlockUrl = element.attributes['data-unlock-url'].value;
+            var safeToRefresh = element.attributes['data-safe-to-refresh'].value;
+
+            refreshButton.addEventListener('click', function() {
+                document.location.reload(true);
+            });
+
+            grecaptcha.render('g-recaptcha-container', {
+                'sitekey': siteKey,
+                'callback': function(gRecaptchaResponse) {
+                    postAjax(
+                        unlockUrl,
+                        'g-recaptcha-response=' + encodeURIComponent(gRecaptchaResponse),
+                        function() {
+                            if (safeToRefresh) {
+                                document.location.reload(true);
+                            } else {
+                                element.classList.add('hidden');
+                                refreshButton.classList.remove('hidden');
+                            }
+                        },
+                        function() {
+                            errorElement.classList.remove('hidden');
+                        }
+                    );
+                    errorElement.classList.add('hidden');
+                },
+                'expired-callback': function() {
+                    grecaptcha.reset();
+                }
+            });
+
+            function postAjax(url, params, success, failure) {
+                var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+                xhr.open('POST', url);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState > 3) {
+                        xhr.status === 200 ? success(xhr.responseText) : failure(xhr.responseText);
+                    }
+                };
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(params);
+                return xhr;
+            }
+        };
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl={{ app.request.locale }}"
+            async defer>
+    </script>
+{% endblock %}

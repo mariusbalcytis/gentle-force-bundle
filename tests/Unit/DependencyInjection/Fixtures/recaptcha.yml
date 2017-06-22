@@ -1,0 +1,28 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+        prefix: my_prefix
+    limits:
+        api_request:
+            -
+                max_usages: 100
+                period: 3600
+    recaptcha:
+        site_key: my_recaptcha_site_key
+        secret: my_recaptcha_secret
+    strategies:
+        recaptcha_headers:
+            site_key_header: Recaptcha-Site-Key
+        recaptcha_template:
+            template: MabaGentleForceBundle:Recaptcha:unlock.html.twig
+    listeners:
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            strategy: recaptcha_headers
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+            strategy: recaptcha_template

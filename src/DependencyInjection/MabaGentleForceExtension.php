@@ -37,9 +37,7 @@ class MabaGentleForceExtension extends Extension
         $this->registerListeners(
             $container,
             $loader,
-            $config['listeners'],
-            $config['strategies'],
-            array_keys($config['limits'])
+            $config
         );
     }
 
@@ -98,10 +96,12 @@ class MabaGentleForceExtension extends Extension
     private function registerListeners(
         ContainerBuilder $container,
         XmlFileLoader $loader,
-        array $listenerConfigList,
-        array $strategiesConfiguration,
-        array $availableLimitsKeys
+        array $config
     ) {
+        $listenerConfigList = $config['listeners'];
+        $strategiesConfiguration = $config['strategies'];
+        $availableLimitsKeys = array_keys($config['limits']);
+
         if (count($listenerConfigList) === 0) {
             return;
         }
@@ -115,7 +115,7 @@ class MabaGentleForceExtension extends Extension
 
         $usedStrategies = [];
         $defaultStrategyId = $this->getServiceIdForStrategy($strategiesConfiguration['default']);
-        $requestListenerDefinition = $container->getDefinition('maba_gentle_force.request_listener');
+        $configurationManagerDefinition = $container->getDefinition('maba_gentle_force.configuration_manager');
 
         foreach ($listenerConfigList as $listenerConfig) {
             $strategyId = isset($listenerConfig['strategy'])
@@ -141,13 +141,13 @@ class MabaGentleForceExtension extends Extension
                 ->addMethodCall('setStrategyId', [$strategyId])
                 ->addMethodCall('setSuccessMatcher', [$this->buildSuccessMatcher($listenerConfig)])
             ;
-            $requestListenerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
+            $configurationManagerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }
 
         $usedStrategies = array_unique($usedStrategies);
         $container->setParameter('maba_gentle_force.strategy_manager.strategies', $usedStrategies);
 
-        $this->includeStrategyDefinitions($loader, $usedStrategies);
+        $this->includeStrategyDefinitions($loader, $container, $usedStrategies, $config);
         $this->configureStrategies($container, $strategiesConfiguration);
     }
 
@@ -179,14 +179,53 @@ class MabaGentleForceExtension extends Extension
         $predefinedStrategies = [
             'headers' => 'maba_gentle_force.strategy.headers',
             'log' => 'maba_gentle_force.strategy.log',
+            'recaptcha_headers' => 'maba_gentle_force.strategy.recaptcha_headers',
+            'recaptcha_template' => 'maba_gentle_force.strategy.recaptcha_template',
         ];
         return isset($predefinedStrategies[$strategy]) ? $predefinedStrategies[$strategy] : $strategy;
     }
 
-    private function includeStrategyDefinitions(XmlFileLoader $loader, array $usedStrategies)
-    {
+    private function includeStrategyDefinitions(
+        XmlFileLoader $loader,
+        ContainerBuilder $container,
+        array $usedStrategies,
+        array $config
+    ) {
         if (in_array('maba_gentle_force.strategy.log', $usedStrategies, true)) {
             $loader->load('log_strategy.xml');
+        }
+
+        $recaptchaNeeded = false;
+        if (in_array('maba_gentle_force.strategy.recaptcha_headers', $usedStrategies, true)) {
+            $loader->load('recaptcha/headers.xml');
+            $recaptchaNeeded = true;
+        }
+        if (in_array('maba_gentle_force.strategy.recaptcha_template', $usedStrategies, true)) {
+            $loader->load('recaptcha/template.xml');
+            $recaptchaNeeded = true;
+        }
+        if ($recaptchaNeeded) {
+            if (!isset($config['recaptcha'])) {
+                throw new InvalidConfigurationException(
+                    'You need to configure "recaptcha" node to use any of recaptcha_* strategies'
+                );
+            }
+
+            if (!class_exists('ReCaptcha\ReCaptcha')) {
+                throw new InvalidConfigurationException(
+                    'You need to install "google/recaptcha" library to use any of recaptcha_* strategies'
+                );
+            }
+
+            $loader->load('recaptcha/main.xml');
+            $container->setParameter(
+                'maba_gentle_force.recaptcha.site_key',
+                $config['recaptcha']['site_key']
+            );
+            $container->setParameter(
+                'maba_gentle_force.recaptcha.secret',
+                $config['recaptcha']['secret']
+            );
         }
     }
 
@@ -198,6 +237,7 @@ class MabaGentleForceExtension extends Extension
                 $strategiesConfiguration['log']['level']
             );
         }
+
         if (isset($strategiesConfiguration['headers'])) {
             $container->setParameter(
                 'maba_gentle_force.strategy.headers.wait_for_header',
@@ -206,6 +246,20 @@ class MabaGentleForceExtension extends Extension
             $container->setParameter(
                 'maba_gentle_force.strategy.headers.requests_available_header',
                 $strategiesConfiguration['headers']['requests_available_header']
+            );
+        }
+
+        if (isset($strategiesConfiguration['recaptcha_headers'])) {
+            $container->setParameter(
+                'maba_gentle_force.strategy.recaptcha_headers.site_key_header',
+                $strategiesConfiguration['recaptcha_headers']['site_key_header']
+            );
+        }
+
+        if (isset($strategiesConfiguration['recaptcha_template'])) {
+            $container->setParameter(
+                'maba_gentle_force.strategy.recaptcha_template.template',
+                $strategiesConfiguration['recaptcha_template']['template']
             );
         }
     }

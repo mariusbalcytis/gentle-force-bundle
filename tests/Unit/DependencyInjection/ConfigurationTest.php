@@ -320,6 +320,58 @@ class ConfigurationTest extends TestCase
                 ],
                 'advanced_filtering.yml',
             ],
+            [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => 'my_prefix',
+                    ],
+                    'limits' => [
+                        'api_request' => [
+                            [
+                                'max_usages' => 100,
+                                'period' => 3600,
+                            ],
+                        ],
+                    ],
+                    'strategies' => [
+                        'default' => 'headers',
+                        'recaptcha_headers' => [
+                            'site_key_header' => 'Recaptcha-Site-Key',
+                        ],
+                        'recaptcha_template' => [
+                            'template' => 'MabaGentleForceBundle:Recaptcha:unlock.html.twig',
+                        ],
+                    ],
+                    'listeners' => [
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'strategy' => 'recaptcha_headers',
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
+                        ],
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'strategy' => 'recaptcha_template',
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
+                        ],
+                    ],
+                    'recaptcha' => [
+                        'site_key' => 'my_recaptcha_site_key',
+                        'secret' => 'my_recaptcha_secret',
+                    ],
+                ],
+                'recaptcha.yml',
+            ],
         ];
     }
 

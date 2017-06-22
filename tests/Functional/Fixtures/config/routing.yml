@@ -16,3 +16,6 @@ api_2:
 api_3:
     path:      /api3/resource
     defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }
+gentle_force:
+    resource: '@MabaGentleForceBundle/Resources/config/routing.xml'
+    prefix: /prefix

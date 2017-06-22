@@ -34,4 +34,10 @@ class FunctionalInvalidConfigurationTest extends FunctionalRequestTestCase
         $this->setExpectedException(InvalidConfigurationException::class);
         $this->setUpContainer('invalid/strategy.private_service');
     }
+
+    public function testIncompleteRecaptchaConfiguration()
+    {
+        $this->setExpectedException(InvalidConfigurationException::class);
+        $this->setUpContainer('invalid/recaptcha_incomplete');
+    }
 }

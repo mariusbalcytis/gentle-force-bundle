@@ -5,18 +5,30 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <!-- Overwritten in Excention class -->
         <parameter key="maba_gentle_force.strategy.headers.wait_for_header"/>
         <parameter key="maba_gentle_force.strategy.headers.requests_available_header"/>
+
+        <parameter key="maba_gentle_force.whitelist.controllers" type="collection">
+            <parameter>maba_gentle_force.recaptcha.controller:unlock</parameter>
+        </parameter>
     </parameters>
 
     <services>
-        <service id="maba_gentle_force.request_listener"
-                 class="Maba\Bundle\GentleForceBundle\Listener\RequestListener">
+        <service id="maba_gentle_force.configuration_manager"
+                 class="Maba\Bundle\GentleForceBundle\Listener\ConfigurationManager">
             <argument type="service" id="maba_gentle_force.throttler"/>
             <argument type="service" id="maba_gentle_force.request_identifier_provider"/>
             <argument type="service" id="maba_gentle_force.request_matcher"/>
-            <argument type="service" id="maba_gentle_force.strategy_manager"/>
+            <argument>%maba_gentle_force.whitelist.controllers%</argument>
+
             <!-- calls to addConfiguration method are added in the extension -->
+        </service>
+
+        <service id="maba_gentle_force.request_listener"
+                 class="Maba\Bundle\GentleForceBundle\Listener\RequestListener">
+            <argument type="service" id="maba_gentle_force.configuration_manager"/>
+            <argument type="service" id="maba_gentle_force.strategy_manager"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>

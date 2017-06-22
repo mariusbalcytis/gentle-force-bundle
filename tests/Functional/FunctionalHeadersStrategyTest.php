@@ -24,7 +24,7 @@ class FunctionalHeadersStrategyTest extends FunctionalRequestTestCase
             $response->getStatusCode(),
             'Expected request to be blocked'
         );
-        $this->assertSame([0.5], $response->headers->get('Retry-After', [], false));
+        $this->assertRetryAfterHeader(0.5, $response);
 
         $this->sleepUpTo(500);
 
@@ -36,14 +36,19 @@ class FunctionalHeadersStrategyTest extends FunctionalRequestTestCase
             $response->getStatusCode(),
             'Expected request to be blocked'
         );
-        $this->assertSame([0.5], $response->headers->get('Retry-After', [], false));
+        $this->assertRetryAfterHeader(0.5, $response);
     }
 
-    private function assertRequestsAvailable($requestsAvailable, Response $response)
+    protected function assertRequestsAvailable($requestsAvailable, Response $response)
     {
         $this->assertSame(
             [$requestsAvailable],
             $response->headers->get('Request-Limit', [], false)
         );
+    }
+
+    protected function assertRetryAfterHeader($retryAfter, Response $response)
+    {
+        $this->assertSame([$retryAfter], $response->headers->get('Retry-After', [], false));
     }
 }
