@@ -12,11 +12,13 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 class TestKernel extends Kernel
 {
     private $configFile;
+    private $commonFile;
 
-    public function __construct($testCase)
+    public function __construct($testCase, $commonFile = 'common.yml')
     {
         parent::__construct(crc32($testCase), true);
         $this->configFile = $testCase . '.yml';
+        $this->commonFile = $commonFile;
     }
 
     public function registerBundles()
@@ -31,7 +33,7 @@ class TestKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__ . '/config/common.yml');
+        $loader->load(__DIR__ . '/config/' . $this->commonFile);
         $loader->load(__DIR__ . '/config/' . $this->configFile);
     }
 }

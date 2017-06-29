@@ -23,12 +23,13 @@ abstract class FunctionalTestCase extends TestCase
     protected $kernel;
 
     /**
+     * @param string $testCase
+     * @param string $commonFile
      * @return ContainerInterface
-     * @param mixed $testCase
      */
-    protected function setUpContainer($testCase)
+    protected function setUpContainer($testCase, $commonFile = 'common.yml')
     {
-        $this->kernel = new TestKernel($testCase);
+        $this->kernel = new TestKernel($testCase, $commonFile);
         $this->kernel->boot();
         $container = $this->kernel->getContainer();
         $container->get('microtime_provider_mock')->setMockedMicrotime(0);

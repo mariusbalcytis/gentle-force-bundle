@@ -1,18 +1,5 @@
-framework:
-    secret: 'secret'
-    router:
-        resource: '%kernel.root_dir%/config/routing.yml'
-    templating:
-        engines: [twig]
-
-security:
-    providers:
-        in_memory:
-            memory: ~
-    firewalls:
-        main:
-            anonymous: ~
-            stateless: true
+imports:
+    - { resource: 'common_basic.yml' }
 
 services:
     maba_gentle_force.throttler:
@@ -20,9 +7,3 @@ services:
         arguments:
             - '@maba_gentle_force.rate_limit_provider'
             - '@microtime_provider_mock'
-    microtime_provider_mock:
-        class: Maba\GentleForce\InMemory\MicrotimeProvider
-    simple_controller:
-        class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\SimpleController
-    logger:
-        class: Symfony\Component\Debug\BufferingLogger

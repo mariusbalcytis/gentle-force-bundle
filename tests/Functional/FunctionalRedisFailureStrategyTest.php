@@ -10,7 +10,7 @@ class FunctionalRedisFailureStrategyTest extends FunctionalThrottlerTestCase
 {
     public function testFailStrategy()
     {
-        $container = $this->setUpContainer('redis_failure_strategy_fail');
+        $container = $this->setUpContainer('redis_failure_strategy_fail', 'common_basic.yml');
         $throttler = $container->get('maba_gentle_force.throttler');
         $this->setExpectedException(ConnectionException::class);
         $throttler->checkAndIncrease('limit', 'id');
@@ -18,7 +18,7 @@ class FunctionalRedisFailureStrategyTest extends FunctionalThrottlerTestCase
 
     public function testIgnoreStrategy()
     {
-        $container = $this->setUpContainer('redis_failure_strategy_ignore');
+        $container = $this->setUpContainer('redis_failure_strategy_ignore', 'common_basic.yml');
         $throttler = $container->get('maba_gentle_force.throttler');
         $throttler->checkAndIncrease('limit', 'id')->decrease();
 
