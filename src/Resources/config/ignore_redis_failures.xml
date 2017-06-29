@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="maba_gentle_force.failure_handling_throttler"
+                 class="Maba\Bundle\GentleForceBundle\Service\RedisFailureHandler\FailureHandlingThrottler"
+                 decorates="maba_gentle_force.throttler">
+            <argument type="service" id="maba_gentle_force.failure_handling_throttler.inner"/>
+            <argument type="service" id="maba_gentle_force.rate_limit_provider"/>
+            <argument type="service" id="maba_gentle_force.logger"/>
+        </service>
+    </services>
+</container>

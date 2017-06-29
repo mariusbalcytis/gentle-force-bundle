@@ -27,7 +27,7 @@ class MabaGentleForceExtension extends Extension
 
         $container->setParameter('maba_gentle_force.redis_prefix', $config['redis']['prefix']);
 
-        $this->registerRedisClient($container, $config['redis']);
+        $this->registerRedisClient($container, $loader, $config['redis']);
 
         $container->setDefinition(
             'maba_gentle_force.rate_limit_provider',
@@ -78,7 +78,7 @@ class MabaGentleForceExtension extends Extension
         return $limitDefinition;
     }
 
-    private function registerRedisClient(ContainerBuilder $container, array $redisConfig)
+    private function registerRedisClient(ContainerBuilder $container, XmlFileLoader $loader, array $redisConfig)
     {
         if (isset($redisConfig['service_id'])) {
             $container->setAlias('maba_gentle_force.redis_client', $redisConfig['service_id']);
@@ -91,6 +91,10 @@ class MabaGentleForceExtension extends Extension
         }
         $redisClientDefinition = new Definition(Client::class, [$parameters]);
         $container->setDefinition('maba_gentle_force.redis_client', $redisClientDefinition);
+
+        if ($redisConfig['failure_strategy'] === 'ignore') {
+            $loader->load('ignore_redis_failures.xml');
+        }
     }
 
     private function registerListeners(

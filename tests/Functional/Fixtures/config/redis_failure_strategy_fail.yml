@@ -1,0 +1,16 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+        failure_strategy: fail
+    limits:
+        limit:
+            -
+                max_usages: 1
+                period: 1
+
+services:
+    maba_gentle_force.throttler:
+        class: Maba\GentleForce\Throttler
+        arguments:
+            - '@maba_gentle_force.redis_client'
+            - '@maba_gentle_force.rate_limit_provider'

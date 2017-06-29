@@ -23,6 +23,7 @@
             <argument type="service" id="maba_gentle_force.request_identifier_provider"/>
             <argument type="service" id="maba_gentle_force.request_matcher"/>
             <argument>%maba_gentle_force.whitelist.controllers%</argument>
+            <argument type="service" id="maba_gentle_force.logger"/>
 
             <!-- calls to addConfiguration method are added in the extension -->
         </service>

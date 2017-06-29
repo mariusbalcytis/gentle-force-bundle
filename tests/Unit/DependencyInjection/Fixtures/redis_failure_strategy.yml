@@ -1,0 +1,5 @@
+maba_gentle_force:
+    redis:
+        service_id: redis_service_id
+        prefix: my_prefix
+        failure_strategy: ignore

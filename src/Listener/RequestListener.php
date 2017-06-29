@@ -25,10 +25,10 @@ class RequestListener implements EventSubscriberInterface
         ConfigurationManager $configurationManager,
         StrategyManager $strategyManager
     ) {
+        $this->requestResults = new SplObjectStorage();
+
         $this->configurationManager = $configurationManager;
         $this->strategyManager = $strategyManager;
-
-        $this->requestResults = new SplObjectStorage();
     }
 
     public function onRequest(GetResponseEvent $event)

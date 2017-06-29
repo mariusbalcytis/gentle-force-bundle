@@ -53,6 +53,7 @@ class ConfigurationTest extends TestCase
                     'redis' => [
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [
                         '2_in_03_no_bucketed' => [
@@ -104,6 +105,7 @@ class ConfigurationTest extends TestCase
                     'redis' => [
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [
                         '10_s' => [
@@ -156,6 +158,7 @@ class ConfigurationTest extends TestCase
                     'redis' => [
                         'service_id' => 'redis_service_id',
                         'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [],
                     'strategies' => [
@@ -174,8 +177,30 @@ class ConfigurationTest extends TestCase
             [
                 [
                     'redis' => [
+                        'service_id' => 'redis_service_id',
+                        'prefix' => 'my_prefix',
+                        'failure_strategy' => 'ignore',
+                    ],
+                    'limits' => [],
+                    'strategies' => [
+                        'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
+                    ],
+                    'listeners' => [],
+                ],
+                'redis_failure_strategy.yml',
+            ],
+            [
+                [
+                    'redis' => [
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [
                         'api_request' => [
@@ -222,6 +247,7 @@ class ConfigurationTest extends TestCase
                     'redis' => [
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [
                         'api_request' => [
@@ -283,6 +309,7 @@ class ConfigurationTest extends TestCase
                     'redis' => [
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [
                         'api_request' => [
@@ -321,6 +348,7 @@ class ConfigurationTest extends TestCase
                     'redis' => [
                         'host' => 'localhost',
                         'prefix' => null,
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [],
                     'strategies' => [
@@ -360,6 +388,7 @@ class ConfigurationTest extends TestCase
                     'redis' => [
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [
                         'api_request' => [
@@ -415,6 +444,7 @@ class ConfigurationTest extends TestCase
                     'redis' => [
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
                     ],
                     'limits' => [
                         'api_request' => [

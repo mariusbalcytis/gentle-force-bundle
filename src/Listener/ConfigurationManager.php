@@ -5,6 +5,7 @@ namespace Maba\Bundle\GentleForceBundle\Listener;
 use Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider;
 use Maba\GentleForce\Exception\RateLimitReachedException;
 use Maba\GentleForce\ThrottlerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ConfigurationManager
@@ -18,17 +19,20 @@ class ConfigurationManager
     private $requestIdentifierProvider;
     private $requestMatcher;
     private $whitelistedControllers;
+    private $logger;
 
     public function __construct(
         ThrottlerInterface $throttler,
         RequestIdentifierProvider $requestIdentifierProvider,
         RequestMatcher $requestMatcher,
-        array $whitelistedControllers
+        array $whitelistedControllers,
+        LoggerInterface $logger
     ) {
         $this->throttler = $throttler;
         $this->requestIdentifierProvider = $requestIdentifierProvider;
         $this->requestMatcher = $requestMatcher;
         $this->whitelistedControllers = $whitelistedControllers;
+        $this->logger = $logger;
     }
 
     public function addConfiguration(ListenerConfiguration $configuration)
@@ -78,6 +82,10 @@ class ConfigurationManager
             );
         } catch (RateLimitReachedException $exception) {
             $compositeResult->handleRateLimitReachedException($exception, $configuration);
+            $this->logger->info('Rate limit exceeded', [
+                'limits_key' => $configuration->getLimitsKey(),
+                'identifier' => $identifier,
+            ]);
         }
     }
 
@@ -100,5 +108,10 @@ class ConfigurationManager
         }
 
         $this->throttler->reset($configuration->getLimitsKey(), $identifier);
+
+        $this->logger->info('Rate limits has been reset', [
+            'limits_key' => $configuration->getLimitsKey(),
+            'identifier' => $identifier,
+        ]);
     }
 }

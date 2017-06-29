@@ -32,6 +32,12 @@ class Configuration implements ConfigurationInterface
         $builder->scalarNode('host');
         $builder->scalarNode('service_id');
         $builder->scalarNode('prefix')->defaultNull();
+        $builder->scalarNode('failure_strategy')
+            ->defaultValue('fail')
+            ->validate()
+            ->ifNotInArray(['fail', 'ignore'])
+            ->thenInvalid('One of "fail" or "ignore" expected')
+        ;
 
         $node->validate()->ifTrue(function ($nodeConfig) {
             return isset($nodeConfig['host']) && isset($nodeConfig['service_id']);
@@ -51,11 +57,11 @@ class Configuration implements ConfigurationInterface
 
         $limitChildren = $limitPrototype->children();
         $limitChildren->scalarNode('max_usages')->isRequired();
-        $limitChildren->scalarNode('period')->isRequired()->validate()->always(function($value) {
+        $limitChildren->scalarNode('period')->isRequired()->validate()->always(function ($value) {
             return $this->parsePeriod($value);
         });
         $limitChildren->scalarNode('bucketed_usages');
-        $limitChildren->scalarNode('bucketed_period')->validate()->always(function($value) {
+        $limitChildren->scalarNode('bucketed_period')->validate()->always(function ($value) {
             return $this->parsePeriod($value);
         });
     }

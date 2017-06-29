@@ -24,3 +24,5 @@ services:
         class: Maba\GentleForce\InMemory\MicrotimeProvider
     simple_controller:
         class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\SimpleController
+    logger:
+        class: Symfony\Component\Debug\BufferingLogger

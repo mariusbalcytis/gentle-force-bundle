@@ -2,6 +2,7 @@
 
 namespace Maba\Bundle\GentleForceBundle;
 
+use Maba\Bundle\GentleForceBundle\DependencyInjection\EnsureLoggerCompilerPass;
 use Maba\Bundle\GentleForceBundle\DependencyInjection\StrategyValidationCompilerPass;
 use Maba\Component\DependencyInjection\AddTaggedCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,5 +19,6 @@ class MabaGentleForceBundle extends Bundle
             ['identifierType']
         ));
         $container->addCompilerPass(new StrategyValidationCompilerPass());
+        $container->addCompilerPass(new EnsureLoggerCompilerPass('maba_gentle_force.logger'));
     }
 }
