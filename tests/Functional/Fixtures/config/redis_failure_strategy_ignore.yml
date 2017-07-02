@@ -1,6 +1,6 @@
 maba_gentle_force:
     redis:
-        host: localhost
+        host: 127.0.0.1:9999
         failure_strategy: ignore
     limits:
         limit:
