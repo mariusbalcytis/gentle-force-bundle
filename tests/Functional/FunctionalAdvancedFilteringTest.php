@@ -48,6 +48,7 @@ class FunctionalAdvancedFilteringTest extends FunctionalRequestTestCase
         $request = $this->createRequest(self::PATH_API1, self::DEFAULT_IP);
         $request->server->set('REQUEST_METHOD', $method);
         $request->headers->set('HOST', $host);
+
         return $request;
     }
 

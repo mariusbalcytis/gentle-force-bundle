@@ -31,6 +31,7 @@ class ConfigurationTest extends TestCase
             $this->processForFile($configFilename);
         } catch (InvalidConfigurationException $exception) {
             $this->addToAssertionCount(1);
+
             return;
         }
 
@@ -42,6 +43,7 @@ class ConfigurationTest extends TestCase
         $fullConfiguration = Yaml::parse(file_get_contents(__DIR__ . '/Fixtures/' . $configFilename));
         $configuration = new Configuration();
         $processor = new Processor();
+
         return $processor->processConfiguration($configuration, [$fullConfiguration['maba_gentle_force']]);
     }
 

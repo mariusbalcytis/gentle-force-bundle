@@ -44,6 +44,7 @@ class RequestListener implements EventSubscriberInterface
             if ($response !== null) {
                 $event->setResponse($response);
             }
+
             return;
         }
 

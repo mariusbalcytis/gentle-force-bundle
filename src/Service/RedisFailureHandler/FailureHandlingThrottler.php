@@ -38,6 +38,7 @@ class FailureHandlingThrottler implements ThrottlerInterface
         foreach ($this->rateLimitProvider->getRateLimits($useCaseKey) as $rateLimit) {
             $usagesAvailable = max($rateLimit->calculateBucketSize(), $usagesAvailable);
         }
+
         return new IncreaseResult(new NoopThrottler(), $usagesAvailable, $useCaseKey, $identifier);
     }
 

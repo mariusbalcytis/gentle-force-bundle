@@ -38,6 +38,7 @@ class HeadersStrategy implements ResponseModifyingStrategyInterface
         if ($this->waitForHeader !== null) {
             $headers[$this->waitForHeader] = $result->getWaitForInSeconds();
         }
+
         return new Response($this->content, Response::HTTP_TOO_MANY_REQUESTS, $headers);
     }
 

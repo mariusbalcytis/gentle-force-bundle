@@ -29,6 +29,7 @@ class IdentifierHelper
 
             $identifiers[$identifierType] = $identifier;
         }
+
         return json_encode($identifiers);
     }
 
@@ -40,6 +41,7 @@ class IdentifierHelper
 
         $identifier = $this->identifierProvider->getIdentifier($identifierType, $this->request);
         $this->identifiers[$identifierType] = $identifier;
+
         return $identifier;
     }
 }

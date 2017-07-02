@@ -68,6 +68,7 @@ class HeadersStrategyTest extends TestCase
             new RateLimitReachedException(10),
             $this->buildConfiguration()
         );
+
         return $result;
     }
 

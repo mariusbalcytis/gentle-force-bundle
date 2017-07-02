@@ -62,6 +62,7 @@ class ConfigurationManager
     private function isWhitelisted($request)
     {
         $controller = $request->attributes->get('_controller');
+
         return $controller !== null && in_array($controller, $this->whitelistedControllers, true);
     }
 

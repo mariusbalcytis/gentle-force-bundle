@@ -136,6 +136,7 @@ class Configuration implements ConfigurationInterface
                         sprintf('Status code %s is invalid', $statusCode)
                     );
                 }
+
                 return $validatedStatusCode;
             }, $list);
         });
@@ -154,6 +155,7 @@ class Configuration implements ConfigurationInterface
             if (count($configuration['failure_statuses']) > 0) {
                 $count++;
             }
+
             return $count > 1;
         })->thenInvalid('Only one of success_matcher, success_statuses and failure_statuses can be specified');
     }

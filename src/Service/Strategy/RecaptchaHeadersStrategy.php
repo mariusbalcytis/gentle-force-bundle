@@ -37,6 +37,7 @@ class RecaptchaHeadersStrategy implements ResponseModifyingStrategyInterface
         }
 
         $response->headers->set($this->headerName, $this->siteKey, true);
+
         return $response;
     }
 

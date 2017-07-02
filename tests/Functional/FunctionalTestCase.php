@@ -33,6 +33,7 @@ abstract class FunctionalTestCase extends TestCase
         $this->kernel->boot();
         $container = $this->kernel->getContainer();
         $container->get('microtime_provider_mock')->setMockedMicrotime(0);
+
         return $container;
     }
 
