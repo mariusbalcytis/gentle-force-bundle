@@ -19,7 +19,8 @@ configured number of attempts will be possible;
 - can have several limits configured for single use-case (for example maximum of
 100 requests per minute and 200 per hour);
 - does not make assumptions about where and what it's used for - it can be used
-with user identifiers, API tokens, IP addresses or any other data to group usages.
+with user identifiers, API tokens, IP addresses or any other data to group usages;
+- provides integration with [Google reCAPTCHA](https://www.google.com/recaptcha/). 
 
 ## Installation
 
@@ -169,7 +170,7 @@ will not be limited at all.
 
 #### Handling successful requests
 
-For brute-force attempts, you need to check if request was successful or not.
+For brute-force attempts, bundle needs to check if request was successful or not.
 By design, bundle checks and increases usage count in advance, even before
 checking if everything is fine. Thus, if request was valid, this count must
 be decreased.
@@ -200,9 +201,9 @@ be used by JavaScript code to initiate recaptcha widget;
 - `recaptcha_template`. Returns HTML response with recaptcha widget.
 After successfully submitting recaptcha, current page is refreshed.
 
-You can configure and use you own strategy - just provide service ID
+You can configure and use your own strategy - just provide service ID
 instead of pre-configured key. Strategy must implement `StrategyInterface`
-and optionally `ResponseModifyingStrategyInterface` to modify requests.
+and optionally `ResponseModifyingStrategyInterface` to modify successful responses.
 
 #### Headers
 
@@ -329,8 +330,16 @@ class UserAgentProvider implements IdentifierProviderInterface
 ```xml
 <service class="Acme\UserAgentProvider">
     <tag name="maba_gentle_force.identifier_provider"
-         identifierType="username"/>
+         identifierType="user_agent"/>
 </service>
+```
+
+```yaml
+# ...
+    listeners:
+        - limits_key: api_request
+                # limit by IP and User-Agent combination
+          identifiers: [ip, user_agent]
 ```
 
 ## Advanced usage
