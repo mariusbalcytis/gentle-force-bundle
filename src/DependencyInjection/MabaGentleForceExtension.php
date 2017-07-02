@@ -80,8 +80,13 @@ class MabaGentleForceExtension extends Extension
 
     private function registerRedisClient(ContainerBuilder $container, XmlFileLoader $loader, array $redisConfig)
     {
+        if ($redisConfig['failure_strategy'] === 'ignore') {
+            $loader->load('ignore_redis_failures.xml');
+        }
+
         if (isset($redisConfig['service_id'])) {
             $container->setAlias('maba_gentle_force.redis_client', $redisConfig['service_id']);
+
             return;
         }
 
@@ -91,10 +96,6 @@ class MabaGentleForceExtension extends Extension
         }
         $redisClientDefinition = new Definition(Client::class, [$parameters]);
         $container->setDefinition('maba_gentle_force.redis_client', $redisClientDefinition);
-
-        if ($redisConfig['failure_strategy'] === 'ignore') {
-            $loader->load('ignore_redis_failures.xml');
-        }
     }
 
     private function registerListeners(
@@ -186,6 +187,7 @@ class MabaGentleForceExtension extends Extension
             'recaptcha_headers' => 'maba_gentle_force.strategy.recaptcha_headers',
             'recaptcha_template' => 'maba_gentle_force.strategy.recaptcha_template',
         ];
+
         return isset($predefinedStrategies[$strategy]) ? $predefinedStrategies[$strategy] : $strategy;
     }
 
