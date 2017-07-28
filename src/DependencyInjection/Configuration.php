@@ -29,7 +29,14 @@ class Configuration implements ConfigurationInterface
     private function configureRedis(ArrayNodeDefinition $node)
     {
         $builder = $node->children();
-        $builder->scalarNode('host');
+        $builder->scalarNode('host')->defaultValue('localhost')->end();
+        $builder->arrayNode('parameters')->prototype('scalar')->end();
+        $builder->arrayNode('options')
+            ->children()->scalarNode('replication')->end()->end()
+            ->children()->scalarNode('service')->end()->end()
+            ->children()->arrayNode('parameters')
+                ->children()->scalarNode('password')->end()->end()
+            ->end();
         $builder->scalarNode('service_id');
         $builder->scalarNode('prefix')->defaultNull();
         $builder->scalarNode('failure_strategy')
@@ -40,8 +47,12 @@ class Configuration implements ConfigurationInterface
         ;
 
         $node->validate()->ifTrue(function ($nodeConfig) {
-            return isset($nodeConfig['host']) && isset($nodeConfig['service_id']);
-        })->thenInvalid('Only one of host and service_id must be provided');
+            return isset($nodeConfig['host'])
+                && isset($nodeConfig['service_id'])
+                && isset($nodeConfig['parameters'])
+                && isset($nodeConfig['options'])
+            ;
+        })->thenInvalid('Only one of host, service_id or parameters and options must be provided');
     }
 
     private function configureLimits(ArrayNodeDefinition $node)

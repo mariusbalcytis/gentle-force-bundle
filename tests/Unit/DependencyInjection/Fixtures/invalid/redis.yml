@@ -3,3 +3,5 @@ maba_gentle_force:
         host: localhost
         service_id: abc
         prefix: my_prefix
+        parameters: []
+        options: []

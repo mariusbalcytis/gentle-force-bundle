@@ -56,6 +56,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         '2_in_03_no_bucketed' => [
@@ -108,6 +109,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         '10_s' => [
@@ -158,9 +160,11 @@ class ConfigurationTest extends TestCase
             [
                 [
                     'redis' => [
+                        'host' => 'localhost',
                         'service_id' => 'redis_service_id',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [],
                     'strategies' => [
@@ -179,9 +183,11 @@ class ConfigurationTest extends TestCase
             [
                 [
                     'redis' => [
+                        'host' => 'localhost',
                         'service_id' => 'redis_service_id',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'ignore',
+                        'parameters' => [],
                     ],
                     'limits' => [],
                     'strategies' => [
@@ -203,6 +209,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
@@ -250,6 +257,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
@@ -312,6 +320,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
@@ -351,6 +360,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => null,
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [],
                     'strategies' => [
@@ -391,6 +401,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
@@ -447,6 +458,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
