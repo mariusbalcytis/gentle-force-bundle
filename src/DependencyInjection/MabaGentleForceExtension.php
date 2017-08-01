@@ -89,14 +89,13 @@ class MabaGentleForceExtension extends Extension
             return;
         }
 
-        $parameters = ['host' => $redisConfig['host']];
+        $parameters = [];
         $options = null;
 
-        if (isset($redisConfig['parameters'])) {
+        if (isset($redisConfig['host'])) {
+            $parameters = ['host' => $redisConfig['host']];
+        } elseif (isset($redisConfig['parameters']) && count($redisConfig['parameters']) > 0) {
             $parameters = $redisConfig['parameters'];
-        }
-
-        if (isset($redisConfig['options'])) {
             $options = $redisConfig['options'];
         }
 
