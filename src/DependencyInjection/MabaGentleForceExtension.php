@@ -126,7 +126,7 @@ class MabaGentleForceExtension extends Extension
 
         $usedStrategies = [];
         $defaultStrategyId = $this->getServiceIdForStrategy($strategiesConfiguration['default']);
-        $configurationManagerDefinition = $container->getDefinition('maba_gentle_force.configuration_manager');
+        $configurationRegistryDefinition = $container->getDefinition('maba_gentle_force.configuration_registry');
 
         foreach ($listenerConfigList as $listenerConfig) {
             $strategyId = isset($listenerConfig['strategy'])
@@ -152,7 +152,7 @@ class MabaGentleForceExtension extends Extension
                 ->addMethodCall('setStrategyId', [$strategyId])
                 ->addMethodCall('setSuccessMatcher', [$this->buildSuccessMatcher($listenerConfig)])
             ;
-            $configurationManagerDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
+            $configurationRegistryDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }
 
         $usedStrategies = array_unique($usedStrategies);

@@ -2,19 +2,25 @@
 
 namespace Maba\Bundle\GentleForceBundle\Listener;
 
+use Maba\Bundle\GentleForceBundle\Service\IdentifierBuilder;
 use Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider;
 use Symfony\Component\HttpFoundation\Request;
 
 class IdentifierHelper
 {
     private $identifierProvider;
+    private $identifierBuilder;
     private $request;
 
     private $identifiers = [];
 
-    public function __construct(RequestIdentifierProvider $identifierProvider, Request $request)
-    {
+    public function __construct(
+        RequestIdentifierProvider $identifierProvider,
+        IdentifierBuilder $identifierBuilder,
+        Request $request
+    ) {
         $this->identifierProvider = $identifierProvider;
+        $this->identifierBuilder = $identifierBuilder;
         $this->request = $request;
     }
 

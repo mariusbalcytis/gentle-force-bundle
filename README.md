@@ -389,6 +389,16 @@ if ($credentialsValid) {
 }
 ```
 
+## Resetting specific limits manually
+
+There are two commands that can reset the limit manually, if needed.
+
+`maba:gentle-force:reset` command interactively asks for wanted listener configuration and each identifier
+(like username, IP etc.)
+
+`maba:gentle-force:reset-limit` command takes 2 arguments - limit key and identifier to reset the limit. This
+could be used when limits are set with advanced usage and concrete identifier to use is known.
+
 ## Semantic versioning
 
 This bundle follows [semantic versioning](http://semver.org/spec/v2.0.0.html).

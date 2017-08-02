@@ -4,6 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <!-- Other files are imported directly from Extension class -->
+    <imports>
+        <import resource="commands.xml"/>
+    </imports>
+    
     <!-- Overwritten in Excention class -->
     <parameters>
         <parameter key="maba_gentle_force.redis_prefix"/>
@@ -14,6 +19,16 @@
             <argument type="service" id="maba_gentle_force.redis_client"/>
             <argument type="service" id="maba_gentle_force.rate_limit_provider"/>
             <argument>%maba_gentle_force.redis_prefix%</argument>
+        </service>
+
+        <service id="maba_gentle_force.identifier_builder"
+                 class="Maba\Bundle\GentleForceBundle\Service\IdentifierBuilder"
+                 public="true"/>
+
+        <service id="maba_gentle_force.configuration_registry"
+                 class="Maba\Bundle\GentleForceBundle\Listener\ConfigurationRegistry"
+                 public="false">
+            <!-- calls to addConfiguration method are added in the extension -->
         </service>
     </services>
 </container>
