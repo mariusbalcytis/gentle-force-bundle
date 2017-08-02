@@ -22,6 +22,8 @@ class RequestIdentifierProvider
      * @param string $identifierType
      * @param Request $request
      * @return null|string
+     *
+     * @api
      */
     public function getIdentifier($identifierType, Request $request)
     {

@@ -21,7 +21,7 @@
             </argument>
         </service>
 
-        <service id="maba_gentle_force.recaptcha" class="ReCaptcha\ReCaptcha">
+        <service id="maba_gentle_force.recaptcha" class="ReCaptcha\ReCaptcha" public="false">
             <argument>%maba_gentle_force.recaptcha.secret%</argument>
         </service>
     </services>

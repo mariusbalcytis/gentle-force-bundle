@@ -18,7 +18,8 @@
 
     <services>
         <service id="maba_gentle_force.configuration_manager"
-                 class="Maba\Bundle\GentleForceBundle\Listener\ConfigurationManager">
+                 class="Maba\Bundle\GentleForceBundle\Listener\ConfigurationManager"
+                 public="false">
             <argument type="service" id="maba_gentle_force.throttler"/>
             <argument type="service" id="maba_gentle_force.request_identifier_provider"/>
             <argument type="service" id="maba_gentle_force.request_matcher"/>
@@ -37,8 +38,7 @@
         </service>
 
         <service id="maba_gentle_force.request_identifier_provider"
-                 class="Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider"
-                 public="false">
+                 class="Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider">
             <!-- registerIdentifierProvider is called for each service tagged with
                     maba_gentle_force.identifier_provider with tag attribute's identifierType value -->
         </service>

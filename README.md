@@ -393,8 +393,21 @@ if ($credentialsValid) {
 
 This bundle follows [semantic versioning](http://semver.org/spec/v2.0.0.html).
 
-See [Symfony BC rules](http://symfony.com/doc/current/contributing/code/bc.html) for basic
-information about what can be changed and what not in the API.
+Public API of this bundle (in other words, you should only use these features if you want to easily update
+to new versions):
+- only services that are not marked as `public="false"`
+- only classes, interfaces and class methods that are marked with `@api`
+- console commands
+- supported DIC tags
+- configuration reference
+- routing keys and controllers with routes
+
+For example, if only class method is marked with `@api`, you should not extend that class, as constructor
+could change in any release.
+
+See [Symfony BC rules](https://symfony.com/doc/current/contributing/code/bc.html) for basic information
+about what can be changed and what not in the API. Keep in mind, that in this bundle everything is
+`@internal` by default.
 
 ## Running tests
 
