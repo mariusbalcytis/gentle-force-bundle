@@ -1,0 +1,11 @@
+maba_gentle_force:
+    redis:
+        parameters:
+          - 'tcp://127.0.0.1:17000'
+          - 'tcp://127.0.0.1:17001'
+          - 'tcp://127.0.0.1:17002'
+        options:
+            replication: sentinel
+            service: master
+            parameters:
+                password: pass

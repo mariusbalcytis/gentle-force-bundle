@@ -86,15 +86,20 @@ class MabaGentleForceExtension extends Extension
 
         if (isset($redisConfig['service_id'])) {
             $container->setAlias('maba_gentle_force.redis_client', $redisConfig['service_id']);
-
             return;
         }
 
-        $parameters = null;
+        $parameters = [];
+        $options = null;
+
         if (isset($redisConfig['host'])) {
             $parameters = ['host' => $redisConfig['host']];
+        } elseif (isset($redisConfig['parameters']) && count($redisConfig['parameters']) > 0) {
+            $parameters = $redisConfig['parameters'];
+            $options = $redisConfig['options'];
         }
-        $redisClientDefinition = new Definition(Client::class, [$parameters]);
+
+        $redisClientDefinition = new Definition(Client::class, [$parameters, $options]);
         $container->setDefinition('maba_gentle_force.redis_client', $redisClientDefinition);
     }
 

@@ -246,7 +246,8 @@ for more information.
 ### Redis
 
 To configure redis client, either use `host` (defaults to `localhost`)
-or `service_id` to provide custom `Predis\Redis` service.
+or `parameters` and `options` (allows to configure connection to redis sentinels)
+or `service_id` to provide custom `Predis\Redis` service
 
 You can configure `prefix` for additional prefix for all created keys.
 
@@ -261,6 +262,12 @@ instead of unhandled exception causing `500` responses.
 maba_gentle_force:
     redis:
         host:                 ~
+        parameters:           []
+        options: 
+            replication:      ~
+            service:          ~
+            parameters:
+                password:     ~
         service_id:           ~
         prefix:               ~
         failure_strategy:     fail

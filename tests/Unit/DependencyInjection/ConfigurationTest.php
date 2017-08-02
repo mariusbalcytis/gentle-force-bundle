@@ -56,6 +56,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         '2_in_03_no_bucketed' => [
@@ -108,6 +109,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         '10_s' => [
@@ -161,6 +163,7 @@ class ConfigurationTest extends TestCase
                         'service_id' => 'redis_service_id',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [],
                     'strategies' => [
@@ -176,12 +179,45 @@ class ConfigurationTest extends TestCase
                 ],
                 'redis_service_id.yml',
             ],
+            'Redis sentinel case' => [
+                [
+                    'redis' => [
+                        'prefix' => null,
+                        'failure_strategy' => 'fail',
+                        'parameters' => [
+                            'tcp://127.0.0.1:17000',
+                            'tcp://127.0.0.1:17001',
+                            'tcp://127.0.0.1:17002',
+                        ],
+                        'options' => [
+                            'replication' => 'sentinel',
+                            'service' => 'master',
+                            'parameters' => [
+                                'password' => 'pass'
+                            ]
+                        ]
+                    ],
+                    'limits' => [],
+                    'strategies' => [
+                        'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
+                    ],
+                    'listeners' => [],
+                ],
+                'redis_sentinel.yml',
+            ],
             [
                 [
                     'redis' => [
                         'service_id' => 'redis_service_id',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'ignore',
+                        'parameters' => [],
                     ],
                     'limits' => [],
                     'strategies' => [
@@ -203,6 +239,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
@@ -250,6 +287,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
@@ -312,6 +350,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
@@ -351,6 +390,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => null,
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [],
                     'strategies' => [
@@ -391,6 +431,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
@@ -447,6 +488,7 @@ class ConfigurationTest extends TestCase
                         'host' => 'localhost',
                         'prefix' => 'my_prefix',
                         'failure_strategy' => 'fail',
+                        'parameters' => [],
                     ],
                     'limits' => [
                         'api_request' => [
