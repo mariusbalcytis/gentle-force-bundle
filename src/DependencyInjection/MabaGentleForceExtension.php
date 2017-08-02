@@ -86,6 +86,7 @@ class MabaGentleForceExtension extends Extension
 
         if (isset($redisConfig['service_id'])) {
             $container->setAlias('maba_gentle_force.redis_client', $redisConfig['service_id']);
+
             return;
         }
 

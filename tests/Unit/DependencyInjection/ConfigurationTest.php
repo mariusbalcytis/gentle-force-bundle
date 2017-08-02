@@ -193,9 +193,9 @@ class ConfigurationTest extends TestCase
                             'replication' => 'sentinel',
                             'service' => 'master',
                             'parameters' => [
-                                'password' => 'pass'
-                            ]
-                        ]
+                                'password' => 'pass',
+                            ],
+                        ],
                     ],
                     'limits' => [],
                     'strategies' => [
