@@ -6,21 +6,19 @@
 
     <services>
         <service id="maba_gentle_force.command.reset"
-                 class="Maba\Bundle\GentleForceBundle\Command\ResetCommand"
-                 public="false">
+                 class="Maba\Bundle\GentleForceBundle\Command\ResetCommand">
             <argument type="service" id="maba_gentle_force.throttler"/>
             <argument type="service" id="maba_gentle_force.identifier_builder"/>
             <argument type="service" id="maba_gentle_force.configuration_registry"/>
 
-            <tag name="console.command"/>
+            <tag name="console.command" command="maba:gentle-force:reset"/>
         </service>
 
         <service id="maba_gentle_force.command.reset_limit"
-                 class="Maba\Bundle\GentleForceBundle\Command\ResetLimitCommand"
-                 public="false">
+                 class="Maba\Bundle\GentleForceBundle\Command\ResetLimitCommand">
             <argument type="service" id="maba_gentle_force.throttler"/>
 
-            <tag name="console.command"/>
+            <tag name="console.command" command="maba:gentle-force:reset-limit"/>
         </service>
     </services>
 </container>
