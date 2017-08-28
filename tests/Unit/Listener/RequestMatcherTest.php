@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Maba\Bundle\GentleForce\Tests\Unit\Listener;
 
 use Maba\Bundle\GentleForceBundle\Listener\ListenerConfiguration;
@@ -43,11 +42,11 @@ class RequestMatcherTest extends TestCase
         return [
             'case_empty_request' => [
                 true,
-                Request::create('/lt/api/rest/v1/resource')
+                Request::create('/lt/api/rest/v1/resource'),
             ],
             'case_request_has_get_parameters' => [
                 true,
-                Request::create('/lt/api/rest/v1/resource', 'GET', ['param' => 'value'])
+                Request::create('/lt/api/rest/v1/resource', 'GET', ['param' => 'value']),
             ],
         ];
     }
