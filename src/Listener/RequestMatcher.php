@@ -25,7 +25,7 @@ class RequestMatcher
 
     private function pathMatches(ListenerConfiguration $configuration, Request $request)
     {
-        return preg_match($configuration->getPathPattern(), $request->getRequestUri()) === 1;
+        return preg_match($configuration->getPathPattern(), $request->getPathInfo()) === 1;
     }
 
     private function methodMatches(ListenerConfiguration $configuration, Request $request)
