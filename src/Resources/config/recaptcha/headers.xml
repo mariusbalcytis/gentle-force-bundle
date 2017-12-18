@@ -11,7 +11,8 @@
 
     <services>
         <service id="maba_gentle_force.strategy.recaptcha_headers"
-                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\RecaptchaHeadersStrategy">
+                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\RecaptchaHeadersStrategy"
+                 public="true">
             <argument type="service" id="maba_gentle_force.strategy.headers"/>
             <argument>%maba_gentle_force.strategy.recaptcha_headers.site_key_header%</argument>
             <argument>%maba_gentle_force.recaptcha.site_key%</argument>

@@ -44,6 +44,5 @@
         "psr-4": {
             "Maba\\Bundle\\GentleForceBundle\\Tests\\": "tests"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

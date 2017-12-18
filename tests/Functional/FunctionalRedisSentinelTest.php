@@ -10,7 +10,7 @@ class FunctionalRedisSentinelTest extends FunctionalThrottlerTestCase
     {
         $container = $this->setUpContainer('redis_sentinel');
         /** @var OptionsInterface $options */
-        $options = $container->get('maba_gentle_force.redis_client')->getOptions();
+        $options = $container->get('test.maba_gentle_force.redis_client')->getOptions();
 
         $this->assertTrue($options->defined('replication'));
         $this->assertTrue($options->defined('service'));

@@ -15,7 +15,7 @@
     </parameters>
 
     <services>
-        <service id="maba_gentle_force.throttler" class="Maba\GentleForce\Throttler">
+        <service id="maba_gentle_force.throttler" class="Maba\GentleForce\Throttler" public="true">
             <argument type="service" id="maba_gentle_force.redis_client"/>
             <argument type="service" id="maba_gentle_force.rate_limit_provider"/>
             <argument>%maba_gentle_force.redis_prefix%</argument>

@@ -29,7 +29,9 @@ services:
         class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\CustomStrategy
         arguments:
             - try later
+        public: true
     custom.strategy.response_200_too_many_requests:
         class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\CustomStrategy
         arguments:
             - too many requests
+        public: true

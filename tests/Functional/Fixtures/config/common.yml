@@ -4,6 +4,7 @@ imports:
 services:
     maba_gentle_force.throttler:
         class: Maba\GentleForce\InMemory\InMemoryThrottler
+        public: true
         arguments:
             - '@maba_gentle_force.rate_limit_provider'
             - '@microtime_provider_mock'

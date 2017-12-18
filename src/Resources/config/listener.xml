@@ -38,12 +38,14 @@
         </service>
 
         <service id="maba_gentle_force.request_identifier_provider"
-                 class="Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider">
+                 class="Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider"
+                 public="false">
             <!-- registerIdentifierProvider is called for each service tagged with
                     maba_gentle_force.identifier_provider with tag attribute's identifierType value -->
         </service>
 
-        <service class="Maba\Bundle\GentleForceBundle\Service\IdentifierProvider\IpProvider"
+        <service id="Maba\Bundle\GentleForceBundle\Service\IdentifierProvider\IpProvider"
+                 class="Maba\Bundle\GentleForceBundle\Service\IdentifierProvider\IpProvider"
                  public="false">
             <tag name="maba_gentle_force.identifier_provider" identifierType="ip"/>
         </service>
@@ -60,7 +62,8 @@
         </service>
 
         <service id="maba_gentle_force.strategy.headers"
-                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\HeadersStrategy">
+                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\HeadersStrategy"
+                 public="true">
             <argument>%maba_gentle_force.strategy.headers.wait_for_header%</argument>
             <argument>%maba_gentle_force.strategy.headers.requests_available_header%</argument>
             <argument>%maba_gentle_force.strategy.headers.content%</argument>

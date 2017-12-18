@@ -11,7 +11,8 @@
 
     <services>
         <service id="maba_gentle_force.strategy.log"
-                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\LogStrategy">
+                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\LogStrategy"
+                 public="true">
             <argument type="service" id="logger"/>
             <argument>%maba_gentle_force.strategy.log.level%</argument>
         </service>

@@ -17,7 +17,13 @@ security:
 services:
     microtime_provider_mock:
         class: Maba\GentleForce\InMemory\MicrotimeProvider
+        public: true
     simple_controller:
         class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\SimpleController
+        public: true
     logger:
         class: Symfony\Component\Debug\BufferingLogger
+        public: true
+    test.maba_gentle_force.redis_client:
+        alias: maba_gentle_force.redis_client
+        public: true

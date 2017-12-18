@@ -11,7 +11,8 @@
 
     <services>
         <service id="maba_gentle_force.strategy.recaptcha_template"
-                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\RecaptchaTemplateStrategy">
+                 class="Maba\Bundle\GentleForceBundle\Service\Strategy\RecaptchaTemplateStrategy"
+                 public="true">
             <argument type="service" id="templating"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="router"/>

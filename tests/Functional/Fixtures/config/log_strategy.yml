@@ -19,3 +19,4 @@ maba_gentle_force:
 services:
     logger:
         class: Symfony\Component\HttpKernel\Tests\Logger
+        public: true
