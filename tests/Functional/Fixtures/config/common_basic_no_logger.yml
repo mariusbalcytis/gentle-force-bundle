@@ -1,0 +1,36 @@
+framework:
+    secret: 'secret'
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
+    templating:
+        engines: [twig]
+
+security:
+    providers:
+        in_memory:
+            memory:
+                users:
+                    user1:
+                        password: pass
+                        roles: 'ROLE_USER'
+                    user2:
+                        password: pass
+                        roles: 'ROLE_USER'
+    firewalls:
+        main:
+            anonymous: ~
+            http_basic: ~
+            stateless: true
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
+services:
+    microtime_provider_mock:
+        class: Maba\GentleForce\InMemory\MicrotimeProvider
+        public: true
+    simple_controller:
+        class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\SimpleController
+        public: true
+    test.maba_gentle_force.redis_client:
+        alias: maba_gentle_force.redis_client
+        public: true

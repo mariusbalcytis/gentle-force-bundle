@@ -2,6 +2,9 @@ imports:
     - { resource: 'common_basic_no_logger.yml' }
 
 services:
-    logger:
+    logger.test:
         class: Symfony\Component\Debug\BufferingLogger
+        public: true
+    logger:
+        alias: logger.test
         public: true

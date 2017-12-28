@@ -17,7 +17,7 @@ class Configuration implements ConfigurationInterface
 
         $children = $rootNode->children();
 
-        $this->configureRedis($children->arrayNode('redis'));
+        $this->configureRedis($children->arrayNode('redis')->addDefaultsIfNotSet());
         $this->configureLimits($children->arrayNode('limits'));
         $this->configureStrategies($children->arrayNode('strategies'));
         $this->configureListeners($children->arrayNode('listeners'));

@@ -1,0 +1,6 @@
+services:
+    logger_wrapper:
+        class: stdClass
+        public: true
+        properties:
+            logger: "@maba_gentle_force.logger"
