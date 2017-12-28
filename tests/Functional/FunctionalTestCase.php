@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ResettableContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\DependencyInjection\ServicesResetter;
 
 abstract class FunctionalTestCase extends TestCase
 {
@@ -34,11 +33,6 @@ abstract class FunctionalTestCase extends TestCase
         $this->kernel->boot();
         $container = $this->kernel->getContainer();
         $container->get('microtime_provider_mock')->setMockedMicrotime(0);
-
-        if (class_exists('Symfony\Component\HttpKernel\DependencyInjection\ServicesResetter')) {
-            // we need to disable services resetter as we set token before booting kernel
-            $container->set('services_resetter', new ServicesResetter(new \ArrayIterator([]), []));
-        }
 
         return $container;
     }

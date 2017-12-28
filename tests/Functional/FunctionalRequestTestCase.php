@@ -5,7 +5,6 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 abstract class FunctionalRequestTestCase extends FunctionalTestCase
 {
@@ -13,6 +12,7 @@ abstract class FunctionalRequestTestCase extends FunctionalTestCase
     const ANOTHER_IP = '10.0.0.2';
     const DEFAULT_USERNAME = 'user1';
     const ANOTHER_USERNAME = 'user2';
+    const INVALID_USERNAME = 'non_existing_user';
 
     protected function assertUsagesValid($uri, $countOfUsages)
     {
@@ -34,7 +34,7 @@ abstract class FunctionalRequestTestCase extends FunctionalTestCase
     protected function assertResponseValid(Response $response)
     {
         $this->assertTrue(
-            $response->getStatusCode() < 400,
+            $response->getStatusCode() !== Response::HTTP_TOO_MANY_REQUESTS,
             'Expected valid request'
         );
     }
@@ -61,24 +61,12 @@ abstract class FunctionalRequestTestCase extends FunctionalTestCase
 
     protected function createRequest($uri, $ip, $username = null)
     {
-        $tokenStorage = $this->kernel->getContainer()->get('security.token_storage');
-        if ($username !== null) {
-            $tokenStorage->setToken(
-                new UsernamePasswordToken(
-                    $username,
-                    null,
-                    'test',
-                    ['ROLE_USER']
-                )
-            );
-        } else {
-            $tokenStorage->setToken(null);
-        }
-
         return new Request(
             [], [], [], [], [], [
             'REQUEST_URI' => $uri,
             'REMOTE_ADDR' => $ip,
+            'HTTP_PHP_AUTH_USER' => $username,
+            'HTTP_PHP_AUTH_PW' => 'pass',
         ]);
     }
 
