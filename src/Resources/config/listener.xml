@@ -27,6 +27,7 @@
             <argument>%maba_gentle_force.whitelist.controllers%</argument>
             <argument type="service" id="maba_gentle_force.logger"/>
             <argument type="service" id="maba_gentle_force.configuration_registry"/>
+            <argument type="service" id="maba_gentle_force.priority_resolver"/>
         </service>
 
         <service id="maba_gentle_force.request_listener"
@@ -68,6 +69,12 @@
             <argument>%maba_gentle_force.strategy.headers.requests_available_header%</argument>
             <argument>%maba_gentle_force.strategy.headers.content%</argument>
             <argument>%maba_gentle_force.strategy.headers.content_type%</argument>
+        </service>
+
+        <service id="maba_gentle_force.priority_resolver"
+                 class="Maba\Bundle\GentleForceBundle\Listener\PriorityResolver"
+                 public="false">
+            <argument type="service" id="maba_gentle_force.request_identifier_provider"/>
         </service>
     </services>
 </container>

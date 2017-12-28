@@ -2,6 +2,7 @@
 
 namespace Maba\Bundle\GentleForceBundle\Listener;
 
+use Maba\Bundle\GentleForceBundle\IdentifierPriority;
 use Maba\Bundle\GentleForceBundle\Service\StrategyManager;
 use SplObjectStorage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -33,9 +34,19 @@ class RequestListener implements EventSubscriberInterface
 
     public function onRequest(GetResponseEvent $event)
     {
+        $this->handleRequest($event);
+    }
+
+    public function onRequestPostAuthentication(GetResponseEvent $event)
+    {
+        $this->handleRequest($event, IdentifierPriority::PRIORITY_AFTER_AUTHORIZATION);
+    }
+
+    private function handleRequest(GetResponseEvent $event, $priority = IdentifierPriority::PRIORITY_NORMAL)
+    {
         $request = $event->getRequest();
 
-        $compositeResult = $this->configurationManager->checkAndIncreaseForRequest($request);
+        $compositeResult = $this->configurationManager->checkAndIncreaseForRequest($request, $priority);
 
         if ($compositeResult->isRateLimitReached()) {
             $compositeResult->decreaseSuccessfulLimits();
@@ -48,7 +59,11 @@ class RequestListener implements EventSubscriberInterface
             return;
         }
 
-        $this->requestResults[$request] = $compositeResult;
+        if (isset($this->requestResults[$request])) {
+            $this->requestResults[$request]->mergeFrom($compositeResult);
+        } else {
+            $this->requestResults[$request] = $compositeResult;
+        }
     }
 
     public function onResponse(FilterResponseEvent $event)
@@ -96,7 +111,7 @@ class RequestListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['onRequest', 1],
+            KernelEvents::REQUEST => [['onRequest', 1000], ['onRequestPostAuthentication', 0]],
             KernelEvents::RESPONSE => ['onResponse', -1],
             KernelEvents::FINISH_REQUEST => 'onRequestFinished',
         ];

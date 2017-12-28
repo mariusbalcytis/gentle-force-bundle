@@ -25,6 +25,18 @@ class FunctionalIdentifiersTest extends FunctionalRequestTestCase
         $this->assertRequestInvalid(self::PATH_API1, self::DEFAULT_IP);
     }
 
+    public function testIdentifiersWithIpAndInvalidUsername()
+    {
+        $this->assertRequestValid(self::PATH_API1, self::DEFAULT_IP, self::INVALID_USERNAME);
+        $this->assertRequestValid(self::PATH_API1, self::DEFAULT_IP, self::INVALID_USERNAME);
+        $this->assertRequestInvalid(self::PATH_API1, self::DEFAULT_IP, self::INVALID_USERNAME);
+
+        $this->sleepUpTo(150);
+
+        $this->assertRequestValid(self::PATH_API1, self::DEFAULT_IP, self::INVALID_USERNAME);
+        $this->assertRequestInvalid(self::PATH_API1, self::DEFAULT_IP, self::INVALID_USERNAME);
+    }
+
     public function testIdentifiersWithUsername()
     {
         $this->assertRequestValid(self::PATH_API2, self::DEFAULT_IP, self::DEFAULT_USERNAME);

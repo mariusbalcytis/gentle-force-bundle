@@ -106,4 +106,18 @@ class CompositeIncreaseResult
 
         return $this->resultsByConfiguration[$configuration];
     }
+
+    public function mergeFrom(self $compositeIncreaseResult)
+    {
+        $this->results = array_merge($this->results, $compositeIncreaseResult->results);
+        $this->configurations = array_merge($this->configurations, $compositeIncreaseResult->configurations);
+        $this->resultsByConfiguration->addAll($compositeIncreaseResult->resultsByConfiguration);
+        if ($this->waitForInSeconds === null || $this->waitForInSeconds < $compositeIncreaseResult->waitForInSeconds) {
+            $this->waitForInSeconds = $compositeIncreaseResult->waitForInSeconds;
+        }
+        $this->violatedConfigurations = array_merge(
+            $this->violatedConfigurations,
+            $compositeIncreaseResult->violatedConfigurations
+        );
+    }
 }

@@ -18,6 +18,7 @@ class ConfigurationManager
     private $whitelistedControllers;
     private $logger;
     private $configurationRegistry;
+    private $priorityResolver;
 
     public function __construct(
         ThrottlerInterface $throttler,
@@ -26,7 +27,8 @@ class ConfigurationManager
         RequestMatcher $requestMatcher,
         array $whitelistedControllers,
         LoggerInterface $logger,
-        ConfigurationRegistry $configurationRegistry
+        ConfigurationRegistry $configurationRegistry,
+        PriorityResolver $priorityResolver
     ) {
         $this->throttler = $throttler;
         $this->requestIdentifierProvider = $requestIdentifierProvider;
@@ -35,9 +37,10 @@ class ConfigurationManager
         $this->whitelistedControllers = $whitelistedControllers;
         $this->logger = $logger;
         $this->configurationRegistry = $configurationRegistry;
+        $this->priorityResolver = $priorityResolver;
     }
 
-    public function checkAndIncreaseForRequest(Request $request)
+    public function checkAndIncreaseForRequest(Request $request, $priority)
     {
         $compositeResult = new CompositeIncreaseResult();
 
@@ -48,6 +51,10 @@ class ConfigurationManager
         $identifierHelper = $this->createIdentifierHelper($request);
 
         foreach ($this->configurationRegistry->getConfigurationList() as $configuration) {
+            if ($this->priorityResolver->resolvePriority($configuration) !== $priority) {
+                continue;
+            }
+
             if ($this->requestMatcher->matches($configuration, $request)) {
                 $this->checkAndIncrease($identifierHelper, $configuration, $compositeResult);
             }

@@ -3,7 +3,9 @@
 namespace Maba\Bundle\GentleForceBundle\Service;
 
 use InvalidArgumentException;
+use Maba\Bundle\GentleForceBundle\IdentifierPriority;
 use Maba\Bundle\GentleForceBundle\Service\IdentifierProvider\IdentifierProviderInterface;
+use Maba\Bundle\GentleForceBundle\Service\IdentifierProvider\PriorityAwareInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestIdentifierProvider
@@ -27,6 +29,22 @@ class RequestIdentifierProvider
      */
     public function getIdentifier($identifierType, Request $request)
     {
+        return $this->getIdentifierProvider($identifierType)->getIdentifier($request);
+    }
+
+    public function getIdentifierPriority($identifierType)
+    {
+        $identifierProvider = $this->getIdentifierProvider($identifierType);
+
+        if (!$identifierProvider instanceof PriorityAwareInterface) {
+            return IdentifierPriority::PRIORITY_NORMAL;
+        }
+
+        return $identifierProvider->getPriority();
+    }
+
+    private function getIdentifierProvider($identifierType)
+    {
         if (!isset($this->identifierProviders[$identifierType])) {
             throw new InvalidArgumentException(sprintf(
                 'Identifier provider for "%s" is not available',
@@ -34,6 +52,6 @@ class RequestIdentifierProvider
             ));
         }
 
-        return $this->identifierProviders[$identifierType]->getIdentifier($request);
+        return $this->identifierProviders[$identifierType];
     }
 }
