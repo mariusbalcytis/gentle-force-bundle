@@ -18,7 +18,7 @@ class EnsureLoggerCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasDefinition('logger')) {
+        if ($container->hasDefinition('logger') || $container->hasAlias('logger')) {
             $container->setAlias($this->loggerServiceId, 'logger');
         } else {
             $container->setDefinition($this->loggerServiceId, new Definition(NullLogger::class));
