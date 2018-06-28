@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class MabaGentleForceExtension extends Extension
 {
@@ -160,6 +161,7 @@ class MabaGentleForceExtension extends Extension
 
         $this->includeStrategyDefinitions($loader, $container, $usedStrategies, $config);
         $this->configureStrategies($container, $strategiesConfiguration);
+        $this->registerListenerTags($container, $config);
     }
 
     private function buildSuccessMatcher(array $listenerConfig)
@@ -282,5 +284,21 @@ class MabaGentleForceExtension extends Extension
                 $strategiesConfiguration['recaptcha_template']['template']
             );
         }
+    }
+
+    private function registerListenerTags(ContainerBuilder $container, array $config)
+    {
+        $container->getDefinition('maba_gentle_force.request_listener')
+            ->addTag('kernel.event_listener', [
+                'event' => KernelEvents::REQUEST,
+                'priority' => $config['listener_priorities']['default'],
+                'method' => 'onRequest',
+            ])
+            ->addTag('kernel.event_listener', [
+                'event' => KernelEvents::REQUEST,
+                'priority' => $config['listener_priorities']['post_authentication'],
+                'method' => 'onRequestPostAuthentication',
+            ])
+        ;
     }
 }

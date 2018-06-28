@@ -1,0 +1,43 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+    limits:
+        api_request:
+            -
+                max_usages: 1
+                period: 1
+    listeners:
+        -
+            path: ^/api/
+            limits_key: api_request
+            identifiers: [ip]
+        -
+            path: ^/api2/
+            limits_key: api_request
+            identifiers: [username, ip]
+    listener_priorities:
+        default: 850
+        post_authentication: 3
+
+services:
+    listener.priority_900:
+      public: true
+      class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\MockRequestListener
+      tags:
+        - name: kernel.event_listener
+          event: kernel.request
+          priority: 900
+    listener.priority_800:
+      public: true
+      class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\MockRequestListener
+      tags:
+        - name: kernel.event_listener
+          event: kernel.request
+          priority: 800
+    listener.priority_2:
+      public: true
+      class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\MockRequestListener
+      tags:
+        - name: kernel.event_listener
+          event: kernel.request
+          priority: 2

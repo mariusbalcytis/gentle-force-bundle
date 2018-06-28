@@ -100,6 +100,10 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                     'listeners' => [],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
+                    ],
                 ],
                 'limits.yml',
             ],
@@ -154,6 +158,10 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                     'listeners' => [],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
+                    ],
                 ],
                 'periods.yml',
             ],
@@ -176,6 +184,10 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                     'listeners' => [],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
+                    ],
                 ],
                 'redis_service_id.yml',
             ],
@@ -208,6 +220,10 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                     'listeners' => [],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
+                    ],
                 ],
                 'redis_sentinel.yml',
             ],
@@ -230,6 +246,10 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                     'listeners' => [],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
+                    ],
                 ],
                 'redis_failure_strategy.yml',
             ],
@@ -277,6 +297,10 @@ class ConfigurationTest extends TestCase
                             'methods' => [],
                             'hosts' => [],
                         ],
+                    ],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
                     ],
                 ],
                 'identifiers.yml',
@@ -341,6 +365,10 @@ class ConfigurationTest extends TestCase
                             'hosts' => [],
                         ],
                     ],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
+                    ],
                 ],
                 'strategies.yml',
             ],
@@ -380,6 +408,10 @@ class ConfigurationTest extends TestCase
                             'methods' => [],
                             'hosts' => [],
                         ],
+                    ],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
                     ],
                 ],
                 'success_matcher.yml',
@@ -421,6 +453,10 @@ class ConfigurationTest extends TestCase
                             'methods' => [],
                             'hosts' => [],
                         ],
+                    ],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
                     ],
                 ],
                 'success_and_failure_statuses.yml',
@@ -478,6 +514,10 @@ class ConfigurationTest extends TestCase
                             'methods' => ['GET'],
                             'hosts' => ['docs.example.com'],
                         ],
+                    ],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
                     ],
                 ],
                 'advanced_filtering.yml',
@@ -539,8 +579,38 @@ class ConfigurationTest extends TestCase
                         'site_key' => 'my_recaptcha_site_key',
                         'secret' => 'my_recaptcha_secret',
                     ],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
+                    ],
                 ],
                 'recaptcha.yml',
+            ],
+            [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
+                        'parameters' => [],
+                    ],
+                    'limits' => [],
+                    'strategies' => [
+                        'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
+                    ],
+                    'listeners' => [],
+                    'listener_priorities' => [
+                        'default' => 50,
+                        'post_authentication' => 1,
+                    ],
+                ],
+                'listener_priorities.yml',
             ],
         ];
     }

@@ -1,0 +1,7 @@
+maba_gentle_force:
+    redis:
+        host: localhost
+        prefix: my_prefix
+    listener_priorities:
+        default: 50
+        post_authentication: 1

@@ -305,6 +305,9 @@ maba_gentle_force:
     recaptcha:
         site_key:             ~
         secret:               ~
+    listener_priorities:
+        default: 1000
+        post_authentication: 0
 ```
 
 ## Additional identifiers

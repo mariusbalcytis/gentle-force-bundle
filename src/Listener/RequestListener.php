@@ -110,8 +110,9 @@ class RequestListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
+        // additional listener tags are added in MabaGentleForceExtension class with configurable priorities
+
         return [
-            KernelEvents::REQUEST => [['onRequest', 1000], ['onRequestPostAuthentication', 0]],
             KernelEvents::RESPONSE => ['onResponse', -1],
             KernelEvents::FINISH_REQUEST => 'onRequestFinished',
         ];

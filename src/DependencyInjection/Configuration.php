@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
         $this->configureStrategies($children->arrayNode('strategies'));
         $this->configureListeners($children->arrayNode('listeners'));
         $this->configureRecaptcha($children->arrayNode('recaptcha'));
+        $this->configureListenerPriorities($children->arrayNode('listener_priorities'));
 
         return $treeBuilder;
     }
@@ -220,5 +221,14 @@ class Configuration implements ConfigurationInterface
         }
 
         return $period;
+    }
+
+    private function configureListenerPriorities(ArrayNodeDefinition $node)
+    {
+        $node->addDefaultsIfNotSet();
+        $builder = $node->children();
+
+        $builder->scalarNode('default')->defaultValue(1000);
+        $builder->scalarNode('post_authentication')->defaultValue(0);
     }
 }
