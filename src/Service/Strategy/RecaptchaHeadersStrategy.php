@@ -8,7 +8,6 @@ use Maba\GentleForce\IncreaseResult;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
 class RecaptchaHeadersStrategy implements ResponseModifyingStrategyInterface
 {
     private $internalStrategy;
