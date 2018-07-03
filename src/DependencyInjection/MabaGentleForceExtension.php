@@ -276,6 +276,10 @@ class MabaGentleForceExtension extends Extension
                 'maba_gentle_force.strategy.recaptcha_headers.site_key_header',
                 $strategiesConfiguration['recaptcha_headers']['site_key_header']
             );
+            $container->setParameter(
+                'maba_gentle_force.strategy.recaptcha_headers.unlock_url_header',
+                $strategiesConfiguration['recaptcha_headers']['unlock_url_header']
+            );
         }
 
         if (isset($strategiesConfiguration['recaptcha_template'])) {
