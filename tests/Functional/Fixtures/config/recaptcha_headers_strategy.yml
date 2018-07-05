@@ -12,6 +12,7 @@ maba_gentle_force:
             wait_for_header: Retry-After
         recaptcha_headers:
             site_key_header: My-Recaptcha-Site-Key
+            unlock_url_header: My-Recaptcha-Unlock-Url
     limits:
         api_request:
             -

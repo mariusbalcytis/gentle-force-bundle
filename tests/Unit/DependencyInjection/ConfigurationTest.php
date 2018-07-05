@@ -548,6 +548,7 @@ class ConfigurationTest extends TestCase
                         ],
                         'recaptcha_headers' => [
                             'site_key_header' => 'Recaptcha-Site-Key',
+                            'unlock_url_header' => 'Recaptcha-Unlock-Url',
                         ],
                         'recaptcha_template' => [
                             'template' => 'MabaGentleForceBundle:Recaptcha:unlock.html.twig',

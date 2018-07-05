@@ -110,6 +110,7 @@ class Configuration implements ConfigurationInterface
 
         $recaptchaHeadersNode = $builder->arrayNode('recaptcha_headers')->children();
         $recaptchaHeadersNode->scalarNode('site_key_header')->defaultNull();
+        $recaptchaHeadersNode->scalarNode('unlock_url_header')->defaultNull();
 
         $recaptchaTemplateNode = $builder->arrayNode('recaptcha_template')->children();
         $recaptchaTemplateNode->scalarNode('template')->defaultNull();

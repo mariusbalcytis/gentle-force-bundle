@@ -7,6 +7,7 @@
     <!-- Can be overwritten in Excention class -->
     <parameters>
         <parameter key="maba_gentle_force.strategy.recaptcha_headers.site_key_header">Recaptcha-Site-Key</parameter>
+        <parameter key="maba_gentle_force.strategy.recaptcha_headers.unlock_url_header">Recaptcha-Unlock-Url</parameter>
     </parameters>
 
     <services>
@@ -16,6 +17,8 @@
             <argument type="service" id="maba_gentle_force.strategy.headers"/>
             <argument>%maba_gentle_force.strategy.recaptcha_headers.site_key_header%</argument>
             <argument>%maba_gentle_force.recaptcha.site_key%</argument>
+            <argument type="service" id="router"/>
+            <argument>%maba_gentle_force.strategy.recaptcha_headers.unlock_url_header%</argument>
         </service>
     </services>
 </container>

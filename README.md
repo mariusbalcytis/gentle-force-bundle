@@ -222,9 +222,9 @@ You can configure `level` to use for logging (defaults to `error`).
 
 #### Recaptcha
 
-For `recaptcha_headers` you can configure `site_key_header` to
-specify header name to use in rate exceeded response to provide
-configured recaptcha site key.
+For `recaptcha_headers` you can configure `site_key_header` and 
+`unlock_url_header` to specify header names to use in rate exceeded response 
+to provide configured recaptcha site key and unlock absolute url.
 
 For `recaptcha_template` you can configure `template` to use for generating
 response. See templates inside the bundle for more information about
@@ -289,6 +289,7 @@ maba_gentle_force:
             level:                error
         recaptcha_headers:
             site_key_header:      null
+            unlock_url_header:    null
         recaptcha_template:
             template:             null
     listeners:
