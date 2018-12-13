@@ -8,14 +8,15 @@
     <imports>
         <import resource="commands.xml"/>
     </imports>
-    
-    <!-- Overwritten in Excention class -->
+
     <parameters>
+        <!-- Overwritten in Extension class -->
         <parameter key="maba_gentle_force.redis_prefix"/>
+        <parameter key="maba_gentle_force.throttler.class">Maba\GentleForce\Throttler</parameter>
     </parameters>
 
     <services>
-        <service id="maba_gentle_force.throttler" class="Maba\GentleForce\Throttler" public="true">
+        <service id="maba_gentle_force.throttler" class="%maba_gentle_force.throttler.class%" public="true">
             <argument type="service" id="maba_gentle_force.redis_client"/>
             <argument type="service" id="maba_gentle_force.rate_limit_provider"/>
             <argument>%maba_gentle_force.redis_prefix%</argument>
