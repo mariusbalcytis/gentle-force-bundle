@@ -8,6 +8,7 @@ services:
 env:
     global:
         - COMPOSER_NO_INTERACTION="1"
+        - COMPOSER_MEMORY_LIMIT="-1"
 
 matrix:
     include:
