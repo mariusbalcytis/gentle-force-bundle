@@ -41,7 +41,7 @@ Parameters are taken interactively.');
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configurationList = $this->configurationRegistry->getConfigurationList();
-        if (count($configurationList) === 0) {
+        if (\count($configurationList) === 0) {
             /** @var FormatterHelper $formatter */
             $formatter = $this->getHelper('formatter');
             $output->writeln($formatter->formatBlock(
