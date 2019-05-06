@@ -41,7 +41,7 @@ Parameters are taken interactively.');
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configurationList = $this->configurationRegistry->getConfigurationList();
-        if (count($configurationList) === 0) {
+        if (\count($configurationList) === 0) {
             /** @var FormatterHelper $formatter */
             $formatter = $this->getHelper('formatter');
             $output->writeln($formatter->formatBlock(
@@ -91,10 +91,9 @@ Parameters are taken interactively.');
 
         $result = $helper->ask($input, $output, $question);
 
-        $configurationIndex = ord($result) - ord('a');
-        $configuration = $configurationList[$configurationIndex];
+        $selection = array_search($result, array_keys($options));
 
-        return $configuration;
+        return $configurationList[$selection];
     }
 
     private function describeConfiguration(ListenerConfiguration $configuration)
