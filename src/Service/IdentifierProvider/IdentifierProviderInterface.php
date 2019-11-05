@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 interface IdentifierProviderInterface
 {
     /**
-     * @param Request $request
-     *
      * @return string|null
      *
      * @api

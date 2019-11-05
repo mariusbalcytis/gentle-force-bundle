@@ -68,8 +68,6 @@ Parameters are taken interactively.');
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @param ListenerConfiguration[] $configurationList
      * @return ListenerConfiguration
      */

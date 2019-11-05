@@ -93,7 +93,6 @@ class RequestListener implements EventSubscriberInterface
     }
 
     /**
-     * @param Request $request
      * @return CompositeIncreaseResult|null
      */
     private function getAndRemoveCompositeResult(Request $request)

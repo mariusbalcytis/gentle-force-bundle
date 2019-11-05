@@ -18,9 +18,6 @@ class RecaptchaTemplateStrategy implements StrategyInterface
     private $template;
 
     /**
-     * @param EngineInterface $templating
-     * @param RequestStack $requestStack
-     * @param UrlGeneratorInterface $urlGenerator
      * @param string $googleRecaptchaSiteKey
      * @param string $template
      */

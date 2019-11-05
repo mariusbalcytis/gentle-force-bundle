@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 interface ResponseModifyingStrategyInterface extends StrategyInterface
 {
     /**
-     * @param IncreaseResult $increaseResult
-     * @param Response $response
-     *
      * @api
      */
     public function modifyResponse(IncreaseResult $increaseResult, Response $response);

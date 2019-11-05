@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 interface StrategyInterface
 {
     /**
-     * @param CompositeIncreaseResult $result
      * @return Response|null returns null if request should be proceeded
      *
      * @api

@@ -12,7 +12,6 @@ class LogStrategy implements StrategyInterface
     private $level;
 
     /**
-     * @param LoggerInterface $logger
      * @param string $level
      */
     public function __construct(LoggerInterface $logger, $level)

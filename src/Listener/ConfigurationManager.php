@@ -67,7 +67,7 @@ class ConfigurationManager
     {
         $controller = $request->attributes->get('_controller');
 
-        return $controller !== null && in_array($controller, $this->whitelistedControllers, true);
+        return $controller !== null && \in_array($controller, $this->whitelistedControllers, true);
     }
 
     private function checkAndIncrease(
@@ -99,7 +99,7 @@ class ConfigurationManager
         $identifierHelper = $this->createIdentifierHelper($request);
 
         foreach ($this->configurationRegistry->getConfigurationList() as $configuration) {
-            if (in_array($configuration->getStrategyId(), $strategyList, true)) {
+            if (\in_array($configuration->getStrategyId(), $strategyList, true)) {
                 $this->reset($identifierHelper, $configuration);
             }
         }

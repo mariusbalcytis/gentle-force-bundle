@@ -4,8 +4,8 @@ namespace Maba\Bundle\GentleForce\Tests\Unit\Listener;
 
 use Maba\Bundle\GentleForceBundle\Listener\ListenerConfiguration;
 use Maba\Bundle\GentleForceBundle\Listener\RequestMatcher;
-use Symfony\Component\HttpFoundation\Request;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class RequestMatcherTest extends TestCase
 {
@@ -27,7 +27,6 @@ class RequestMatcherTest extends TestCase
 
     /**
      * @param bool $expected
-     * @param Request $request
      *
      * @dataProvider dataProviderForPathMatch
      */

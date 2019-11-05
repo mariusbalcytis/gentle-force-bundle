@@ -18,18 +18,12 @@ class StrategyValidationCompilerPass implements CompilerPassInterface
 
         foreach ($strategyIdList as $strategyId) {
             if (!$container->hasDefinition($strategyId)) {
-                throw new InvalidConfigurationException(sprintf(
-                    'Gentle force strategy "%s" does not exist in service container',
-                    $strategyId
-                ));
+                throw new InvalidConfigurationException(sprintf('Gentle force strategy "%s" does not exist in service container', $strategyId));
             }
 
             $definition = $container->getDefinition($strategyId);
             if (!$definition->isPublic()) {
-                throw new InvalidConfigurationException(sprintf(
-                    'Service "%s" must be public as this is required for gentle force strategies',
-                    $strategyId
-                ));
+                throw new InvalidConfigurationException(sprintf('Service "%s" must be public as this is required for gentle force strategies', $strategyId));
             }
         }
     }

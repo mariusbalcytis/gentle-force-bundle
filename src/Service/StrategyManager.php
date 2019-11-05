@@ -21,7 +21,6 @@ class StrategyManager
     }
 
     /**
-     * @param CompositeIncreaseResult $result
      * @return Response|null
      */
     public function getRateLimitExceededResponse(CompositeIncreaseResult $result)
@@ -48,18 +47,14 @@ class StrategyManager
     }
 
     /**
-     * @param ListenerConfiguration $configuration
      * @return StrategyInterface
      */
     private function getStrategyForConfiguration(ListenerConfiguration $configuration)
     {
         $strategyId = $configuration->getStrategyId();
 
-        if (!in_array($strategyId, $this->strategies, true)) {
-            throw new InvalidArgumentException(sprintf(
-                'Given strategy (%s) was not registered with strategy manager',
-                $strategyId
-            ));
+        if (!\in_array($strategyId, $this->strategies, true)) {
+            throw new InvalidArgumentException(sprintf('Given strategy (%s) was not registered with strategy manager', $strategyId));
         }
 
         /** @var StrategyInterface $strategy */
