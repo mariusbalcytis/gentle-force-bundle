@@ -18,7 +18,7 @@ class HeadersStrategyTest extends TestCase
         $strategy = new HeadersStrategy('Retry-After');
         $response = $strategy->getRateLimitExceededResponse($this->buildResult());
         $this->assertSame(429, $response->getStatusCode());
-        $this->assertSame(15, $response->headers->get('Retry-After'));
+        $this->assertSame(15, (int) $response->headers->get('Retry-After'));
     }
 
     public function testGetRateLimitExceededResponseWithoutHeader()
@@ -38,7 +38,7 @@ class HeadersStrategyTest extends TestCase
         $response = new Response('my content', 201, ['custom-header' => 'abc']);
         $strategy->modifyResponse($this->buildIncreaseResult(), $response);
         $this->assertSame(201, $response->getStatusCode());
-        $this->assertSame(3, $response->headers->get('Requests-Available'));
+        $this->assertSame(3, (int) $response->headers->get('Requests-Available'));
     }
 
     public function testModifyResponseWithoutHeader()
