@@ -12,8 +12,9 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('maba_gentle_force');
+        $treeBuilder = new TreeBuilder('maba_gentle_force');
+        // Keep compatibility with symfony/config < 4.2
+        $rootNode = \method_exists($treeBuilder, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root('maba_gentle_force');
 
         $children = $rootNode->children();
 
