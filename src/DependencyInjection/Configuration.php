@@ -126,7 +126,7 @@ class Configuration implements ConfigurationInterface
         $listenerChildren->scalarNode('limits_key')->isRequired();
         $listenerChildren->arrayNode('identifiers')
             ->isRequired()
-            ->cannotBeEmpty()
+            ->requiresAtLeastOneElement()
             ->prototype('scalar')
         ;
         $listenerChildren->scalarNode('strategy');
