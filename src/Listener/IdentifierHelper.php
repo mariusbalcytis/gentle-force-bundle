@@ -41,7 +41,7 @@ class IdentifierHelper
 
     private function getConcreteIdentifierByType($identifierType)
     {
-        if (array_key_exists($identifierType, $this->identifiers)) {
+        if (\array_key_exists($identifierType, $this->identifiers)) {
             return $this->identifiers[$identifierType];
         }
 

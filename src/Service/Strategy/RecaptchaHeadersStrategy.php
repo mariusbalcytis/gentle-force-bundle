@@ -17,10 +17,8 @@ class RecaptchaHeadersStrategy implements ResponseModifyingStrategyInterface
     private $unlockUrlHeaderName;
 
     /**
-     * @param ResponseModifyingStrategyInterface $internalStrategy
      * @param string $headerName
      * @param string $siteKey
-     * @param UrlGeneratorInterface $urlGenerator
      * @param string $unlockUrlHeaderName
      */
     public function __construct(

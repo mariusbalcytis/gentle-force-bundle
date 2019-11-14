@@ -4,7 +4,7 @@
     "keywords": ["symfony bundle", "rate limiter", "rate limiting", "rate limit", "brute force protection", "leaky bucket", "token bucket", "threshold", "throttle", "security", "dos protection", "brute-force", "bruteforce"],
     "type": "symfony-bundle",
     "require": {
-        "php": "^5.5|^7.0",
+        "php": "^7.0",
         "maba/gentle-force": "^0.2.1|^0.3",
         "symfony/framework-bundle": "^2.7.50|^3.0|^4.0",
         "maba/dependency-injection-extra": "^0.1.1|^1.0",

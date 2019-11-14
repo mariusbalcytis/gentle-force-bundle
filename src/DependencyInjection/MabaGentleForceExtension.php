@@ -8,12 +8,12 @@ use Maba\GentleForce\RateLimit\UsageRateLimit;
 use Maba\GentleForce\RateLimitProvider;
 use Predis\Client;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class MabaGentleForceExtension extends Extension
@@ -96,7 +96,7 @@ class MabaGentleForceExtension extends Extension
 
         if (isset($redisConfig['host'])) {
             $parameters = ['host' => $redisConfig['host']];
-        } elseif (isset($redisConfig['parameters']) && count($redisConfig['parameters']) > 0) {
+        } elseif (isset($redisConfig['parameters']) && \count($redisConfig['parameters']) > 0) {
             $parameters = $redisConfig['parameters'];
             $options = $redisConfig['options'];
         }
@@ -114,7 +114,7 @@ class MabaGentleForceExtension extends Extension
         $strategiesConfiguration = $config['strategies'];
         $availableLimitsKeys = array_keys($config['limits']);
 
-        if (count($listenerConfigList) === 0) {
+        if (\count($listenerConfigList) === 0) {
             return;
         }
 
@@ -136,11 +136,8 @@ class MabaGentleForceExtension extends Extension
             $usedStrategies[] = $strategyId;
 
             $limitsKey = $listenerConfig['limits_key'];
-            if (!in_array($limitsKey, $availableLimitsKeys, true)) {
-                throw new InvalidConfigurationException(sprintf(
-                    'Specified limits_key (%s) is not registered',
-                    $limitsKey
-                ));
+            if (!\in_array($limitsKey, $availableLimitsKeys, true)) {
+                throw new InvalidConfigurationException(sprintf('Specified limits_key (%s) is not registered', $limitsKey));
             }
 
             $pathPattern = '#' . str_replace('#', '\\#', $listenerConfig['path']) . '#';
@@ -170,14 +167,14 @@ class MabaGentleForceExtension extends Extension
             return new Reference($listenerConfig['success_matcher']);
         }
 
-        if (count($listenerConfig['success_statuses']) > 0) {
+        if (\count($listenerConfig['success_statuses']) > 0) {
             return new Definition(
                 ResponseCodeSuccessMatcher::class,
                 [$listenerConfig['success_statuses']]
             );
         }
 
-        if (count($listenerConfig['failure_statuses']) > 0) {
+        if (\count($listenerConfig['failure_statuses']) > 0) {
             return new Definition(
                 ResponseCodeSuccessMatcher::class,
                 [$listenerConfig['failure_statuses'], true]
@@ -205,30 +202,26 @@ class MabaGentleForceExtension extends Extension
         array $usedStrategies,
         array $config
     ) {
-        if (in_array('maba_gentle_force.strategy.log', $usedStrategies, true)) {
+        if (\in_array('maba_gentle_force.strategy.log', $usedStrategies, true)) {
             $loader->load('log_strategy.xml');
         }
 
         $recaptchaNeeded = false;
-        if (in_array('maba_gentle_force.strategy.recaptcha_headers', $usedStrategies, true)) {
+        if (\in_array('maba_gentle_force.strategy.recaptcha_headers', $usedStrategies, true)) {
             $loader->load('recaptcha/headers.xml');
             $recaptchaNeeded = true;
         }
-        if (in_array('maba_gentle_force.strategy.recaptcha_template', $usedStrategies, true)) {
+        if (\in_array('maba_gentle_force.strategy.recaptcha_template', $usedStrategies, true)) {
             $loader->load('recaptcha/template.xml');
             $recaptchaNeeded = true;
         }
         if ($recaptchaNeeded) {
             if (!isset($config['recaptcha'])) {
-                throw new InvalidConfigurationException(
-                    'You need to configure "recaptcha" node to use any of recaptcha_* strategies'
-                );
+                throw new InvalidConfigurationException('You need to configure "recaptcha" node to use any of recaptcha_* strategies');
             }
 
             if (!class_exists('ReCaptcha\ReCaptcha')) {
-                throw new InvalidConfigurationException(
-                    'You need to install "google/recaptcha" library to use any of recaptcha_* strategies'
-                );
+                throw new InvalidConfigurationException('You need to install "google/recaptcha" library to use any of recaptcha_* strategies');
             }
 
             $loader->load('recaptcha/main.xml');

@@ -12,8 +12,9 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('maba_gentle_force');
+        $treeBuilder = new TreeBuilder('maba_gentle_force');
+        // Keep compatibility with symfony/config < 4.2
+        $rootNode = method_exists($treeBuilder, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root('maba_gentle_force');
 
         $children = $rootNode->children();
 
@@ -51,14 +52,14 @@ class Configuration implements ConfigurationInterface
         $node->validate()->ifTrue(function ($nodeConfig) {
             if (isset($nodeConfig['host'])) {
                 return isset($nodeConfig['service_id'])
-                    || (isset($nodeConfig['parameters']) && count($nodeConfig['parameters']) > 0)
+                    || (isset($nodeConfig['parameters']) && \count($nodeConfig['parameters']) > 0)
                     || isset($nodeConfig['options'])
                 ;
             }
 
             if (isset($nodeConfig['service_id'])) {
                 return isset($nodeConfig['host'])
-                    || (isset($nodeConfig['parameters']) && count($nodeConfig['parameters']) > 0)
+                    || (isset($nodeConfig['parameters']) && \count($nodeConfig['parameters']) > 0)
                     || isset($nodeConfig['options'])
                 ;
             }
@@ -160,9 +161,7 @@ class Configuration implements ConfigurationInterface
                     'max_range' => 599,
                 ]]);
                 if ($validatedStatusCode === false) {
-                    throw new InvalidConfigurationException(
-                        sprintf('Status code %s is invalid', $statusCode)
-                    );
+                    throw new InvalidConfigurationException(sprintf('Status code %s is invalid', $statusCode));
                 }
 
                 return $validatedStatusCode;
@@ -177,10 +176,10 @@ class Configuration implements ConfigurationInterface
             if (isset($configuration['success_matcher'])) {
                 $count++;
             }
-            if (count($configuration['success_statuses']) > 0) {
+            if (\count($configuration['success_statuses']) > 0) {
                 $count++;
             }
-            if (count($configuration['failure_statuses']) > 0) {
+            if (\count($configuration['failure_statuses']) > 0) {
                 $count++;
             }
 

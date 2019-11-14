@@ -22,8 +22,7 @@ class RequestIdentifierProvider
 
     /**
      * @param string $identifierType
-     * @param Request $request
-     * @return null|string
+     * @return string|null
      *
      * @api
      */
@@ -46,10 +45,7 @@ class RequestIdentifierProvider
     private function getIdentifierProvider($identifierType)
     {
         if (!isset($this->identifierProviders[$identifierType])) {
-            throw new InvalidArgumentException(sprintf(
-                'Identifier provider for "%s" is not available',
-                $identifierType
-            ));
+            throw new InvalidArgumentException(sprintf('Identifier provider for "%s" is not available', $identifierType));
         }
 
         return $this->identifierProviders[$identifierType];

@@ -11,7 +11,6 @@ class ResponseCodeSuccessMatcher implements SuccessMatcherInterface
     private $inverse;
 
     /**
-     * @param array $statusCodes
      * @param bool $inverse
      */
     public function __construct(array $statusCodes, $inverse = false)
@@ -21,11 +20,10 @@ class ResponseCodeSuccessMatcher implements SuccessMatcherInterface
     }
 
     /**
-     * @param Response $response
      * @return bool
      */
     public function isResponseSuccessful(Response $response)
     {
-        return $this->inverse xor in_array($response->getStatusCode(), $this->statusCodes, true);
+        return $this->inverse xor \in_array($response->getStatusCode(), $this->statusCodes, true);
     }
 }

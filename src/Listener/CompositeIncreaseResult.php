@@ -95,7 +95,6 @@ class CompositeIncreaseResult
     }
 
     /**
-     * @param ListenerConfiguration $configuration
      * @return IncreaseResult
      */
     public function getResultByConfiguration(ListenerConfiguration $configuration)

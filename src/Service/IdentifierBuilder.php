@@ -5,7 +5,6 @@ namespace Maba\Bundle\GentleForceBundle\Service;
 class IdentifierBuilder
 {
     /**
-     * @param array $identifiers
      * @return string
      *
      * @api

@@ -69,7 +69,6 @@ class ListenerConfiguration
     }
 
     /**
-     * @param array $hosts
      * @return $this
      */
     public function setHosts(array $hosts)
@@ -88,7 +87,6 @@ class ListenerConfiguration
     }
 
     /**
-     * @param array $methods
      * @return $this
      */
     public function setMethods(array $methods)
@@ -126,7 +124,6 @@ class ListenerConfiguration
     }
 
     /**
-     * @param array $identifierTypes
      * @return $this
      */
     public function setIdentifierTypes(array $identifierTypes)
@@ -164,7 +161,6 @@ class ListenerConfiguration
     }
 
     /**
-     * @param SuccessMatcherInterface|null $successMatcher
      * @return $this
      */
     public function setSuccessMatcher(SuccessMatcherInterface $successMatcher = null)
