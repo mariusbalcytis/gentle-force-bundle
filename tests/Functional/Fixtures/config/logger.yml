@@ -4,3 +4,7 @@ services:
         public: true
         properties:
             logger: "@maba_gentle_force.logger"
+
+maba_gentle_force:
+    redis:
+        host: localhost
