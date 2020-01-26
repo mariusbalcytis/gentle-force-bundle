@@ -1,9 +1,9 @@
 docs:
     path:      /docs/api/main
-    defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }
+    defaults:  { _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction, path: '/' }
 api_1:
     path:      /api/resource
-    defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }
+    defaults:  { _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction, path: '/' }
 api_1_ok:
     path:      /api/ok
     defaults:  { _controller: simple_controller:returnResponse, content: 'OK' }
@@ -12,10 +12,10 @@ api_1_ok2:
     defaults:  { _controller: simple_controller:returnResponse, content: 'OK', statusCode: 201 }
 api_2:
     path:      /api2/resource
-    defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }
+    defaults:  { _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction, path: '/' }
 api_3:
     path:      /api3/resource
-    defaults:  { _controller: FrameworkBundle:Redirect:urlRedirect, path: '/' }
+    defaults:  { _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction, path: '/' }
 gentle_force:
     resource: '@MabaGentleForceBundle/Resources/config/routing.xml'
     prefix: /prefix

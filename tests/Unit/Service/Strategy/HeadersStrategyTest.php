@@ -75,7 +75,7 @@ class HeadersStrategyTest extends TestCase
     private function buildIncreaseResult()
     {
         /** @var ThrottlerInterface $throttler */
-        $throttler = $this->getMock(ThrottlerInterface::class);
+        $throttler = $this->getMockBuilder(ThrottlerInterface::class)->getMock();
 
         return new IncreaseResult($throttler, 3, 'limit1', '1');
     }

@@ -4,7 +4,7 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 class FunctionalStrategiesTest extends FunctionalRequestTestCase
 {
-    protected function setUp()
+    protected function setUp() :void
     {
         parent::setUp();
         $this->setUpContainer('strategies');

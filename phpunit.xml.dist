@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit colors="true" bootstrap="vendor/autoload.php">
-    <testsuites>
-        <testsuite>
-            <directory>./tests</directory>
-        </testsuite>
-    </testsuites>
 
-    <filter>
-        <whitelist>
-            <directory>./src</directory>
-        </whitelist>
-    </filter>
+  <php>
+    <server name="APP_ENV" value="test" force="true" />
+  </php>
+
+  <testsuites>
+    <testsuite name="testsuite">
+      <directory>./tests</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist>
+      <directory>./src</directory>
+    </whitelist>
+  </filter>
 </phpunit>

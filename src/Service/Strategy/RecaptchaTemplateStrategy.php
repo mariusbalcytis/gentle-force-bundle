@@ -4,7 +4,7 @@ namespace Maba\Bundle\GentleForceBundle\Service\Strategy;
 
 use Maba\Bundle\GentleForceBundle\Listener\CompositeIncreaseResult;
 use Maba\Bundle\GentleForceBundle\Service\StrategyInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Twig\Environment;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -22,7 +22,7 @@ class RecaptchaTemplateStrategy implements StrategyInterface
      * @param string $template
      */
     public function __construct(
-        EngineInterface $templating,
+        Environment $templating,
         RequestStack $requestStack,
         UrlGeneratorInterface $urlGenerator,
         $googleRecaptchaSiteKey,
@@ -40,10 +40,14 @@ class RecaptchaTemplateStrategy implements StrategyInterface
         $request = $this->requestStack->getCurrentRequest();
         $safeToRefresh = $request === null || $request->getMethod() === 'GET';
 
-        return $this->templating->renderResponse($this->template, [
-            'siteKey' => $this->googleRecaptchaSiteKey,
-            'safeToRefresh' => $safeToRefresh,
-            'unlockUrl' => $this->urlGenerator->generate('maba_gentle_force_unlock_recaptcha'),
-        ], new Response('', Response::HTTP_TOO_MANY_REQUESTS));
+        return
+        new Response(
+          $this->templating->render($this->template, [
+              'siteKey' => $this->googleRecaptchaSiteKey,
+              'safeToRefresh' => $safeToRefresh,
+              'unlockUrl' => $this->urlGenerator->generate('maba_gentle_force_unlock_recaptcha'),
+          ] )
+          , Response::HTTP_TOO_MANY_REQUESTS)
+        ;
     }
 }

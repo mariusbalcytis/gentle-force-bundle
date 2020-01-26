@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FunctionalRecaptchaHeadersStrategyTest extends FunctionalHeadersStrategyTest
 {
-    protected function setUp()
+    protected function setUp() :void
     {
         parent::setUp();
         $this->setUpContainer('recaptcha_headers_strategy');
@@ -19,12 +19,12 @@ class FunctionalRecaptchaHeadersStrategyTest extends FunctionalHeadersStrategyTe
             $response->getStatusCode(),
             'Expected request to be blocked'
         );
-        $this->assertSame([$retryAfter], $response->headers->get('Retry-After', [], false));
+        $this->assertSame($retryAfter, $response->headers->get('Retry-After', null));
         $this->assertSame('text/plain; charset=UTF-8', $response->headers->get('Content-Type'));
         $this->assertSame('Too many requests', $response->getContent());
         $this->assertSame(
-            ['my_recaptcha_site_key'],
-            $response->headers->get('My-Recaptcha-Site-Key', [], false)
+            'my_recaptcha_site_key',
+            $response->headers->get('My-Recaptcha-Site-Key', null)
         );
     }
 }

@@ -33,20 +33,21 @@ abstract class FunctionalTestCase extends TestCase
         $this->kernel->boot();
         $container = $this->kernel->getContainer();
         $container->get('microtime_provider_mock')->setMockedMicrotime(0);
-
         return $container;
     }
 
-    protected function tearDown()
+    protected function tearDown() :void
     {
         $container = $this->kernel->getContainer();
+        $logger = $container->get('logger');
+        $logger->cleanLogs();
         $this->kernel->shutdown();
         if ($container instanceof ResettableContainerInterface) {
             $container->reset();
         }
 
         $filesystem = new Filesystem();
-        $filesystem->remove($this->kernel->getRootDir() . '/cache');
+        $filesystem->remove($this->kernel->getProjectDir() . '/var/cache');
     }
 
     protected function sleepUpTo($milliseconds)

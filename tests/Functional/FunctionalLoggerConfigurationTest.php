@@ -3,7 +3,7 @@
 namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Debug\BufferingLogger;
+use Symfony\Component\ErrorHandler\BufferingLogger;
 
 class FunctionalLoggerConfigurationTest extends FunctionalThrottlerTestCase
 {
