@@ -5,7 +5,7 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 use Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\TestKernel;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ResettableContainerInterface;
+use Symfony\Contracts\Service\ResetInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 abstract class FunctionalTestCase extends TestCase
@@ -21,6 +21,10 @@ abstract class FunctionalTestCase extends TestCase
      * @var TestKernel
      */
     protected $kernel;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
     /**
      * @param string $testCase
@@ -31,19 +35,16 @@ abstract class FunctionalTestCase extends TestCase
     {
         $this->kernel = new TestKernel($testCase, $commonFile);
         $this->kernel->boot();
-        $container = $this->kernel->getContainer();
-        $container->get('microtime_provider_mock')->setMockedMicrotime(0);
-        return $container;
+        $this->container = $this->kernel->getContainer();
+        $this->container->get('microtime_provider_mock')->setMockedMicrotime(0);
+        return $this->container;
     }
 
     protected function tearDown() :void
     {
-        $container = $this->kernel->getContainer();
-        $logger = $container->get('logger');
-        $logger->cleanLogs();
         $this->kernel->shutdown();
-        if ($container instanceof ResettableContainerInterface) {
-            $container->reset();
+        if ($this->container instanceof ResetInterface) {
+            $this->container->reset();
         }
 
         $filesystem = new Filesystem();
@@ -52,7 +53,7 @@ abstract class FunctionalTestCase extends TestCase
 
     protected function sleepUpTo($milliseconds)
     {
-        $this->kernel->getContainer()->get('microtime_provider_mock')
+        $this->container->get('microtime_provider_mock')
             ->setMockedMicrotime($milliseconds / 1000)
         ;
     }
