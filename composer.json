@@ -12,7 +12,7 @@
     "require": {
         "php": "^7.0",
         "maba/gentle-force": "^0.2.1|^0.3",
-        "symfony/framework-bundle": "^5.0",
+        "symfony/framework-bundle": "^4.4|^5.0",
         "maba/dependency-injection-extra": "dev-symfony5|^0.1.1|^1.0",
         "psr/log": "^1.0"
     },
@@ -28,8 +28,7 @@
         "symfony/templating": "^5.0",
         "symfony/error-handler": "^4.4|^5.0",
         "symfony/dependency-injection": ">=2.7.1",
-        "symfony/yaml": "^5.0",
-        "symfony/http-kernel": "^5.0"
+        "symfony/yaml": "^4.4|^5.0"
     },
     "suggest": {
         "symfony/security-bundle": "Needed to use 'username' identifier",
