@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FunctionalRecaptchaHeadersStrategyTest extends FunctionalHeadersStrategyTest
 {
-    protected function setUp() :void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpContainer('recaptcha_headers_strategy');

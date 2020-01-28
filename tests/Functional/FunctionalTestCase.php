@@ -5,8 +5,8 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 use Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\TestKernel;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Contracts\Service\ResetInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Contracts\Service\ResetInterface;
 
 abstract class FunctionalTestCase extends TestCase
 {
@@ -40,7 +40,7 @@ abstract class FunctionalTestCase extends TestCase
         return $this->container;
     }
 
-    protected function tearDown() :void
+    protected function tearDown(): void
     {
         $this->kernel->shutdown();
         if ($this->container instanceof ResetInterface) {

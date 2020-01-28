@@ -4,7 +4,7 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 class FunctionalRecaptchaTemplateStrategyTest extends FunctionalRequestTestCase
 {
-    protected function setUp() :void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpContainer('recaptcha_template_strategy');

@@ -6,7 +6,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class FunctionalInvalidConfigurationTest extends FunctionalRequestTestCase
 {
-    protected function setUp() :void
+    protected function setUp(): void
     {
         parent::setUp();
     }

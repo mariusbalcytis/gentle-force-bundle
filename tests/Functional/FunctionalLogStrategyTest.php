@@ -11,7 +11,7 @@ class FunctionalLogStrategyTest extends FunctionalRequestTestCase
      */
     private $logger;
 
-    protected function setUp() :void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpContainer('log_strategy');

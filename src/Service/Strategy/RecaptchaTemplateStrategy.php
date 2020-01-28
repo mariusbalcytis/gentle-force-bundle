@@ -4,10 +4,10 @@ namespace Maba\Bundle\GentleForceBundle\Service\Strategy;
 
 use Maba\Bundle\GentleForceBundle\Listener\CompositeIncreaseResult;
 use Maba\Bundle\GentleForceBundle\Service\StrategyInterface;
-use Twig\Environment;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Environment;
 
 class RecaptchaTemplateStrategy implements StrategyInterface
 {
@@ -46,8 +46,7 @@ class RecaptchaTemplateStrategy implements StrategyInterface
               'siteKey' => $this->googleRecaptchaSiteKey,
               'safeToRefresh' => $safeToRefresh,
               'unlockUrl' => $this->urlGenerator->generate('maba_gentle_force_unlock_recaptcha'),
-          ] )
-          , Response::HTTP_TOO_MANY_REQUESTS)
+          ]), Response::HTTP_TOO_MANY_REQUESTS)
         ;
     }
 }

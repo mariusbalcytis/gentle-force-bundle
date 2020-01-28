@@ -4,7 +4,7 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 class FunctionalIdentifiersTest extends FunctionalRequestTestCase
 {
-    protected function setUp() :void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpContainer('identifiers');

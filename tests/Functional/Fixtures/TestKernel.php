@@ -20,7 +20,6 @@ class TestKernel extends Kernel
         $this->configFile = $testCase . '.yml';
         $this->commonFile = $commonFile;
     }
-    
 
     public function registerBundles(): iterable
     {

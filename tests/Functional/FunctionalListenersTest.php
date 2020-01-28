@@ -4,7 +4,7 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 class FunctionalListenersTest extends FunctionalRequestTestCase
 {
-    protected function setUp() :void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpContainer('listeners');
