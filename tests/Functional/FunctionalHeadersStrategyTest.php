@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FunctionalHeadersStrategyTest extends FunctionalRequestTestCase
 {
-    protected function setUp(): void
+    protected function setUp() :void
     {
         parent::setUp();
         $this->setUpContainer('headers_strategy');
@@ -33,7 +33,7 @@ class FunctionalHeadersStrategyTest extends FunctionalRequestTestCase
     {
         $this->assertSame(
             $requestsAvailable,
-            $response->headers->get('Request-Limit', null)
+            strval($response->headers->get('Request-Limit', null))
         );
     }
 
