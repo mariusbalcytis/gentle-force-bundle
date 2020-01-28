@@ -33,7 +33,7 @@ class FunctionalHeadersStrategyTest extends FunctionalRequestTestCase
     {
         $this->assertSame(
             $requestsAvailable,
-            strval($response->headers->get('Request-Limit', null))
+            $response->headers->get('Request-Limit', null)
         );
     }
 
