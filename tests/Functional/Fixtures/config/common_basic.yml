@@ -5,6 +5,3 @@ services:
     logger:
         class: Symfony\Component\ErrorHandler\BufferingLogger
         public: true
-        #class: Symfony\Component\HttpKernel\Log\Logger
-        #arguments:
-        #    $minLevel: 'info'
