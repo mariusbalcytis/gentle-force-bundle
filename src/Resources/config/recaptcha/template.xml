@@ -13,7 +13,7 @@
         <service id="maba_gentle_force.strategy.recaptcha_template"
                  class="Maba\Bundle\GentleForceBundle\Service\Strategy\RecaptchaTemplateStrategy"
                  public="true">
-            <argument type="service" id="templating"/>
+            <argument type="service" id="twig"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="router"/>
             <argument>%maba_gentle_force.recaptcha.site_key%</argument>

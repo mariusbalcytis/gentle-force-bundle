@@ -18,5 +18,5 @@ maba_gentle_force:
 
 services:
     logger:
-        class: Symfony\Component\HttpKernel\Tests\Logger
+        class: Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\ArrayLogger
         public: true

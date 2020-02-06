@@ -2,3 +2,5 @@ vendor
 composer.lock
 .php_cs.cache
 tests/Functional/Fixtures/cache
+.phpunit.result.cache
+/var

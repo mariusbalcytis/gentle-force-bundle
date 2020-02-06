@@ -36,7 +36,7 @@ class HeadersStrategy implements ResponseModifyingStrategyInterface
     {
         $headers = ['Content-Type' => $this->contentType];
         if ($this->waitForHeader !== null) {
-            $headers[$this->waitForHeader] = $result->getWaitForInSeconds();
+            $headers[$this->waitForHeader] = (string) $result->getWaitForInSeconds();
         }
 
         return new Response($this->content, Response::HTTP_TOO_MANY_REQUESTS, $headers);
@@ -55,7 +55,7 @@ class HeadersStrategy implements ResponseModifyingStrategyInterface
         ) {
             $response->headers->set(
                 $this->requestsAvailableHeader,
-                $increaseResult->getUsagesAvailable(),
+                (string) $increaseResult->getUsagesAvailable(),
                 true
             );
         }

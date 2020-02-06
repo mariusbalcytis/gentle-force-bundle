@@ -7,9 +7,9 @@ use Maba\Bundle\GentleForceBundle\Service\StrategyManager;
 use SplObjectStorage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class RequestListener implements EventSubscriberInterface
@@ -32,17 +32,17 @@ class RequestListener implements EventSubscriberInterface
         $this->strategyManager = $strategyManager;
     }
 
-    public function onRequest(GetResponseEvent $event)
+    public function onRequest(RequestEvent $event)
     {
         $this->handleRequest($event);
     }
 
-    public function onRequestPostAuthentication(GetResponseEvent $event)
+    public function onRequestPostAuthentication(RequestEvent $event)
     {
         $this->handleRequest($event, IdentifierPriority::PRIORITY_AFTER_AUTHORIZATION);
     }
 
-    private function handleRequest(GetResponseEvent $event, $priority = IdentifierPriority::PRIORITY_NORMAL)
+    private function handleRequest(RequestEvent $event, $priority = IdentifierPriority::PRIORITY_NORMAL)
     {
         $request = $event->getRequest();
 
@@ -66,7 +66,7 @@ class RequestListener implements EventSubscriberInterface
         }
     }
 
-    public function onResponse(FilterResponseEvent $event)
+    public function onResponse(ResponseEvent $event)
     {
         $request = $event->getRequest();
         $compositeResult = $this->getAndRemoveCompositeResult($request);

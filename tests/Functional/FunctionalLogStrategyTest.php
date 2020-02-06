@@ -2,16 +2,16 @@
 
 namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
-use Symfony\Component\HttpKernel\Tests\Logger;
+use Maba\Bundle\GentleForceBundle\Tests\Functional\Fixtures\ArrayLogger;
 
 class FunctionalLogStrategyTest extends FunctionalRequestTestCase
 {
     /**
-     * @var Logger
+     * @var ArrayLogger
      */
     private $logger;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpContainer('log_strategy');

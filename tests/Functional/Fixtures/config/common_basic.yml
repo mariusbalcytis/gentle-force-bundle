@@ -3,5 +3,5 @@ imports:
 
 services:
     logger:
-        class: Symfony\Component\Debug\BufferingLogger
+        class: Symfony\Component\ErrorHandler\BufferingLogger
         public: true

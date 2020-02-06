@@ -4,7 +4,7 @@ namespace Maba\Bundle\GentleForceBundle\Tests\Functional;
 
 use Predis\Connection\ConnectionException;
 use Psr\Log\LogLevel;
-use Symfony\Component\Debug\BufferingLogger;
+use Symfony\Component\ErrorHandler\BufferingLogger;
 
 class FunctionalRedisFailureStrategyTest extends FunctionalThrottlerTestCase
 {
@@ -12,7 +12,7 @@ class FunctionalRedisFailureStrategyTest extends FunctionalThrottlerTestCase
     {
         $container = $this->setUpContainer('redis_failure_strategy_fail', 'common_basic.yml');
         $throttler = $container->get('maba_gentle_force.throttler');
-        $this->setExpectedException(ConnectionException::class);
+        $this->expectException(ConnectionException::class);
         $throttler->checkAndIncrease('limit', 'id');
     }
 

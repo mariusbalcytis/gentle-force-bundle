@@ -1,9 +1,9 @@
 framework:
     secret: 'secret'
     router:
-        resource: '%kernel.root_dir%/config/routing.yml'
-    templating:
-        engines: [twig]
+        resource: '%kernel.project_dir%/tests/Functional/Fixtures/config/routing.yml'
+twig:
+    default_path: '%kernel.project_dir%/tests/Functional/Fixtures/Resources/views'
 
 security:
     providers:

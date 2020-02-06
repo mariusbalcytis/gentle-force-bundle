@@ -3,7 +3,7 @@ imports:
 
 services:
     logger.test:
-        class: Symfony\Component\Debug\BufferingLogger
+        class: Symfony\Component\ErrorHandler\BufferingLogger
         public: true
     logger:
         alias: logger.test
