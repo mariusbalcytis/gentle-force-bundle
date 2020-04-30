@@ -16,22 +16,22 @@ class FunctionalRecaptchaTemplateStrategyTest extends FunctionalRequestTestCase
         $request = $this->createRequest(self::PATH_API1, self::DEFAULT_IP);
         $request->setMethod('POST');
         $response = $this->handleRequest($request);
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<html',
             $response->getContent(),
             'Expected response to contain <html> tag'
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'my_recaptcha_site_key',
             $response->getContent(),
             'Expected response to contain recaptcha site key'
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             '/prefix/gentle-force/recaptcha/unlock',
             $response->getContent(),
             'Expected response to contain unlock URL'
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Custom template',
             $response->getContent(),
             'Expected response to be generated from customized template'

@@ -19,14 +19,14 @@ class FunctionalHeadersStrategyTest extends FunctionalRequestTestCase
         $response = $this->makeRequest(self::PATH_API1, self::DEFAULT_IP);
         $this->assertRequestsAvailable('0', $response);
         $response = $this->makeRequest(self::PATH_API1, self::DEFAULT_IP);
-        $this->assertResponseBlocked('0.5', $response);
+        $this->assertResponseBlocked('1', $response);
 
         $this->sleepUpTo(500);
 
         $response = $this->makeRequest(self::PATH_API1, self::DEFAULT_IP);
         $this->assertRequestsAvailable('0', $response);
         $response = $this->makeRequest(self::PATH_API1, self::DEFAULT_IP);
-        $this->assertResponseBlocked('0.5', $response);
+        $this->assertResponseBlocked('1', $response);
     }
 
     protected function assertRequestsAvailable($requestsAvailable, Response $response)
