@@ -42,6 +42,11 @@ class ListenerConfiguration
     private $successMatcher;
 
     /**
+     * @var array
+     */
+    private $roles = [];
+
+    /**
      * @return string
      */
     public function getPathPattern()
@@ -168,5 +173,21 @@ class ListenerConfiguration
         $this->successMatcher = $successMatcher;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
     }
 }
