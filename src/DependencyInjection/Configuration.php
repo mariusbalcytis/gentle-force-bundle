@@ -141,6 +141,7 @@ class Configuration implements ConfigurationInterface
             return array_map('strtoupper', $list);
         });
 
+        // TODO: make it throw an error if identifier is not username
         $rolesNode = $listenerChildren->arrayNode('roles');
         $rolesNode->prototype('scalar');
 
