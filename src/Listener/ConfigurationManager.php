@@ -24,11 +24,11 @@ class ConfigurationManager
     /**
      * @var RolesMatcher
      */
-    private RolesMatcher $rolesMatcher;
+    private $rolesMatcher;
     /**
      * @var TokenStorageInterface
      */
-    private TokenStorageInterface $tokenStorage;
+    private $tokenStorage;
 
     public function __construct(
         ThrottlerInterface $throttler,
