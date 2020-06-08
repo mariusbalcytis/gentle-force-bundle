@@ -694,6 +694,7 @@ class ConfigurationTest extends TestCase
             ['invalid/invalid_success_status.yml'],
             ['invalid/period_invalid.yml'],
             ['invalid/period_zero.yml'],
+            ['invalid/invalid_roles.yml'],
         ];
     }
 }
