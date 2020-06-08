@@ -189,5 +189,6 @@ class ListenerConfiguration
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
+        return $this;
     }
 }
