@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Maba\Bundle\GentleForceBundle\Tests\Unit\Listener;
-
 
 use Maba\Bundle\GentleForceBundle\Listener\ListenerConfiguration;
 use Maba\Bundle\GentleForceBundle\Listener\RolesMatcher;
@@ -13,7 +11,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class RolesMatcherTest extends TestCase
 {
-
     private $matcher;
     private $configuration;
 
@@ -25,7 +22,6 @@ class RolesMatcherTest extends TestCase
 
     /**
      * @param bool $expected
-     * @param TokenStorageInterface $tokenStorage
      * @dataProvider dataProviderForRolesMatch
      */
     public function testRolesMatch($expected, TokenStorageInterface $tokenStorage)
@@ -59,5 +55,4 @@ class RolesMatcherTest extends TestCase
             ],
         ];
     }
-
 }

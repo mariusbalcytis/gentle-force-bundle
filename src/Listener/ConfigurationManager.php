@@ -70,9 +70,9 @@ class ConfigurationManager
             }
 
             // If there are roles set, and auth was not done skip the listener
-            if (count($configuration->getRoles()) > 0 && $priority !== IdentifierPriority::PRIORITY_AFTER_AUTHORIZATION)
+            if (\count($configuration->getRoles()) > 0 && $priority !== IdentifierPriority::PRIORITY_AFTER_AUTHORIZATION) {
                 continue;
-
+            }
 
             if ($this->requestMatcher->matches($configuration, $request) && $this->rolesMatcher->matches($configuration, $this->tokenStorage)) {
                 $this->checkAndIncrease($identifierHelper, $configuration, $compositeResult);

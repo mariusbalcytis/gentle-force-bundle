@@ -679,7 +679,7 @@ class ConfigurationTest extends TestCase
                     ],
                 ],
                 'roles.yml',
-            ]
+            ],
         ];
     }
 
