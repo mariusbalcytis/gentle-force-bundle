@@ -141,6 +141,9 @@ class Configuration implements ConfigurationInterface
             return array_map('strtoupper', $list);
         });
 
+        $rolesNode = $listenerChildren->arrayNode('roles');
+        $rolesNode->prototype('scalar');
+
         $hostsNode = $listenerChildren->arrayNode('hosts');
         $hostsNode->prototype('scalar');
         $hostsNode->validate()->always(function ($list) {
