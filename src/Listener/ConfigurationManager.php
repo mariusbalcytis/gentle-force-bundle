@@ -2,12 +2,14 @@
 
 namespace Maba\Bundle\GentleForceBundle\Listener;
 
+use Maba\Bundle\GentleForceBundle\IdentifierPriority;
 use Maba\Bundle\GentleForceBundle\Service\IdentifierBuilder;
 use Maba\Bundle\GentleForceBundle\Service\RequestIdentifierProvider;
 use Maba\GentleForce\Exception\RateLimitReachedException;
 use Maba\GentleForce\ThrottlerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ConfigurationManager
 {
@@ -19,6 +21,14 @@ class ConfigurationManager
     private $logger;
     private $configurationRegistry;
     private $priorityResolver;
+    /**
+     * @var RolesMatcher
+     */
+    private RolesMatcher $rolesMatcher;
+    /**
+     * @var TokenStorageInterface
+     */
+    private TokenStorageInterface $tokenStorage;
 
     public function __construct(
         ThrottlerInterface $throttler,
@@ -28,7 +38,9 @@ class ConfigurationManager
         array $whitelistedControllers,
         LoggerInterface $logger,
         ConfigurationRegistry $configurationRegistry,
-        PriorityResolver $priorityResolver
+        PriorityResolver $priorityResolver,
+        RolesMatcher $rolesMatcher,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->throttler = $throttler;
         $this->requestIdentifierProvider = $requestIdentifierProvider;
@@ -38,6 +50,8 @@ class ConfigurationManager
         $this->logger = $logger;
         $this->configurationRegistry = $configurationRegistry;
         $this->priorityResolver = $priorityResolver;
+        $this->rolesMatcher = $rolesMatcher;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function checkAndIncreaseForRequest(Request $request, $priority)
@@ -55,7 +69,12 @@ class ConfigurationManager
                 continue;
             }
 
-            if ($this->requestMatcher->matches($configuration, $request)) {
+            // If there are roles set, and auth was not done skip the listener
+            if (count($configuration->getRoles()) > 0 && $priority !== IdentifierPriority::PRIORITY_AFTER_AUTHORIZATION)
+                continue;
+
+
+            if ($this->requestMatcher->matches($configuration, $request) && $this->rolesMatcher->matches($configuration, $this->tokenStorage)) {
                 $this->checkAndIncrease($identifierHelper, $configuration, $compositeResult);
             }
         }
