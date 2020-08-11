@@ -262,6 +262,10 @@ class MabaGentleForceExtension extends Extension
                 'maba_gentle_force.strategy.headers.content_type',
                 $strategiesConfiguration['headers']['content_type']
             );
+            $container->setParameter(
+                'maba_gentle_force.strategy.headers.access_control_allow_origin',
+                $strategiesConfiguration['headers']['access_control_allow_origin']
+            );
         }
 
         if (isset($strategiesConfiguration['recaptcha_headers'])) {
