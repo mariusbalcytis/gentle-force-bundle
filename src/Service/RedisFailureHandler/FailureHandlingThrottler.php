@@ -2,9 +2,11 @@
 
 namespace Maba\Bundle\GentleForceBundle\Service\RedisFailureHandler;
 
+use Exception;
 use Maba\GentleForce\IncreaseResult;
 use Maba\GentleForce\RateLimitProvider;
 use Maba\GentleForce\ThrottlerInterface;
+use Predis\ClientException;
 use Predis\Connection\ConnectionException;
 use Psr\Log\LoggerInterface;
 
@@ -29,9 +31,9 @@ class FailureHandlingThrottler implements ThrottlerInterface
         try {
             return $this->throttler->checkAndIncrease($useCaseKey, $identifier);
         } catch (ConnectionException $exception) {
-            $this->logger->error('Connection to redis failed while checking rate limits', [
-                'exception' => $exception,
-            ]);
+            $this->logException($exception);
+        } catch (ClientException $clientException) {
+            $this->logException($clientException);
         }
 
         $usagesAvailable = 0;
@@ -50,5 +52,12 @@ class FailureHandlingThrottler implements ThrottlerInterface
     public function reset($useCaseKey, $identifier)
     {
         return $this->throttler->reset($useCaseKey, $identifier);
+    }
+
+    private function logException(Exception $exception)
+    {
+        $this->logger->error('Connection to redis failed while checking rate limits', [
+            'exception' => $exception,
+        ]);
     }
 }
