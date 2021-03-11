@@ -10,6 +10,7 @@
         <parameter key="maba_gentle_force.strategy.headers.requests_available_header"/>
         <parameter key="maba_gentle_force.strategy.headers.content"/>
         <parameter key="maba_gentle_force.strategy.headers.content_type"/>
+        <parameter key="maba_gentle_force.strategy.headers.access_control_allow_origin"/>
 
         <parameter key="maba_gentle_force.whitelist.controllers" type="collection">
             <parameter>maba_gentle_force.recaptcha.controller:unlock</parameter>
@@ -69,6 +70,7 @@
             <argument>%maba_gentle_force.strategy.headers.requests_available_header%</argument>
             <argument>%maba_gentle_force.strategy.headers.content%</argument>
             <argument>%maba_gentle_force.strategy.headers.content_type%</argument>
+            <argument>%maba_gentle_force.strategy.headers.access_control_allow_origin%</argument>
         </service>
 
         <service id="maba_gentle_force.priority_resolver"

@@ -105,6 +105,7 @@ class Configuration implements ConfigurationInterface
         $headersNode->scalarNode('requests_available_header')->defaultNull();
         $headersNode->scalarNode('content')->defaultValue('Too many requests');
         $headersNode->scalarNode('content_type')->defaultValue('text/plain; charset=UTF-8');
+        $headersNode->scalarNode('access_control_allow_origin')->defaultNull();
 
         $logOnlyNode = $builder->arrayNode('log')->children();
         $logOnlyNode->scalarNode('level')->defaultValue('error');

@@ -13,6 +13,7 @@ class HeadersStrategy implements ResponseModifyingStrategyInterface
     private $requestsAvailableHeader;
     private $content;
     private $contentType;
+    private $accessControlAllowOrigin;
 
     /**
      * @param string|null $waitForHeader
@@ -24,17 +25,24 @@ class HeadersStrategy implements ResponseModifyingStrategyInterface
         $waitForHeader = null,
         $requestsAvailableHeader = null,
         $content = '',
-        $contentType = 'text/plain'
+        $contentType = 'text/plain',
+        $accessControlAllowOrigin = null
     ) {
         $this->waitForHeader = $waitForHeader;
         $this->requestsAvailableHeader = $requestsAvailableHeader;
         $this->content = $content;
         $this->contentType = $contentType;
+        $this->accessControlAllowOrigin = $accessControlAllowOrigin;
     }
 
     public function getRateLimitExceededResponse(CompositeIncreaseResult $result)
     {
         $headers = ['Content-Type' => $this->contentType];
+
+        if ($this->accessControlAllowOrigin) {
+            $headers['Access-Control-Allow-Origin'] = $this->accessControlAllowOrigin;
+        }
+
         if ($this->waitForHeader !== null) {
             $headers[$this->waitForHeader] = (string) ceil($result->getWaitForInSeconds());
         }

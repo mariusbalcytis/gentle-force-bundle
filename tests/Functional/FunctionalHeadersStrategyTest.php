@@ -46,6 +46,7 @@ class FunctionalHeadersStrategyTest extends FunctionalRequestTestCase
         );
         $this->assertSame($retryAfter, $response->headers->get('Retry-After', null));
         $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertSame('*', $response->headers->get('Access-Control-Allow-Origin'));
         $this->assertSame('{"error":"rate_limit_exceeded"}', $response->getContent());
     }
 }
