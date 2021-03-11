@@ -28,6 +28,8 @@
             <argument type="service" id="maba_gentle_force.logger"/>
             <argument type="service" id="maba_gentle_force.configuration_registry"/>
             <argument type="service" id="maba_gentle_force.priority_resolver"/>
+            <argument type="service" id="maba_gentle_force.roles_matcher"/>
+            <argument type="service" id="security.token_storage"/>
         </service>
 
         <service id="maba_gentle_force.request_listener"
@@ -76,5 +78,9 @@
                  public="false">
             <argument type="service" id="maba_gentle_force.request_identifier_provider"/>
         </service>
+
+        <service id="maba_gentle_force.roles_matcher"
+                 class="Maba\Bundle\GentleForceBundle\Listener\RolesMatcher"
+                 public="false"/>
     </services>
 </container>

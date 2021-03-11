@@ -149,6 +149,7 @@ class MabaGentleForceExtension extends Extension
                 ->addMethodCall('setMethods', [$listenerConfig['methods']])
                 ->addMethodCall('setStrategyId', [$strategyId])
                 ->addMethodCall('setSuccessMatcher', [$this->buildSuccessMatcher($listenerConfig)])
+                ->addMethodCall('setRoles', [$listenerConfig['roles']])
             ;
             $configurationRegistryDefinition->addMethodCall('addConfiguration', [$configurationDefinition]);
         }

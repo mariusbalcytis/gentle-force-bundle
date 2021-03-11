@@ -287,6 +287,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -296,6 +297,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                     ],
                     'listener_priorities' => [
@@ -343,6 +345,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -353,6 +356,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -363,6 +367,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                     ],
                     'listener_priorities' => [
@@ -407,6 +412,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                     ],
                     'listener_priorities' => [
@@ -443,6 +449,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -452,6 +459,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [401, 403],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                     ],
                     'listener_priorities' => [
@@ -495,6 +503,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => ['PUT', 'POST'],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                         [
                             'path' => '^/',
@@ -504,6 +513,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => ['api.example.com'],
+                            'roles' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -513,6 +523,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => ['GET'],
                             'hosts' => ['docs.example.com'],
+                            'roles' => [],
                         ],
                     ],
                     'listener_priorities' => [
@@ -564,6 +575,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                         [
                             'path' => '^/api/',
@@ -574,6 +586,7 @@ class ConfigurationTest extends TestCase
                             'failure_statuses' => [],
                             'methods' => [],
                             'hosts' => [],
+                            'roles' => [],
                         ],
                     ],
                     'recaptcha' => [
@@ -613,6 +626,60 @@ class ConfigurationTest extends TestCase
                 ],
                 'listener_priorities.yml',
             ],
+            'Parses roles' => [
+                [
+                    'redis' => [
+                        'host' => 'localhost',
+                        'prefix' => 'my_prefix',
+                        'failure_strategy' => 'fail',
+                        'parameters' => [],
+                    ],
+                    'limits' => [
+                        'api_request' => [
+                            [
+                                'max_usages' => 100,
+                                'period' => 3600,
+                            ],
+                        ],
+                    ],
+                    'strategies' => [
+                        'default' => 'headers',
+                        'headers' => [
+                            'requests_available_header' => null,
+                            'wait_for_header' => null,
+                            'content' => 'Too many requests',
+                            'content_type' => 'text/plain; charset=UTF-8',
+                        ],
+                    ],
+                    'listeners' => [
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['ip'],
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
+                            'roles' => [],
+                        ],
+                        [
+                            'path' => '^/api/',
+                            'limits_key' => 'api_request',
+                            'identifiers' => ['username', 'ip'],
+                            'success_statuses' => [],
+                            'failure_statuses' => [],
+                            'methods' => [],
+                            'hosts' => [],
+                            'roles' => ['ROLE_USER'],
+                        ],
+                    ],
+                    'listener_priorities' => [
+                        'default' => 1000,
+                        'post_authentication' => 0,
+                    ],
+                ],
+                'roles.yml',
+            ],
         ];
     }
 
@@ -627,6 +694,7 @@ class ConfigurationTest extends TestCase
             ['invalid/invalid_success_status.yml'],
             ['invalid/period_invalid.yml'],
             ['invalid/period_zero.yml'],
+            ['invalid/invalid_roles.yml'],
         ];
     }
 }
