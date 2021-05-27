@@ -156,7 +156,7 @@ class Configuration implements ConfigurationInterface
         $statusesNode->prototype('scalar');
         $statusesNode->validate()->always(function (array $list) {
             return array_map(function ($statusCode) {
-                $validatedStatusCode = filter_var($statusCode, FILTER_VALIDATE_INT, ['options' => [
+                $validatedStatusCode = filter_var($statusCode, \FILTER_VALIDATE_INT, ['options' => [
                     'min_range' => 100,
                     'max_range' => 599,
                 ]]);

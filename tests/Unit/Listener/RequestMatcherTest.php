@@ -19,7 +19,7 @@ class RequestMatcherTest extends TestCase
      */
     private $configuration;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->matcher = new RequestMatcher();
         $this->configuration = (new ListenerConfiguration())->setPathPattern('#^/[a-z]{2}/api/rest/v1/resource$#');
