@@ -27,7 +27,7 @@
         "symfony/asset": "^4.3|^5.0",
         "symfony/templating": "^4.3|^5.0",
         "symfony/error-handler": "^4.3|^5.0",
-        "symfony/dependency-injection": ">=2.7.1",
+        "symfony/dependency-injection": ">=4.3",
         "symfony/yaml": "^4.3|^5.0"
     },
     "suggest": {
