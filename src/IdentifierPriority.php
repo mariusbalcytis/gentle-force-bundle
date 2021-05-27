@@ -7,6 +7,6 @@ namespace Maba\Bundle\GentleForceBundle;
  */
 final class IdentifierPriority
 {
-    const PRIORITY_NORMAL = 'normal';
-    const PRIORITY_AFTER_AUTHORIZATION = 'after_authorization';
+    public const PRIORITY_NORMAL = 'normal';
+    public const PRIORITY_AFTER_AUTHORIZATION = 'after_authorization';
 }

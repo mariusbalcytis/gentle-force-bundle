@@ -1,6 +1,6 @@
 vendor
 composer.lock
-.php_cs.cache
-tests/Functional/Fixtures/cache
+.php-cs-fixer.cache
 .phpunit.result.cache
+tests/Functional/Fixtures/cache
 /var

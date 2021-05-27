@@ -7,8 +7,8 @@ use Maba\GentleForce\Throttler;
 
 abstract class FunctionalThrottlerTestCase extends FunctionalTestCase
 {
-    const ID = 'user1';
-    const ANOTHER_ID = 'user2';
+    public const ID = 'user1';
+    public const ANOTHER_ID = 'user2';
 
     /**
      * @var string
