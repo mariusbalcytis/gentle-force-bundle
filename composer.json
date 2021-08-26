@@ -3,12 +3,6 @@
     "description": "Symfony bundle that integrates gentle-force library for limiting both brute-force attempts and ordinary requests, using leaky/token bucket algorithm, based on Redis",
     "keywords": ["symfony bundle", "rate limiter", "rate limiting", "rate limit", "brute force protection", "leaky bucket", "token bucket", "threshold", "throttle", "security", "dos protection", "brute-force", "bruteforce"],
     "type": "symfony-bundle",
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/rmanibus/gentle-force"
-        }
-    ],
     "require": {
         "php": "^7.1 | ^8.0",
         "maba/gentle-force": "dev-php8",
