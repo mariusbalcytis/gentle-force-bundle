@@ -5,7 +5,7 @@
     "type": "symfony-bundle",
     "require": {
         "php": "^7.1 | ^8.0",
-        "maba/gentle-force": "dev-php8",
+        "maba/gentle-force": "^0.2.1|^0.3",
         "symfony/framework-bundle": "^4.3|^5.0",
         "maba/dependency-injection-extra": "^0.1.1|^1.0",
         "psr/log": "^1.0"
