@@ -8,11 +8,11 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 abstract class FunctionalRequestTestCase extends FunctionalTestCase
 {
-    const DEFAULT_IP = '10.0.0.1';
-    const ANOTHER_IP = '10.0.0.2';
-    const DEFAULT_USERNAME = 'user1';
-    const ANOTHER_USERNAME = 'user2';
-    const INVALID_USERNAME = 'non_existing_user';
+    public const DEFAULT_IP = '10.0.0.1';
+    public const ANOTHER_IP = '10.0.0.2';
+    public const DEFAULT_USERNAME = 'user1';
+    public const ANOTHER_USERNAME = 'user2';
+    public const INVALID_USERNAME = 'non_existing_user';
 
     protected function assertUsagesValid($uri, $countOfUsages)
     {

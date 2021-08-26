@@ -3,22 +3,20 @@ $finder = PhpCsFixer\Finder::create()
     ->in('src')
     ->in('tests')
 ;
-return PhpCsFixer\Config::create()
-    ->setRules([
+$config = new PhpCsFixer\Config();
+return $config->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
         // override some Symfony rules
-        'blank_line_before_return' => false,
+        'blank_line_before_statement' => false,
         'cast_spaces' => false,
         'concat_space' => ['spacing' => 'one'],
-        'is_null' => ['use_yoda_style' => false],
         'no_singleline_whitespace_before_semicolons' => false,
         'phpdoc_align' => false,
         'phpdoc_separation' => false,
         'php_unit_fqcn_annotation' => false,
-        'pre_increment' => false,
+        'increment_style' => false,
         'yoda_style' => false,
-        'blank_line_before_statement' => null,
         'increment_style' => ['style' => 'post'],
         // additional rules
         'array_syntax' => ['syntax' => 'short'],

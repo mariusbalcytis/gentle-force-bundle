@@ -10,12 +10,12 @@ use Symfony\Contracts\Service\ResetInterface;
 
 abstract class FunctionalTestCase extends TestCase
 {
-    const PATH_DOCS = '/docs/api/main';
-    const PATH_API1 = '/api/resource';
-    const PATH_API1_OK = '/api/ok';
-    const PATH_API1_OK2 = '/api/ok2';
-    const PATH_API2 = '/api2/resource';
-    const PATH_API3 = '/api3/resource';
+    public const PATH_DOCS = '/docs/api/main';
+    public const PATH_API1 = '/api/resource';
+    public const PATH_API1_OK = '/api/ok';
+    public const PATH_API1_OK2 = '/api/ok2';
+    public const PATH_API2 = '/api2/resource';
+    public const PATH_API3 = '/api3/resource';
 
     /**
      * @var TestKernel
