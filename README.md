@@ -210,6 +210,7 @@ and optionally `ResponseModifyingStrategyInterface` to modify successful respons
 Configuration options:
 - `content`. Content to return in response;
 - `content_type`. Content type for response;
+- `access_control_allow_origin`. Allow origin for response;
 - `wait_for_header`. Header name to use in rate exceeded responses.
 This response header defines minimum time to wait in seconds before
 repeating the request;
@@ -281,10 +282,11 @@ maba_gentle_force:
     strategies:
         default:              headers
         headers:
-            wait_for_header:      null
-            requests_available_header: null
-            content:              'Too many requests'
-            content_type:         'text/plain; charset=UTF-8'
+            wait_for_header:               null
+            requests_available_header:     null
+            content:                       'Too many requests'
+            content_type:                  'text/plain; charset=UTF-8'
+            access_control_allow_origin:   null
         log:
             level:                error
         recaptcha_headers:
